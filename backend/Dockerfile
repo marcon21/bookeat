@@ -1,4 +1,4 @@
-FROM node:12.16.3-stretch
+FROM node
 RUN mkdir /opt/backend
 WORKDIR /opt/backend
 RUN npm install -g nodemon
