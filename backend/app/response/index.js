@@ -6,7 +6,7 @@ function errorRes(res, err, errMsg = 'failed operation', statusCode = 500) {
 	});
 }
 
-function successRes(res, msg, data, statusCode = 200) {
+function successRes(res, msg, data = {}, statusCode = 200) {
 	return res.status(statusCode).json({
 		success: true,
 		message: msg,
