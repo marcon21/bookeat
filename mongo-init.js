@@ -10,4 +10,4 @@ db.createUser(
         ]
     }
 );
-db.createCollection("test");
+// db.createCollection("test");
