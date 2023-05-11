@@ -5,14 +5,14 @@ import {
   RouterProvider,
 } from 'react-router-dom'
 import './index.css'
-import 'bootstrap'
+import 'bootstrap/dist/css/bootstrap.css';
 
-import HomeRoute from './routes/homeRoute'
+import MenuRoute from './routes/menuRoute'
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <HomeRoute />,
+    path: '/menu',
+    element: <MenuRoute />,
   }
 ])
 
