@@ -1,9 +1,11 @@
-var express = require("express");
-const passport = require("passport");
-const jwt = require('jsonwebtoken');
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 const { errorRes, successRes } = require("../response");
 
+const passport = require("passport");
+const jwt = require("jsonwebtoken");
+
+// Setting up route for registering a new user
 router.post(
   "/signup",
   passport.authenticate("signup", { session: false }),
@@ -15,6 +17,7 @@ router.post(
   }
 );
 
+// Setting up route for logging in a user
 router.post("/login", async (req, res, next) => {
   passport.authenticate("login", async (err, user, info) => {
     try {
@@ -37,6 +40,5 @@ router.post("/login", async (req, res, next) => {
     }
   })(req, res, next);
 });
-
 
 module.exports = router;
