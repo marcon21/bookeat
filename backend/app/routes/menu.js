@@ -4,7 +4,15 @@ const { errorRes, successRes } = require('../response');
 const { db } = require('../db');
 const Plate = require('../db/plate').Plate;
 
-
+/**
+ * @openapi
+ * /:
+ *   get:
+ *     description: Welcome to swagger-jsdoc!
+ *     responses:
+ *       200:
+ *         description: Creates a random menu entry.
+ */
 router.post('/createrandom', async function(req, res, next) {
   const pp = new Plate({ name: Math.random().toString(36).substring(2,7), price: Math.floor(Math.random() * 1000) });
   await pp.save();

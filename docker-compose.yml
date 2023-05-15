@@ -36,7 +36,7 @@ services:
     build: "./backend/"
     volumes:
       - "./backend/app:/opt/backend/app"
-      - "/opt/backend/app/node_modules"
+      - "/opt/backend/node_modules"
     depends_on:
       - mongo
     ports:
