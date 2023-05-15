@@ -1,4 +1,5 @@
 import LateralBar from "../components/LateralBar";
+import MenuSections from "../components/MenuSections";
 import NavBar from "../components/Navbar";
 
 
@@ -20,12 +21,8 @@ export default function MenuRoute() {
                     <div className="row">
                             <NavBar/>
                     </div>
-
-                    <div className="row">
-                        <div className="sticky">
-                            {/*Menu Body*/}
-                            <button type="button" className="btn btn-primary">Primary</button>
-                        </div>
+                    <div className="container-fluid">
+                        <MenuSections />
                     </div>
                 </div>
 
