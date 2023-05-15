@@ -1,6 +1,6 @@
-swagger: "2.0"
+swagger: '2.0'
 info:
-  version: "1.0"
+  version: '1.0'
   title: "BookEat"
   description: BookEat é una applicazione che permette agli utenti di
     visualizzare un menu ed ordinare le pietanze desiderate.
@@ -8,19 +8,20 @@ info:
     i vari ordini ed i posti a sedere comodamente da un tablet.
   license:
     name: MIT
-    url: https://github.com/apiaryio/polls-api/blob/master/LICENSE
-servers:
-  - url: http://localhost:3001/api/v1
-  - description: localhost
+    url: https://github.com/marcon21/bookeat/blob/main/LICENSE
+host: localhost:3001
+basePath: /api/v1
+schemes:
+- https
 consumes:
-  - application/json
+- application/json
 produces:
-  - application/json
+- application/json
 paths:
   /test:
-    summary: Test API
+    x-summary: Test API
     get:
-      summary: Test API
+      summary:  Test API Get
       responses:
         200:
           description: Successful Response
