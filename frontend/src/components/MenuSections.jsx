@@ -7,25 +7,13 @@ export default function MenuSections() {
             <h2>Terra</h2>
             <div className="row">
                 <div className="col mt-3">
-                    <MenuItem />
+                    <MenuItem name={"Spaghetti MeatBall"} description={"Lorem Ipsum"} price={10} />
                 </div>
                 <div className="col mt-3">
-                    <MenuItem />
+                    <MenuItem name={"Spaghetti Scoglio"} description={"Lorem Ipsum"} price={15} />
                 </div>
                 <div className="col mt-3">
-                    <MenuItem />
-                </div>
-                <div className="col mt-3">
-                    <MenuItem />
-                </div>
-                <div className="col mt-3">
-                    <MenuItem />
-                </div>
-                <div className="col mt-3">
-                    <MenuItem />
-                </div>
-                <div className="col mt-3">
-                    <MenuItem />
+                    <MenuItem name={"Spaghetti Scoglio"} description={"Lorem Ipsum"} price={15} />
                 </div>
             </div>
         </div>
@@ -34,25 +22,7 @@ export default function MenuSections() {
             <h2>Mare</h2>
             <div className="row">
                 <div className="col mt-3">
-                    <MenuItem />
-                </div>
-                <div className="col mt-3">
-                    <MenuItem />
-                </div>
-                <div className="col mt-3">
-                    <MenuItem />
-                </div>
-                <div className="col mt-3">
-                    <MenuItem />
-                </div>
-                <div className="col mt-3">
-                    <MenuItem />
-                </div>
-                <div className="col mt-3">
-                    <MenuItem />
-                </div>
-                <div className="col mt-3">
-                    <MenuItem />
+                    <MenuItem name={"Spaghetti Scoglio"} description={"Lorem Ipsum"} price={15} />
                 </div>
             </div>
         </div>
