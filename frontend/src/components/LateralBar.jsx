@@ -87,6 +87,7 @@ export default function LateralBar() {
                 </ul>
 
                 <hr />
+                <img src="/logo.svg" className="rounded mx-auto d-block w-50" alt="logo" />
 
                 <ul className="nav nav-pills flex-column mb-2 mb-0 align-items-bottom align-items-sm-start" id="menu" >
                     <li className="nav-item">
