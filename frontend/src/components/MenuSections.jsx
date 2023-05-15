@@ -3,7 +3,7 @@ import MenuItem from "./MenuItem"
 export default function MenuSections() {
     return (
         <>
-        <div className="row">
+        <div className="row mt-4">
             <h2>Terra</h2>
             <div className="row">
                 <div className="col mt-3">
@@ -18,7 +18,7 @@ export default function MenuSections() {
             </div>
         </div>
         <br />
-        <div className="row">
+        <div className="row mt-4">
             <h2>Mare</h2>
             <div className="row">
                 <div className="col mt-3">

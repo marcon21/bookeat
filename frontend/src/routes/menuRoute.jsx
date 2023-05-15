@@ -19,9 +19,9 @@ export default function MenuRoute() {
                 </div>
                 <div className="col-auto col-md-9 col-xl-10 px-sm-10">
                     <div className="row">
-                            <NavBar/>
+                        <NavBar label={"Nome"}/>
                     </div>
-                    <div className="container-fluid">
+                    <div className="row ms-2 me-2">
                         <MenuSections />
                     </div>
                 </div>
