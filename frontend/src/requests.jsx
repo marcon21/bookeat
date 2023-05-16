@@ -70,108 +70,119 @@ const r = {
     ],
     menu: [
         {
-            name: "Antipasti",
-            items: [
-                {
-                    name: "Tagliere di salumi misti",
-                    price: 10,
-                    description: "Lorem Ipsum",
-                    submenu: "Terra"
-                },
-                {
-                    name: "Pepata di cozze",
-                    price: 10,
-                    description: "Lorem Ipsum",
-                    submenu: "Mare"
-                },
-            ]
+            name: "Tagliere di salumi misti",
+            price: 10,
+            description: "Lorem Ipsum",
+            section: "Antipasti",
+            subsection: "Terra"
         },
         {
-            name: "Primi",
-            items: [
-                {
-                    name: "Spaghetti MeatBalls",
-                    price: 10,
-                    description: "Lorem Ipsum",
-                    submenu: "Terra"
-                },
-                {
-                    name: "Spaghetti Bolognese",
-                    price: 10,
-                    description: "Lorem Ipsum",
-                    submenu: "Mare"
-                },
-            ]
+            name: "Antipasto della casa",
+            price: 10,
+            description: "Lorem Ipsum",
+            section: "Antipasti",
+            subsection: "Terra"
         },
         {
-            name: "Secondi",
-            items: [
-                {
-                    name: "Tagliata",
-                    price: 10,
-                    description: "Lorem Ipsum",
-                    submenu: "Terra"
-                },
-                {
-                    name: "Frittura mista di pesce",
-                    price: 10,
-                    description: "Lorem Ipsum",
-                    submenu: "Mare"
-                },
-            ]
+            name: "Giardiniera",
+            price: 10,
+            description: "Lorem Ipsum",
+            section: "Antipasti",
+            subsection: "Terra"
         },
         {
-            name: "Pizza",
-            items: [
-                {
-                    name: "Salamino Piccante",
-                    price: 10,
-                    description: "Lorem Ipsum",
-                    submenu: "Terra"
-                },
-                {
-                    name: "Gamberetti e Zucchine",
-                    price: 10,
-                    description: "Lorem Ipsum",
-                    submenu: "Mare"
-                },
-            ]
+            name: "Tagliere di formaggi",
+            price: 10,
+            description: "Lorem Ipsum",
+            section: "Antipasti",
+            subsection: "Terra"
         },
         {
-            name: "Dolci",
-            items: [
-                {
-                    name: "Tiramisu",
-                    price: 10,
-                    description: "Lorem Ipsum"
-                },
-                {
-                    name: "Millefoglie",
-                    price: 10,
-                    description: "Lorem Ipsum"
-                },
-            ]
+            name: "Antipasto all'italiana",
+            price: 10,
+            description: "Lorem Ipsum",
+            section: "Antipasti",
+            subsection: "Terra"
         },
         {
-            name: "Bevande",
-            items: [
-                {
-                    name: "Acqua",
-                    price: 10,
-                    description: "Lorem Ipsum",
-                    submenu: "Analcolici"
-                },
-                {
-                    name: "Birra",
-                    price: 10,
-                    description: "Lorem Ipsum",
-                    submenu: "Alcolici"
-                },
-            ]
+            name: "Pepata di cozze",
+            price: 10,
+            description: "Lorem Ipsum",
+            section: "Antipasti",
+            subsection: "Mare"
+        },
+        {
+            name: "Spaghetti MeatBalls",
+            price: 10,
+            description: "Lorem Ipsum",
+            section: "Primi",
+            subsection: "Terra"
+        },
+        {
+            name: "Spaghetti Bolognese",
+            price: 10,
+            description: "Lorem Ipsum",
+            section: "Primi",
+            subsection: "Mare"
+        },
+        {
+            name: "Tagliata",
+            price: 10,
+            description: "Lorem Ipsum",
+            section: "Secondi",
+            subsection: "Terra"
+        },
+        {
+            name: "Frittura mista di pesce",
+            price: 10,
+            description: "Lorem Ipsum",
+            section: "Secondi",
+            subsection: "Mare"
+        },
+        {
+            name: "Salamino Piccante",
+            price: 10,
+            description: "Lorem Ipsum",
+            section: "Pizza",
+            subsection: "Terra"
+        },
+        {
+            name: "Gamberetti e Zucchine",
+            price: 10,
+            description: "Lorem Ipsum",
+            section: "Pizza",
+            subsection: "Mare"
+        },
+        {
+            name: "Tiramisu",
+            price: 10,
+            description: "Lorem Ipsum",
+            section: "Dolci",
+        },
+        {
+            name: "Millefoglie",
+            price: 10,
+            description: "Lorem Ipsum",
+            section: "Dolci",
+        },
+        {
+            name: "Acqua",
+            price: 10,
+            description: "Lorem Ipsum",
+            section: "Bevande",
+            subsection: "Analcolici"
+        },
+        {
+            name: "Birra",
+            price: 10,
+            description: "Lorem Ipsum",
+            section: "Bevande",
+            subsection: "Alcolici"
         },
     ]
 }
 
+
 export async function getMenu() {
-    return r
-}
+        return r
+    }

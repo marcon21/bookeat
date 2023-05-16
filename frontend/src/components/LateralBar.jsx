@@ -1,65 +1,17 @@
-export default function LateralBar() {
-    let list = [
-        {
-            label: "Antipasti",
-            link: "#",
-            icon: "bi bi-heptagon",
-            childrens: [
-                {
-                    label: "Terra",
-                    link: "#",
-                },
-                {
-                    label: "Mare",
-                    link: "#",
-                }
-            ]
-        },
-        {
-            label: "Primi",
-            link: "#",
-            icon: "bi bi-dice-1",
-            childrens: []
-        },
-        {
-            label: "Secondi",
-            link: "#",
-            icon: "bi bi-dice-2",
-            childrens: []
-        },
-        {
-            label: "Pizza",
-            link: "#",
-            icon: "bi bi-dice-3",
-            childrens: []
-        },
-        {
-            label: "Dolci",
-            link: "#",
-            icon: "bi bi-tencent-qq",
-            childrens: []
-        },
-        {
-            label: "Bevande",
-            link: "#",
-            icon: "bi bi-cup-straw",
-            childrens: []
-        },
-    ]
+export default function LateralBar( { list } ) {
     const items = list.map((item, index) => {
         const chlist = item.childrens.map((chitem, chindex) => {
             return (
                 <li>
-                    <a href={chitem.link} className="nav-link px-0">
+                    <a href="" className="nav-link px-0">
                         <span className="d-none d-sm-inline">{chitem.label}</span>
                     </a>
                 </li>
             )
         })
-
         return (
             <li className="nav-item">
-                <a href={item.link} className="nav-link align-middle px-0">
+                <a href="" className="nav-link align-middle px-0">
                     <i className={item.icon}></i>{" "}
                     <span className="ms-1 d-none d-sm-inline">{item.label}</span>
                 </a>

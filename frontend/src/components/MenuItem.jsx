@@ -1,6 +1,6 @@
 export default function MenuItem({ name, price, description}) {
     return (
-        <div className="card" style={{width: 15 + 'em'}}>
+        <div className="card h-100" style={{width: 15 + 'em'}}>
             <img src="/plate.jpg" className="card-img-top" alt="..." />
                 <div className="card-body">
                     <h5 className="card-title">{name}</h5>
