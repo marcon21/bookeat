@@ -1,17 +1,19 @@
+import { makeKey } from "../utils"
+
 export default function LateralBar( { list } ) {
     const items = list.map((item, index) => {
         const chlist = item.childrens.map((chitem, chindex) => {
             return (
-                <li>
-                    <a href="" className="nav-link px-0">
+                <li key={makeKey(chindex)}>
+                    <a className="nav-link px-0">
                         <span className="d-none d-sm-inline">{chitem.label}</span>
                     </a>
                 </li>
             )
         })
         return (
-            <li className="nav-item">
-                <a href="" className="nav-link align-middle px-0">
+            <li className="nav-item" key={makeKey(index)}>
+                <a className="nav-link align-middle px-0">
                     <i className={item.icon}></i>{" "}
                     <span className="ms-1 d-none d-sm-inline">{item.label}</span>
                 </a>

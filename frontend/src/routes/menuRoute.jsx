@@ -1,4 +1,5 @@
 import { useLoaderData } from "react-router-dom";
+import { useState } from "react";
 
 import LateralBar from "../components/LateralBar";
 import MenuSections from "../components/MenuSections";
@@ -12,6 +13,8 @@ export async function loader() {
 }
 
 export default function MenuRoute() {
+    const [filter, setFilter] = useState([0, 0])
+
     return (
         <>
             <div className="row flex-nowrap">
@@ -23,7 +26,7 @@ export default function MenuRoute() {
                         <NavBar label={"Nome"} />
                     </div>
                     <div className="row ms-2 me-2">
-                        <MenuSections menu={useLoaderData()} />
+                        <MenuSections menu={useLoaderData()} filter={filter} />
                     </div>
                 </div>
 
