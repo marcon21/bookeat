@@ -1,5 +1,6 @@
 const backendUrl = 'http://localhost:3000'
 
+// Fake /getMenu response - To be deleted afted linking with backend
 const r = {
     placement: [
         {
@@ -183,6 +184,7 @@ const r = {
 }
 
 
+// API /getMenu POST request
 export async function getMenu() {
         return r
     }

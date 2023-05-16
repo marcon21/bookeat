@@ -4,6 +4,7 @@ import { makeKey } from "../utils"
 export default function LateralBar({ list, onFilterClickHandler }) {
     const localList = structuredClone(list)
 
+    // Data processing, mapping each element from backend in the correct html object
     const items = localList.map((item, index) => {
         const chlist = item.childrens.map((chitem, chindex) => {
             return (

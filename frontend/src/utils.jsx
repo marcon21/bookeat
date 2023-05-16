@@ -1,3 +1,6 @@
+// Utilities functions to be used in the app
+
+// Function to create a random string of a given length
 export function makeString(length) {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -10,6 +13,7 @@ export function makeString(length) {
     return result;
 }
 
+// Function to create a random unique key identifier string that includes an index given
 export function makeKey(index) {
-    return "".concat(index).concat(makeString(10))
+    return "".concat(index).concat("-").concat(makeString(10))
 }

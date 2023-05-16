@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import MenuRoute, { loader as menuLoader } from './routes/menuRoute'
 
+// Router of the app
 const router = createBrowserRouter([
   {
     path: '/menu',

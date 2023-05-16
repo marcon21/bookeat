@@ -7,17 +7,20 @@ import NavBar from "../components/Navbar";
 
 import { getMenu } from "../requests";
 
+// Loader function called each time route is visited
 export async function loader() {
     const menu = await getMenu()
     return menu
 }
 
 export default function MenuRoute() {
-    const [filter, setFilter] = useState([0, 0])
+    const [filter, setFilter] = useState([0, 0]) // [sectiom, subsection] - 0 if no filter, string matching to filter
     let menu = structuredClone(useLoaderData())
     let menuPlacement = structuredClone(useLoaderData()['placement'])
     let pageName = filter[0] === 0 ? 'Menu completo' : filter[1] === 0 ? "Menu: ".concat(filter[0]) : "Menu: ".concat(filter[0]).concat(" - ").concat(filter[1])
 
+    // Handler to be passed as prop to child components
+    // Used to let them edit the filter
     function onFilterClickHandler(section=0, subsection=0) {
         setFilter([section, subsection])
     }
