@@ -14,6 +14,31 @@ servers:
   - url: http://localhost:3001
     description: Local server
 
+paths:
+  /piatti:
+    x-summary: Piatti
+    get:
+      summary: Get All Piatti
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  categorie:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Categorie"
+                  piatti:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Piatto"
+
+        "500":
+          description: Internal Server Error - Try again later
+
 components:
   schemas:
     Categorie:
@@ -61,28 +86,3 @@ components:
         descrizione: "Pizza con mozzarella e pomodoro"
         allergeni: "Glutine, Lattosio"
         ingredientiModificabili: "Mozzarella, Salamino, Funghi"
-
-paths:
-  /piatti:
-    x-summary: Piatti
-    get:
-      summary: Get All Piatti
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  categorie:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Categorie"
-                  piatti:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Piatto"
-
-        "500":
-          description: Internal Server Error - Try again later
