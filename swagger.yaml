@@ -1,6 +1,6 @@
-swagger: '2.0'
+openapi: 3.0.0
 info:
-  version: '1.0'
+  version: "1.0"
   title: "BookEat"
   description: BookEat é una applicazione che permette agli utenti di
     visualizzare un menu ed ordinare le pietanze desiderate.
@@ -9,19 +9,80 @@ info:
   license:
     name: MIT
     url: https://github.com/marcon21/bookeat/blob/main/LICENSE
-host: localhost:3001
-basePath: /api/v1
-schemes:
-- https
-consumes:
-- application/json
-produces:
-- application/json
+
+servers:
+  - url: http://localhost:3001
+    description: Local server
+
+components:
+  schemas:
+    Categorie:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID della categoria
+        nome:
+          type: string
+          description: Nome della categoria
+      example:
+        id: 1
+        nome: "Pizze"
+
+    Piatto:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID del piatto
+        nome:
+          type: string
+          description: Nome del piatto
+        prezzo:
+          type: string
+          description: Prezzo del piatto
+        disponibile:
+          type: number
+          description: Disponibilità del piatto
+        descrizione:
+          type: string
+          description: Descrizione del piatto
+        allergeni:
+          type: string
+          description: Allergeni del piatto
+        ingredientiModificabili:
+          type: string
+          description: Ingredienti modificabili del piatto
+      example:
+        id: 1
+        nome: "Pizza Margherita"
+        prezzo: "5.00"
+        disponibile: 1
+        descrizione: "Pizza con mozzarella e pomodoro"
+        allergeni: "Glutine, Lattosio"
+        ingredientiModificabili: "Mozzarella, Salamino, Funghi"
+
 paths:
-  /test:
-    x-summary: Test API
+  /piatti:
+    x-summary: Piatti
     get:
-      summary:  Test API Get
+      summary: Get All Piatti
       responses:
-        200:
-          description: Successful Response
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  categorie:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Categorie"
+                  piatti:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Piatto"
+
+        "500":
+          description: Internal Server Error - Try again later
