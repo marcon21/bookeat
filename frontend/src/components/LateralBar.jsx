@@ -1,10 +1,13 @@
+import { useState } from "react"
 import { makeKey } from "../utils"
 
-export default function LateralBar( { list } ) {
-    const items = list.map((item, index) => {
+export default function LateralBar({ list, onFilterClickHandler }) {
+    const localList = structuredClone(list)
+
+    const items = localList.map((item, index) => {
         const chlist = item.childrens.map((chitem, chindex) => {
             return (
-                <li key={makeKey(chindex)}>
+                <li key={makeKey(chindex)} onClick={(e) => onFilterClickHandler(item['label'], chitem['label'])}>
                     <a className="nav-link px-0">
                         <span className="d-none d-sm-inline">{chitem.label}</span>
                     </a>
@@ -13,10 +16,12 @@ export default function LateralBar( { list } ) {
         })
         return (
             <li className="nav-item" key={makeKey(index)}>
-                <a className="nav-link align-middle px-0">
-                    <i className={item.icon}></i>{" "}
-                    <span className="ms-1 d-none d-sm-inline">{item.label}</span>
-                </a>
+                <div onClick={(e) => onFilterClickHandler(item['label'], 0)}>
+                    <a className="nav-link align-middle px-0">
+                        <i className={item.icon}></i>{" "}
+                        <span className="ms-1 d-none d-sm-inline">{item.label}</span>
+                    </a>
+                </div>
                 {item.childrens.length !== 0 &&
                     <ul
                         className="collapse show nav flex-column ms-1"
