@@ -4,15 +4,18 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from 'react-router-dom'
+
 import './index.css'
-import 'bootstrap'
+import 'bootstrap/dist/css/bootstrap.css';
 
-import HomeRoute from './routes/homeRoute'
+import MenuRoute, { loader as menuLoader } from './routes/menuRoute'
 
+// Router of the app
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <HomeRoute />,
+    path: '/menu',
+    element: <MenuRoute />,
+    loader: menuLoader
   }
 ])
 
