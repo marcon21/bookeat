@@ -1,4 +1,4 @@
-const backendUrl = 'http://localhost:3000'
+const backendUrl = 'http://localhost:3001/api/v1'
 
 // Fake /getMenu response - To be deleted afted linking with backend
 const r = {
@@ -184,7 +184,67 @@ const r = {
 }
 
 
-// API /getMenu POST request
+// fake API POST request
 export async function getMenu() {
-        return r
+    return r
+}
+
+// API /menu POST request, returns a json with plates to indicate success, or false
+export async function menu(token) {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authentication': 'Bearer '.concat(token)
+        },
+        body: JSON.stringify({
+            "email": email,
+            "password": pw
+        })
     }
+    let r = await fetch(backendUrl.concat('/menu'), requestOptions)
+        .then(res => {
+            if (res.ok) {
+                return res.json()
+            } else {
+                return res.ok
+            }
+        })
+    return r
+}
+
+// API /signUp POST request, returns a boolean that indicate the registration success
+export async function signUp(email, pw) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            "email": email,
+            "password": pw
+        })
+    }
+    let r = await fetch(backendUrl.concat('/auth/signup'), requestOptions)
+        .then(res => res.ok)
+    return r
+}
+
+// API /login POST request, returns the token to indicate the login success, or false
+export async function login(email, pw) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            "email": email,
+            "password": pw
+        })
+    }
+    let token = await fetch(backendUrl.concat('/auth/login'), requestOptions)
+        .then(res => {
+            if (res.ok) {
+                return res.json()['token']
+            } else {
+                return res.ok
+            }
+        })
+    return token
+}
