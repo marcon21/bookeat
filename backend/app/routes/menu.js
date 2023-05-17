@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const { errorRes, successRes } = require('../response');
 const { db } = require('../db');
-const Plate = require('../db/plate').Plate;
+const Piatto = require('../db/piatto').Plate;
 
 router.post('/createrandom', async function(req, res, next) {
   const pp = new Plate({ name: Math.random().toString(36).substring(2,7), price: Math.floor(Math.random() * 1000) });

@@ -35,6 +35,29 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/Piatto"
+              example:
+                categorie:
+                  - id: 1
+                    nome: "Pizze"
+                  - id: 2
+                    nome: "Antipasti"
+                piatti:
+                  - id: 1
+                    nome: "Pizza Margherita"
+                    prezzo: "5.00"
+                    disponibile: 1
+                    descrizione: "Pizza con mozzarella e pomodoro"
+                    allergeni: ["Glutine", "Lattosio"]
+                    ingredientiModificabili:
+                      ["Mozzarella", "Salamino", "Funghi"]
+                  - id: 2
+                    nome: "Pizza Diavola"
+                    prezzo: "6.00"
+                    disponibile: 1
+                    descrizione: "Pizza con mozzarella, pomodoro e salame piccante"
+                    allergeni: ["Glutine", "Lattosio"]
+                    ingredientiModificabili:
+                      ["Mozzarella", "Salamino", "Funghi"]
 
         "500":
           description: Internal Server Error - Try again later
@@ -73,10 +96,10 @@ components:
           type: string
           description: Descrizione del piatto
         allergeni:
-          type: string
+          type: array
           description: Allergeni del piatto
         ingredientiModificabili:
-          type: string
+          type: array
           description: Ingredienti modificabili del piatto
       example:
         id: 1
@@ -84,5 +107,5 @@ components:
         prezzo: "5.00"
         disponibile: 1
         descrizione: "Pizza con mozzarella e pomodoro"
-        allergeni: "Glutine, Lattosio"
-        ingredientiModificabili: "Mozzarella, Salamino, Funghi"
+        allergeni: ["Glutine", "Lattosio"]
+        ingredientiModificabili: ["Mozzarella", "Salamino", "Funghi"]
