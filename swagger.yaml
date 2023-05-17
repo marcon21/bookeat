@@ -11,7 +11,7 @@ info:
     url: https://github.com/marcon21/bookeat/blob/main/LICENSE
 
 servers:
-  - url: http://localhost:3001
+  - url: http://localhost:3001/api/v1
     description: Local server
 
 paths:
@@ -60,7 +60,92 @@ paths:
 
         "500":
           description: Internal Server Error - Try again later
-   
+  /auth/login:
+    post:
+      summary: Path per loggarsi e rivecere il token jwt
+      requestBody:
+        description: Body con campo *email* e *passoword*
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Utente"
+            example:
+              email: "example@email.com"
+              password: "password"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                      type: boolean
+                  message:
+                      type: string
+                  data:
+                    type: object
+                    properties:
+                      token: 
+                        type: string
+              example:
+                success: true
+                message: Account creato correttamente
+                data:
+                  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0NjAkjnkaszJlM2UxYmYxNGIyYzEzZSIsImVtYWlsIjoiZGFuaWVsLm1hcmNvbkBzdHVkZW50aS51bml0bi5pdCJ9LCJpYXQiOjE2ODQzMzExNTJ9.fjfOnRwwunj9BuzhFiN_GpNCJajfAKnYqw3yFTVZS8U"
+        "403":
+            description: Bad credentials
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/ErrResponse"
+                example:
+                  success: false
+                  message: "Errore, credenziali errate"
+  /auth/signup:
+    post:
+      summary: Path per registrarsi e rivecere il token jwt
+      requestBody:
+        description: Body con campo *email* e *passoword*
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Utente"
+            example:
+              email: "example@email.com"
+              password: "password"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                      type: boolean
+                  message:
+                      type: string
+                  data:
+                    type: object
+                    properties:
+                      token: 
+                        type: string
+              example:
+                success: true
+                message: Account creato correttamente
+                data:
+                  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0NjAkjnkaszJlM2UxYmYxNGIyYzEzZSIsImVtYWlsIjoiZGFuaWVsLm1hcmNvbkBzdHVkZW50aS51bml0bi5pdCJ9LCJpYXQiOjE2ODQzMzExNTJ9.fjfOnRwwunj9BuzhFiN_GpNCJajfAKnYqw3yFTVZS8U"
+        "403":
+            description: Bad credentials
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/ErrResponse"
+                example:
+                  success: false
+                  message: "Errore, credenziali errateAd"
 components:
   schemas:
     Categorie:
@@ -108,3 +193,24 @@ components:
         descrizione: "Pizza con mozzarella e pomodoro"
         allergeni: ["Glutine", "Lattosio"]
         ingredientiModificabili: ["Mozzarella", "Salamino", "Funghi"]
+        
+    Utente:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Campo email
+        password:
+          type: string
+          description: Campo password
+      example:
+        email: "example@email.com"
+        password: "password"
+        
+    ErrResponse:
+      type: object
+      properties:
+        success:
+            type: boolean
+        message:
+            type: string
