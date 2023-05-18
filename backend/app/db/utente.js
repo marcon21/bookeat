@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 // User schema
-var UserSchema = new mongoose.Schema({
+var SchemaUtente = new mongoose.Schema({
   email: {
     type: String,
     required: true,
@@ -10,17 +10,20 @@ var UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
   },
   userType: {
     type: String,
     required: true,
     enum: ["utenteLoggato", "tavolo", "cucina", "sala", "manager"],
   },
+  googleId: {
+    type: String,
+    default: "",
+  },
 });
 
 // Hashing password before saving it to the database
-UserSchema.pre("save", async function (next) {
+SchemaUtente.pre("save", async function (next) {
   const user = this;
   const hash = await bcrypt.hash(this.password, 10);
 
@@ -29,14 +32,14 @@ UserSchema.pre("save", async function (next) {
 });
 
 // Validating password
-UserSchema.methods.isValidPassword = async function (password) {
+SchemaUtente.methods.isValidPassword = async function (password) {
   const user = this;
   const compare = await bcrypt.compare(password, user.password);
 
   return compare;
 };
 
-var User = mongoose.model("User", UserSchema);
+var User = mongoose.model("User", SchemaUtente);
 
 module.exports = {
   User: User,
