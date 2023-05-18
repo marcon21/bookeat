@@ -81,12 +81,35 @@ paths:
   /menu/aggiungiPiatto:
     post:
       summary: Aggiungi un piatto al menu
+      requestBody:
+        description: Il piatto da inserire nel menu
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Piatto"
+            example:
+              id: 1
+              nome: "Pizza Margherita"
+              prezzo: "5.00"
+              disponibile: 1
+              descrizione: "Pizza con mozzarella e pomodoro"
+              allergeni: ["Glutine", "Lattosio"]
+              ingredientiModificabili:
+                ["Mozzarella", "Salamino", "Funghi"]
       responses:
         "200":
           description: OK
           
         "500":
-          description: Internal Server Error - Try again later
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  message: "Internal Server Error - Riprova piú tardi"
+  
   /auth/login:
     post:
       summary: Path per loggarsi e rivecere il token jwt
@@ -130,6 +153,7 @@ paths:
                 example:
                   success: false
                   message: "Errore, credenziali errate"
+  
   /auth/signup:
     post:
       summary: Path per registrarsi e rivecere il token jwt
