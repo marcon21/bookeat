@@ -26,45 +26,64 @@ paths:
               schema:
                 type: object
                 properties:
-                  categorie:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Categorie"
-                  piatti:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Piatto"
+                  succes: 
+                    type: boolean
+                  message: 
+                    type: string
+                  data:
+                    type: object
+                    properties:              
+                      categorie:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Categorie"
+                      piatti:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Piatto"
               example:
-                categorie:
-                  - id: 1
-                    nome: "Pizze"
-                  - id: 2
-                    nome: "Antipasti"
-                piatti:
-                  - id: 1
-                    nome: "Pizza Margherita"
-                    prezzo: "5.00"
-                    disponibile: 1
-                    descrizione: "Pizza con mozzarella e pomodoro"
-                    allergeni: ["Glutine", "Lattosio"]
-                    ingredientiModificabili:
-                      ["Mozzarella", "Salamino", "Funghi"]
-                  - id: 2
-                    nome: "Pizza Diavola"
-                    prezzo: "6.00"
-                    disponibile: 1
-                    descrizione: "Pizza con mozzarella, pomodoro e salame piccante"
-                    allergeni: ["Glutine", "Lattosio"]
-                    ingredientiModificabili:
-                      ["Mozzarella", "Salamino", "Funghi"]
+                succes: true
+                message: "OK"
+                data: 
+                  categorie:
+                    - id: 1
+                      nome: "Pizze"
+                    - id: 2
+                      nome: "Antipasti"
+                  piatti:
+                    - id: 1
+                      nome: "Pizza Margherita"
+                      prezzo: "5.00"
+                      disponibile: 1
+                      descrizione: "Pizza con mozzarella e pomodoro"
+                      allergeni: ["Glutine", "Lattosio"]
+                      ingredientiModificabili:
+                        ["Mozzarella", "Salamino", "Funghi"]
+                    - id: 2
+                      nome: "Pizza Diavola"
+                      prezzo: "6.00"
+                      disponibile: 1
+                      descrizione: "Pizza con mozzarella, pomodoro e salame piccante"
+                      allergeni: ["Glutine", "Lattosio"]
+                      ingredientiModificabili:
+                        ["Mozzarella", "Salamino", "Funghi"]
 
+        "500":
+          description: Internal Server Error - Try again later
+  /menu/aggiungiPiatto:
+    post:
+      summary: Aggiungi un piatto al menu
+      responses:
+        "200":
+          description: OK
+          
         "500":
           description: Internal Server Error - Try again later
   /auth/login:
     post:
       summary: Path per loggarsi e rivecere il token jwt
       requestBody:
-        description: Body con campo *email* e *passoword*
+        description: Body con campo *email* e *password*
         content:
           application/json:
             schema:
@@ -146,6 +165,7 @@ paths:
                 example:
                   success: false
                   message: "Errore, credenziali errateAd"
+
 components:
   schemas:
     Categorie:
@@ -193,7 +213,7 @@ components:
         descrizione: "Pizza con mozzarella e pomodoro"
         allergeni: ["Glutine", "Lattosio"]
         ingredientiModificabili: ["Mozzarella", "Salamino", "Funghi"]
-        
+
     Utente:
       type: object
       properties:
