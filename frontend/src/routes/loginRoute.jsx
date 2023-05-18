@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 export default function LoginRoute() {
     let a = {
         "web": {
@@ -14,7 +16,7 @@ export default function LoginRoute() {
 
     return (
         <>
-            <script src="https://accounts.google.com/gsi/client" async defer></script>
+            {/* <script src="https://accounts.google.com/gsi/client" async defer></script> */}
 
             <section className="vh-100">
                 <div className="container py-5 h-100">
@@ -46,12 +48,12 @@ export default function LoginRoute() {
                                                 <a className="small text-muted" href="#!">Forgot password?</a>
                                                 <p className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
                                                     Non hai ancora un account?{" "}
-                                                    <a href="#!" style={{ color: "#393f81" }}>
+                                                    <Link to="/signup" style={{ color: "#393f81" }}>
                                                         Registrati
-                                                    </a>
+                                                    </Link>
                                                 </p>
                                             </form>
-                                            <div className="container-fluid">
+                                            {/* <div className="container-fluid">
                                                 <div id="g_id_onload"
                                                     data-client_id="596841181986-4mbjpaop1352i033dr72odthmkulvbr0.apps.googleusercontent.com"
                                                     data-context="use"
@@ -70,7 +72,7 @@ export default function LoginRoute() {
                                                     data-locale="it"
                                                     data-logo_alignment="left">
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                 </div>
