@@ -15,7 +15,7 @@ servers:
     description: Local server
 
 paths:
-  /menu:
+  /menu/{idPiatto}:
     get:
       summary: Ritorna tutti i piatti del menu
       responses:
@@ -77,10 +77,63 @@ paths:
               example:
                   success: false
                   message: "Internal Server Error - Riprova piú tardi"
-              
-  /menu/aggiungiPiatto:
+    
     post:
       summary: Aggiungi un piatto al menu
+      requestBody:
+        description: Il piatto da inserire nel menu
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Piatto"
+            example:
+              id: 1
+              nome: "Pizza Margherita"
+              prezzo: "5.00"
+              disponibile: 1
+              descrizione: "Pizza con mozzarella e pomodoro"
+              allergeni: ["Glutine", "Lattosio"]
+              ingredientiModificabili:
+                ["Mozzarella", "Salamino", "Funghi"]
+      
+      responses:
+        "201":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  succes: 
+                    type: boolean
+                  message: 
+                    type: string
+                  data: 
+                    type: array
+              example:
+                succes: true
+                message: "OK"
+                data: []
+          
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  message: "Internal Server Error - Riprova piú tardi"         
+    
+    put:
+      summary: Modifica un piatto identidificato da idPiatto
+      parameters:
+        - in: path
+          name: idPiatto
+          schema:
+            type: integer
+          required: true
+          description: Id del piatto da modificare
       requestBody:
         description: Il piatto da inserire nel menu
         content:
@@ -99,7 +152,22 @@ paths:
       responses:
         "200":
           description: OK
-          
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  succes: 
+                    type: boolean
+                  message: 
+                    type: string
+                  data: 
+                    type: array
+              example:
+                succes: true
+                message: "OK"
+                data: []
+                
         "500":
           description: Internal server error
           content:
@@ -108,7 +176,45 @@ paths:
                 $ref: "#/components/schemas/ErrResponse"
               example:
                   success: false
-                  message: "Internal Server Error - Riprova piú tardi"
+                  message: "Internal Server Error - Riprova piú tardi" 
+    
+    delete:
+      summary: Elimina un piatto identificato da idPiatto
+      parameters:
+        - in: path
+          name: idPiatto
+          schema:
+            type: integer
+          required: true
+          description: Id del piatto da eliminare
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  succes: 
+                    type: boolean
+                  message: 
+                    type: string
+                  data: 
+                    type: array
+              example:
+                succes: true
+                message: "OK"
+                data: []
+                
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  message: "Internal Server Error - Riprova piú tardi" 
   
   /auth/login:
     post:
