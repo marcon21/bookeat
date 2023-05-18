@@ -69,7 +69,15 @@ paths:
                         ["Mozzarella", "Salamino", "Funghi"]
 
         "500":
-          description: Internal Server Error - Try again later
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  message: "Internal Server Error - Riprova piú tardi"
+              
   /menu/aggiungiPiatto:
     post:
       summary: Aggiungi un piatto al menu
