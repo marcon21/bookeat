@@ -1,7 +1,6 @@
 /**
  * La classe padre di tutti i tipi di utente disponibili sull'applicazione
  */
-const GestoreMenu = require("../gestori/GestoreMenu");
 const errorRes = require("../response").errorRes;
 
 class UtenteAbstract {
@@ -12,9 +11,6 @@ class UtenteAbstract {
             throw new TypeError("UtenteAbstract non puo essere instanziato perché è una classe astratta");
         }
     }
-
-    // Metodo per ottenere tutti i piatti del menu
-    static getMenu() { GestoreMenu.getMenu(); };
 
     // Metodo per aggiungere un piatto al menu
     static aggiungiPiatto(
