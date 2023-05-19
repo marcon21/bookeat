@@ -9,6 +9,8 @@ import './index.css'
 import 'bootstrap/dist/css/bootstrap.css';
 
 import MenuRoute, { loader as menuLoader } from './routes/menuRoute'
+import LoginRoute from './routes/loginRoute'
+import SignUpRoute from './routes/signUpRoute'
 
 // Router of the app
 const router = createBrowserRouter([
@@ -16,6 +18,14 @@ const router = createBrowserRouter([
     path: '/menu',
     element: <MenuRoute />,
     loader: menuLoader
+  },
+  {
+    path: '/login',
+    element: <LoginRoute />
+  },
+  {
+    path: '/signup',
+    element: <SignUpRoute />
   }
 ])
 
