@@ -6,6 +6,7 @@ import MenuSections from "../components/MenuSections";
 import NavBar from "../components/Navbar";
 
 import { getMenu } from "../requests";
+import Modal from "../components/Modal";
 
 // Loader function called each time route is visited
 export async function loader() {
@@ -25,6 +26,11 @@ export default function MenuRoute() {
         setFilter([section, subsection])
     }
 
+    function launchModal(modalId) {
+        console.log("ciao")
+        document.getElementById("modalidButton").click()
+    }
+
     return (
         <>
             <div className="row flex-nowrap">
@@ -36,11 +42,13 @@ export default function MenuRoute() {
                         <NavBar label={pageName} onFilterClickHandler={onFilterClickHandler} />
                     </div>
                     <div className="row ms-2 me-2">
-                        <MenuSections menu={menu} filter={filter} />
+                        <h3 onClick={()=>{launchModal("modalidButton")}}>ciao</h3>
+                        <MenuSections menu={menu} filter={filter} />  
                     </div>
                 </div>
-
             </div>
+
+            <Modal modalId={"modalid"} title={"test"} description={"bla"} allergenes={"a"} price={"10"} image={"/plate.jpg"}/>
         </>
 
     )
