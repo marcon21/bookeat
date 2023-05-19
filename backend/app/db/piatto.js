@@ -16,7 +16,8 @@ var SchemaPiatto = new mongoose.Schema({
     validate: { validator: Number.isInteger, }
   },
   categoria: {
-    type: String,
+    type: Map,
+    of: String,
     required: true,
   },
   disponibile: {
@@ -32,4 +33,4 @@ var Piatto = mongoose.model('Plate', SchemaPiatto);
 
 module.exports = {
   Piatto: Piatto
-}
+};
