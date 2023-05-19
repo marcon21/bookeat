@@ -2,40 +2,19 @@
  * Definizione delle route per il menu
  */
 
-// Import Classi Utenti
-const Cucina = require("../utenti/Cucina");
-const Dipendente = require("../utenti/Dipendente");
-const Manager = require("../utenti/Manager");
-const Sala = require("../utenti/Sala");
-const Tavolo = require("../utenti/Tavolo");
-const UtenteLoggato = require("../utenti/UtenteLoggato");
-const UtenteAbstract = require("../utenti/UtenteAbstract");
-const ClasseUtente = require("../utils/ClasseUtente");
-
 var express = require('express');
 var router = express.Router();
-const { errorRes, successRes } = require("../response");
-const Piatto = require('../db/piatto').Piatto;
-const User = require('../db/utente').User;
-const GestoreMenu = require("../gestori/GestoreMenu");
 const passport = require("passport");
+const User = require('../db/utente').User;
+const Piatto = require('../db/piatto').Piatto;
+const { errorRes, successRes } = require("../response");
+const ClasseUtente = require("../utils/ClasseUtente");
+const UtenteAnonimo = require("../utenti/UtenteAnonimo");
 
 
 // Ritorna tutti i piatti del menu
 router.get('/', async function (req, res, next) {
-
-  categorie = await Piatto.find().distinct('categoria').catch((err) => {
-    errorRes(res, err, "Errore nel recupero del menu", 424);
-  });
-  piatti = await GestoreMenu.getMenu().catch((err) => {
-    errorRes(res, err, "Errore nel recupero del menu", 424);
-  });
-
-  data = {
-    categorie: categorie,
-    piatti: piatti
-  }
-  successRes(res, "OK", data);
+  UtenteAnonimo.getMenu(res);
 });
 
 // Aggiunge un piatto al menu
