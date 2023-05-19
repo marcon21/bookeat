@@ -64,15 +64,15 @@ paths:
                       ingredientiModificabili:
                         ["Mozzarella", "Salamino", "Funghi"]
 
-        "500":
-          description: Internal server error
+        "424":
+          description: Errore nel recupero del menu
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrResponse"
               example:
                   success: false
-                  message: "Internal Server Error - Riprova piú tardi"
+                  message: "Errore nel recupero del menu"
     
     post:
       summary: Aggiunge un piatto al menu
@@ -185,6 +185,16 @@ paths:
               example:
                   success: false
                   message: "Unauthorized - Accedi con un account autorizzato e riprova"
+                  
+        "424":
+          description: Modifica piatto fallita
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  message: "Modifica piatto fallita"
     
     delete:
       summary: Elimina un piatto identificato da idPiatto
