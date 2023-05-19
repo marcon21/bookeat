@@ -75,7 +75,7 @@ paths:
                   message: "Internal Server Error - Riprova piú tardi"
     
     post:
-      summary: Aggiungi un piatto al menu
+      summary: Aggiunge un piatto al menu
       requestBody:
         description: Il piatto da inserire nel menu
         content:
