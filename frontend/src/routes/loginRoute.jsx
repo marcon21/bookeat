@@ -1,6 +1,29 @@
+import { useForm } from "react-hook-form"
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from "yup"
 import { Link } from "react-router-dom"
 
 export default function LoginRoute() {
+    const formSchema = yup.object().shape({
+        email: yup.string()
+            .required("L'email è richiesta")
+            .email("L'email deve essere valida"),
+        password: yup.string()
+            .required("La password è richiesta"),
+    })
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+        watch,
+        getValues
+    } = useForm({
+        mode: "onTouched",
+        resolver: yupResolver(formSchema)
+    })
+    const onSubmit = data => console.log(data)
     let a = {
         "web": {
             "client_id": "596841181986-4mbjpaop1352i033dr72odthmkulvbr0.apps.googleusercontent.com",
@@ -29,21 +52,27 @@ export default function LoginRoute() {
                                     </div>
                                     <div className="col-md-6 col-lg-7 d-flex align-items-center">
                                         <div className="card-body p-4 p-lg-5 text-black">
-                                            <form>
+                                            <form onSubmit={handleSubmit(onSubmit)}>
                                                 <div className="d-flex align-items-center mb-3 pb-1">
                                                     <span className="h1 fw-bold mb-0">BookEat</span>
                                                 </div>
                                                 <h5 className="fw-normal mb-3 pb-3" style={{ letterSpacing: 1 }} >Accedi al tuo account </h5>
                                                 <div className="form-outline mb-4">
-                                                    <input type="email" id="loginEmail" className="form-control form-control-lg" />
                                                     <label className="form-label" htmlFor="loginEmail">Indirizzo Email </label>
+                                                    <input {...register('email')} type="email" id="loginEmail" className={"form-control form-control-lg".concat(errors.email ? " is-invalid" : "")} />
+                                                    <div className="invalid-feedback">
+                                                        {errors.email?.message}
+                                                    </div>
                                                 </div>
                                                 <div className="form-outline mb-4">
-                                                    <input type="password" id="loginPassword" className="form-control form-control-lg" />
                                                     <label className="form-label" htmlFor="loginPassword">Password</label>
+                                                    <input {...register('password')} type="password" id="loginPassword" className={"form-control form-control-lg".concat(errors.password ? " is-invalid" : "")} />
+                                                    <div className="invalid-feedback">
+                                                        {errors.password?.message}
+                                                    </div>
                                                 </div>
                                                 <div className="pt-1 mb-4">
-                                                    <button className="btn btn-dark btn-lg btn-block" type="button" >Login </button>
+                                                    <button className="btn btn-dark btn-lg btn-block" type="submit" >Login </button>
                                                 </div>
                                                 <a className="small text-muted" href="#!">Forgot password?</a>
                                                 <p className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
