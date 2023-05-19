@@ -5,7 +5,7 @@
 class Utente extends UtenteAbstract {
 
 
-    inviaOrdine(portata) { /** TODO */ }
-    visualizzaConto() { /** TODO */ }
-    apriConto(nCoperti) { /** TODO */ }
+    static inviaOrdine(portata) { /** TODO */ }
+    static visualizzaConto() { /** TODO */ }
+    static apriConto(nCoperti) { /** TODO */ }
 }

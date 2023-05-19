@@ -5,10 +5,10 @@
 class UtenteLoggato extends Utente {
 
 
-    modificaEmail(id, email) { /** TODO */ }
-    modificaPassword(id, vecchiaPassword, nuovaPassword) { /** TODO */ }
-    modificaGoogleAccount() { /** TODO */ }
-    modificaNome() { /** TODO */ }
-    eliminaAccount() { /** TODO */ }
-    chiudiConto() { /** TODO */ }
+    static modificaEmail(id, email) { /** TODO */ }
+    static modificaPassword(id, vecchiaPassword, nuovaPassword) { /** TODO */ }
+    static modificaGoogleAccount() { /** TODO */ }
+    static modificaNome() { /** TODO */ }
+    static eliminaAccount() { /** TODO */ }
+    static chiudiConto() { /** TODO */ }
 }

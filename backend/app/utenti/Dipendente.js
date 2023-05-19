@@ -5,8 +5,8 @@
 class Dipendente extends UtenteAbstract {
 
 
-    visualizzaConti() { /** TODO */ }
-    visualizzaConto(id) { /** TODO */ }
-    modificaStatusPortata(idPortata, status) { /** TODO */ }
-    notificaProblematiche(id, mesasggio) { /** TODO */ }
+    static visualizzaConti() { /** TODO */ }
+    static visualizzaConto(id) { /** TODO */ }
+    static modificaStatusPortata(idPortata, status) { /** TODO */ }
+    static notificaProblematiche(id, mesasggio) { /** TODO */ }
 }

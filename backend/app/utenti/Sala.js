@@ -5,10 +5,10 @@
 class Sala extends Dipendente {
 
 
-    nuovaPrenotazione(idTavolo, data, nominativo, nCoperti) { /** TODO */ }
-    rimuoviPrenotazione(idPrenotazione) { /** TODO */ }
-    chiudiConto(idConto) { /** TODO */ }
-    vediPrenotazioni() { /** TODO */ }
-    visualizzaTavoli() { /** TODO */ }
-    visualizzaTavolo(idTavolo) { /** TODO */ }
+    static nuovaPrenotazione(idTavolo, data, nominativo, nCoperti) { /** TODO */ }
+    static rimuoviPrenotazione(idPrenotazione) { /** TODO */ }
+    static chiudiConto(idConto) { /** TODO */ }
+    static vediPrenotazioni() { /** TODO */ }
+    static visualizzaTavoli() { /** TODO */ }
+    static visualizzaTavolo(idTavolo) { /** TODO */ }
 }

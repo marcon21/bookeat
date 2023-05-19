@@ -4,5 +4,5 @@
 
 class Cucina extends Dipendente {
 
-    modificaDisponibilitaMenu(id, disponibilita) { /** TODO */ }
+    static modificaDisponibilitaMenu(id, disponibilita) { /** TODO */ }
 }

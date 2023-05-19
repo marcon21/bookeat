@@ -5,5 +5,5 @@
 class UtenteAbstract {
 
 
-    getMenu() { /** TODO */ }
+    static getMenu() { /** TODO */ }
 }

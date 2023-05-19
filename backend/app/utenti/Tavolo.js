@@ -5,7 +5,7 @@
 class Tavolo extends Utente {
 
 
-    chiamaCameriere() { /** TODO */ }
-    getPrenotazione() { /** TODO */ }
-    getStatus() { /** TODO */ }
+    static chiamaCameriere() { /** TODO */ }
+    static getPrenotazione() { /** TODO */ }
+    static getStatus() { /** TODO */ }
 }
