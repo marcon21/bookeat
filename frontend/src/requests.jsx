@@ -183,24 +183,14 @@ const r = {
     ]
 }
 
-
-// fake API POST request
-export async function getMenu() {
-    return r
-}
-
 // API /menu POST request, returns a json with plates to indicate success, or false
-export async function menu(token) {
+export async function getMenu(token) {
     const requestOptions = {
-        method: 'POST',
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authentication': 'Bearer '.concat(token)
         },
-        body: JSON.stringify({
-            "email": email,
-            "password": pw
-        })
     }
     let r = await fetch(backendUrl.concat('/menu'), requestOptions)
         .then(res => {
