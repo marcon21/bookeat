@@ -223,6 +223,16 @@ paths:
               example:
                   success: false
                   message: "Unauthorized - Accedi con un account autorizzato e riprova"
+                  
+        "424":
+          description: Eliminazione piatto fallita
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  message: "Eliminazione piatto fallita"
   
   /auth/login:
     post:
