@@ -1,6 +1,7 @@
 /**
  * Una macro classe che racchiude tutti i dipendenti del ristorante
  */
+const UtenteAbstract = require("./UtenteAbstract");
 
 class Dipendente extends UtenteAbstract {
 
@@ -10,3 +11,5 @@ class Dipendente extends UtenteAbstract {
     static modificaStatusPortata(idPortata, status) { /** TODO */ }
     static notificaProblematiche(id, mesasggio) { /** TODO */ }
 }
+
+module.exports = Dipendente;
