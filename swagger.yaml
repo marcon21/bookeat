@@ -53,7 +53,7 @@ paths:
                   piatti:
                     - id: 1
                       nome: "Pizza Margherita"
-                      prezzo: "5.00"
+                      prezzo: 500
                       categoria: "Pizze"
                       disponibile: 1
                       descrizione: "Pizza con mozzarella e pomodoro"
@@ -63,7 +63,7 @@ paths:
                     - id: 2
                       nome: "Pizza Diavola"
                       categoria: "Pizze"
-                      prezzo: "6.00"
+                      prezzo: 600
                       disponibile: 1
                       descrizione: "Pizza con mozzarella, pomodoro e salame piccante"
                       allergeni: ["Glutine", "Lattosio"]
@@ -91,7 +91,7 @@ paths:
             example:
               id: 1
               nome: "Pizza Margherita"
-              prezzo: "5.00"
+              prezzo: 500
               categoria: "Pizze"
               disponibile: 1
               descrizione: "Pizza con mozzarella e pomodoro"
@@ -156,7 +156,7 @@ paths:
             example:
               id: 1
               nome: "Pizza Margherita"
-              prezzo: "5.00"
+              prezzo: 500
               categoria: "Pizze"
               disponibile: 1
               descrizione: "Pizza con mozzarella e pomodoro"
@@ -343,7 +343,7 @@ components:
           type: string
           description: Nome del piatto
         prezzo:
-          type: string
+          type: integer
           description: Prezzo del piatto
         categoria:
           type: string
@@ -363,7 +363,7 @@ components:
       example:
         id: 1
         nome: "Pizza Margherita"
-        prezzo: "5.00"
+        prezzo: 500
         categoria: "Pizze"
         disponibile: 1
         descrizione: "Pizza con mozzarella e pomodoro"
