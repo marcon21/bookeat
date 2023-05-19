@@ -51,7 +51,7 @@ paths:
                     - id: 2
                       nome: "Antipasti"
                   piatti:
-                    - id: 1
+                    - _id: 1
                       nome: "Pizza Margherita"
                       prezzo: 500
                       categoria: "Pizze"
@@ -60,7 +60,7 @@ paths:
                       allergeni: ["Glutine", "Lattosio"]
                       ingredientiModificabili:
                         ["Mozzarella", "Salamino", "Funghi"]
-                    - id: 2
+                    - _id: 2
                       nome: "Pizza Diavola"
                       categoria: "Pizze"
                       prezzo: 600
@@ -89,7 +89,7 @@ paths:
             schema:
               $ref: "#/components/schemas/Piatto"
             example:
-              id: 1
+              _id: 1
               nome: "Pizza Margherita"
               prezzo: 500
               categoria: "Pizze"
@@ -154,7 +154,7 @@ paths:
             schema:
               $ref: "#/components/schemas/Piatto"
             example:
-              id: 1
+              _id: 1
               nome: "Pizza Margherita"
               prezzo: 500
               categoria: "Pizze"
@@ -336,7 +336,7 @@ components:
     Piatto:
       type: object
       properties:
-        id:
+        _id:
           type: integer
           description: ID del piatto
         nome:
@@ -361,7 +361,7 @@ components:
           type: array
           description: Ingredienti modificabili del piatto
       example:
-        id: 1
+        _id: 1
         nome: "Pizza Margherita"
         prezzo: 500
         categoria: "Pizze"
