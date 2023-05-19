@@ -10,7 +10,7 @@ export default function MenuSections({ menu, filter }) {
     }
     if(filter[1] !== 0) {
         menu['placement'] = menu['placement'].map((s)=>{
-            s['childrens'] = s['childrens'].filter((c) => ['label'] === filter[1])
+            s['childrens'] = s['childrens'].filter((c) => c['label'] === filter[1])
             return s
         })
         menu['menu'] = menu['menu'].filter((p) => p['subsection'] === filter[1])

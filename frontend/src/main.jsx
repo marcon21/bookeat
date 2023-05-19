@@ -6,7 +6,8 @@ import {
 } from 'react-router-dom'
 
 import './index.css'
-import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 
 import MenuRoute, { loader as menuLoader } from './routes/menuRoute'
 
