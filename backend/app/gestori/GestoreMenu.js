@@ -76,10 +76,6 @@ class GestoreMenu {
             errorRes(res, err, "Modifica piatto fallita", 424);
         });
     };
-
-    static modificaDisponibilita() {
-        //TODO
-    };
 }
 
 module.exports = GestoreMenu;
