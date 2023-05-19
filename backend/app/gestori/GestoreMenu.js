@@ -1,17 +1,30 @@
 /**
  * Classe che implementa metodi per la gestione del menu
  */
-
+const Piatto = require('../db/piatto').Piatto;
 const piatto = require('../db/piatto');
 const { errorRes, successRes } = require('../response');
 
-const Piatto = require('../db/piatto').Piatto;
 
 class GestoreMenu {
 
 
     // Metodo per ottenere tutti i piatti del menu
-    static async getMenu() { return await Piatto.find().exec(); };
+    static async getMenu(res) {
+        var categorie = await Piatto.find().distinct('categoria').catch((err) => {
+            errorRes(res, err, "Errore nel recupero del menu", 424);
+        });
+
+        var piatti = await Piatto.find().catch((err) => {
+            errorRes(res, err, "Errore nel recupero del menu", 424);
+        });
+
+        var data = {
+            categorie: categorie,
+            piatti: piatti
+        }
+        successRes(res, "OK", data);
+    };
 
     // Metodo per aggiungere un piatto al menu
     static async aggiungiPiatto(
