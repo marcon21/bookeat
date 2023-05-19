@@ -14,7 +14,7 @@ var SchemaUtente = new mongoose.Schema({
   userType: {
     type: String,
     required: true,
-    enum: ["utenteLoggato", "tavolo", "cucina", "sala", "manager"],
+    enum: ["UtenteAbstract", "UtenteAnonimo", "Utente", "Dipendente", "Tavolo", "UtenteLoggato", "Cucina", "Sala", "Manager"],
   },
   googleId: {
     type: String,

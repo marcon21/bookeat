@@ -1,7 +1,7 @@
 /**
  * Classe che rappresenta un utente anonimo, ovvero non loggato
  */
-import GestoreMenu from "../gestori/GestoreMenu";
+const GestoreMenu = require("../gestori/GestoreMenu");
 
 
 class UtenteAnonimo {
@@ -11,3 +11,5 @@ class UtenteAnonimo {
     static login(email, password) { /** TODO */ }
     static getMenu() { GestoreMenu.getMenu(); }
 }
+
+module.exports = UtenteAnonimo;

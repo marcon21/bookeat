@@ -22,7 +22,7 @@ passport.use(
         const user = await User.create({
           email: email,
           password: password,
-          userType: "utenteLoggato",
+          userType: "UtenteLoggato",
         });
 
         return done(null, user);

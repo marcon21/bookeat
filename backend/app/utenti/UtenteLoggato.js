@@ -1,6 +1,7 @@
 /**
  * Classe che rappresenta l'utente loggato
  */
+const Utente = require("./Utente");
 
 class UtenteLoggato extends Utente {
 
@@ -12,3 +13,5 @@ class UtenteLoggato extends Utente {
     static eliminaAccount() { /** TODO */ }
     static chiudiConto() { /** TODO */ }
 }
+
+module.exports = UtenteLoggato;
