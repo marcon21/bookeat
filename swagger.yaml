@@ -35,8 +35,6 @@ paths:
                     properties:              
                       categorie:
                         type: array
-                        items:
-                          $ref: "#/components/schemas/Categorie"
                       piatti:
                         type: array
                         items:
@@ -45,9 +43,7 @@ paths:
                 succes: true
                 message: "OK"
                 data: 
-                  categorie:
-                    - nome: "Pizze"
-                    - nome: "Antipasti"
+                  categorie: ["Pizze", "Primi"]
                   piatti:
                     - _id: 1
                       nome: "Pizza Margherita"
@@ -318,15 +314,6 @@ paths:
 
 components:
   schemas:
-    Categorie:
-      type: object
-      properties:
-        nome:
-          type: string
-          description: Nome della categoria
-      example:
-        nome: "Pizze"
-
     Piatto:
       type: object
       properties:
