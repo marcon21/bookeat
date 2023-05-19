@@ -6,6 +6,7 @@ import MenuSections from "../components/MenuSections";
 import NavBar from "../components/Navbar";
 
 import { getMenu } from "../requests";
+import Modal from "../components/Modal";
 
 // Loader function called each time route is visited
 export async function loader() {
@@ -39,9 +40,7 @@ export default function MenuRoute() {
                         <MenuSections menu={menu} filter={filter} />
                     </div>
                 </div>
-
             </div>
         </>
-
     )
 }

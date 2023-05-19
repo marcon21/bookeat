@@ -6,8 +6,6 @@ var express = require('express');
 var router = express.Router();
 const passport = require("passport");
 const User = require('../db/utente').User;
-const Piatto = require('../db/piatto').Piatto;
-const { errorRes, successRes } = require("../response");
 const ClasseUtente = require("../utils/ClasseUtente");
 const UtenteAnonimo = require("../utenti/UtenteAnonimo");
 
