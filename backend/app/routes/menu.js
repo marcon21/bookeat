@@ -7,6 +7,7 @@ const { errorRes, successRes } = require("../response");
 const Piatto = require('../db/piatto').Piatto;
 const GestoreMenu = require("../gestori/GestoreMenu");
 
+
 // Ritorna tutti i piatti del menu
 router.get('/', async function (req, res, next) {
 
@@ -19,7 +20,6 @@ router.get('/', async function (req, res, next) {
   }
   successRes(res, "OK", data);
 });
-
 
 // Aggiunge un piatto al menu
 router.post('/', async function (req, res, next) {
@@ -38,12 +38,24 @@ router.post('/', async function (req, res, next) {
 
 // Modifica un piatto identidificato da idPiatto
 router.put('/:idPiatto', async function (req, res, next) {
-  // TODO
+
+  GestoreMenu.modificaPiatto(
+    req.params.idPiatto,
+    req.body.nome,
+    req.body.prezzo,
+    req.body.categoria,
+    req.body.disponibile,
+    req.body.descrizione,
+    req.body.allergeni,
+    req.body.ingredientiModificabili,
+    res
+  );
 });
 
 // Elimina un piatto identificato da idPiatto
 router.delete('/:idPiatto', async function (req, res, next) {
-  // TODO
+
+  GestoreMenu.rimuoviPiatto(req.params.idPiatto, res);
 });
 
 module.exports = router;
