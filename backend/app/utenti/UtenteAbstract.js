@@ -7,6 +7,12 @@ const errorRes = require("../response").errorRes;
 class UtenteAbstract {
 
 
+    constructor() {
+        if (this.constructor === UtenteAbstract) {
+            throw new TypeError("UtenteAbstract non puo essere instanziato perché è una classe astratta");
+        }
+    }
+
     // Metodo per ottenere tutti i piatti del menu
     static getMenu() { GestoreMenu.getMenu(); };
 

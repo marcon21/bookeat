@@ -6,6 +6,12 @@ const Utente = require("./Utente");
 class Tavolo extends Utente {
 
 
+    constructor() {
+        if (this.constructor === Tavolo) {
+            throw new TypeError("Tavolo non puo essere instanziato perché è una classe astratta");
+        }
+    }
+
     static chiamaCameriere() { /** TODO */ }
     static getPrenotazione() { /** TODO */ }
     static getStatus() { /** TODO */ }
