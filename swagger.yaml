@@ -54,6 +54,7 @@ paths:
                     - id: 1
                       nome: "Pizza Margherita"
                       prezzo: "5.00"
+                      categoria: "Pizze"
                       disponibile: 1
                       descrizione: "Pizza con mozzarella e pomodoro"
                       allergeni: ["Glutine", "Lattosio"]
@@ -61,6 +62,7 @@ paths:
                         ["Mozzarella", "Salamino", "Funghi"]
                     - id: 2
                       nome: "Pizza Diavola"
+                      categoria: "Pizze"
                       prezzo: "6.00"
                       disponibile: 1
                       descrizione: "Pizza con mozzarella, pomodoro e salame piccante"
@@ -90,6 +92,7 @@ paths:
               id: 1
               nome: "Pizza Margherita"
               prezzo: "5.00"
+              categoria: "Pizze"
               disponibile: 1
               descrizione: "Pizza con mozzarella e pomodoro"
               allergeni: ["Glutine", "Lattosio"]
@@ -115,15 +118,25 @@ paths:
                 message: "OK"
                 data: []
           
-        "500":
-          description: Internal server error
+        "401":
+          description: Unauthorized
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrResponse"
               example:
                   success: false
-                  message: "Internal Server Error - Riprova piú tardi"         
+                  message: "Unauthorized - Accedi con un account autorizzato e riprova"   
+                  
+        "424":
+          description: Creazione piatto fallita
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  message: "Creazione piatto fallita"
     
     put:
       summary: Modifica un piatto identidificato da idPiatto
@@ -144,6 +157,7 @@ paths:
               id: 1
               nome: "Pizza Margherita"
               prezzo: "5.00"
+              categoria: "Pizze"
               disponibile: 1
               descrizione: "Pizza con mozzarella e pomodoro"
               allergeni: ["Glutine", "Lattosio"]
@@ -168,15 +182,15 @@ paths:
                 message: "OK"
                 data: []
                 
-        "500":
-          description: Internal server error
+        "401":
+          description: Unauthorized
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrResponse"
               example:
                   success: false
-                  message: "Internal Server Error - Riprova piú tardi" 
+                  message: "Unauthorized - Accedi con un account autorizzato e riprova"
     
     delete:
       summary: Elimina un piatto identificato da idPiatto
@@ -206,15 +220,15 @@ paths:
                 message: "OK"
                 data: []
                 
-        "500":
-          description: Internal server error
+        "401":
+          description: Unauthorized
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrResponse"
               example:
                   success: false
-                  message: "Internal Server Error - Riprova piú tardi" 
+                  message: "Unauthorized - Accedi con un account autorizzato e riprova"
   
   /auth/login:
     post:
@@ -331,6 +345,9 @@ components:
         prezzo:
           type: string
           description: Prezzo del piatto
+        categoria:
+          type: string
+          description: La categoria del piatto
         disponibile:
           type: number
           description: Disponibilità del piatto
@@ -347,6 +364,7 @@ components:
         id: 1
         nome: "Pizza Margherita"
         prezzo: "5.00"
+        categoria: "Pizze"
         disponibile: 1
         descrizione: "Pizza con mozzarella e pomodoro"
         allergeni: ["Glutine", "Lattosio"]
