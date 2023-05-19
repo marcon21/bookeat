@@ -1,8 +1,14 @@
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from "yup"
+import { Navigate } from "react-router-dom"
+
+import { signUp } from "../requests"
 
 export default function SignUpRoute() {
+    const [redirect, setRedirect] = useState(false)
+
     const formSchema = yup.object().shape({
         email: yup.string()
             .required("L'email è richiesta")
@@ -31,10 +37,21 @@ export default function SignUpRoute() {
         mode: "onTouched",
         resolver: yupResolver(formSchema)
     })
-    const onSubmit = data => console.log(data)
+    
+    const onSubmit = async (data) => {
+        console.log(data)
+        let isSignedUp = await signUp(data.email, data.password)
+        console.log(isSignedUp)
+        if (isSignedUp) {
+            setRedirect('/login')
+        } else {
+            reset()
+        }
+    }
 
     return (
         <>
+            {redirect && <Navigate to={redirect} />}
             <section className="vh-100">
                 <div className="container py-5 h-100">
                     <div className="row d-flex justify-content-center align-items-center h-100">

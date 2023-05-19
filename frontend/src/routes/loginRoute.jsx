@@ -1,9 +1,14 @@
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from "yup"
-import { Link } from "react-router-dom"
+import { Link, Navigate } from "react-router-dom"
 
-export default function LoginRoute() {
+import { login } from '../requests'
+
+export default function LogbuttoninRoute() {
+    const [redirect, setRedirect] = useState(false)
+
     const formSchema = yup.object().shape({
         email: yup.string()
             .required("L'email è richiesta")
@@ -23,7 +28,17 @@ export default function LoginRoute() {
         mode: "onTouched",
         resolver: yupResolver(formSchema)
     })
-    const onSubmit = data => console.log(data)
+
+    const onSubmit = async (data) => {
+        console.log(data)
+        let token = await login(data.email, data.password)
+        console.log(token)
+        if (token) {
+            localStorage.setItem('jwt', token)
+            setRedirect('/menu')
+        }
+    }
+    
     let a = {
         "web": {
             "client_id": "596841181986-4mbjpaop1352i033dr72odthmkulvbr0.apps.googleusercontent.com",
@@ -39,6 +54,7 @@ export default function LoginRoute() {
 
     return (
         <>
+            {redirect && <Navigate to={redirect} />}
             {/* <script src="https://accounts.google.com/gsi/client" async defer></script> */}
 
             <section className="vh-100">
