@@ -1,9 +1,13 @@
-var express = require("express");
-const passport = require("passport");
-const jwt = require('jsonwebtoken');
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 const { errorRes, successRes } = require("../response");
 
+const passport = require("passport");
+const jwt = require("jsonwebtoken");
+
+const { ServerResponse } = require("http");
+
+// Setting up route for registering a new user
 router.post(
   "/signup",
   passport.authenticate("signup", { session: false }),
@@ -15,6 +19,7 @@ router.post(
   }
 );
 
+// Setting up route for logging in a user
 router.post("/login", async (req, res, next) => {
   passport.authenticate("login", async (err, user, info) => {
     try {
@@ -38,5 +43,37 @@ router.post("/login", async (req, res, next) => {
   })(req, res, next);
 });
 
+router.get("/google", (request, response) => {
+  const emptyResponse = new ServerResponse(request);
+
+  passport.authenticate(
+    "google",
+    { scope: ["profile", "email"], session: false },
+    (err, user, info) => {
+      console.log(err, user, info);
+    }
+  )(request, emptyResponse);
+
+  console.log(emptyResponse.getHeader("location"));
+  successRes(response, "Google auth link", {
+    url: emptyResponse.getHeader("location"),
+  });
+});
+
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/api/v1/menu/all",
+  }),
+  function (req, res) {
+    // console.log(res);
+    res.cookie("jwt", req.user.token, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+    // successRes(res, "Login successful", req.user);
+    res.redirect("http://localhost:3001/api/v1/utente/profile");
+  }
+);
 
 module.exports = router;

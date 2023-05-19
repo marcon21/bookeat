@@ -37,7 +37,7 @@ export default function MenuRoute() {
                         <NavBar label={pageName} onFilterClickHandler={onFilterClickHandler} />
                     </div>
                     <div className="row ms-2 me-2">
-                        <MenuSections menu={menu} filter={filter} />  
+                        <MenuSections menu={menu} filter={filter} />
                     </div>
                 </div>
             </div>

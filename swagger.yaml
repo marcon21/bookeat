@@ -11,14 +11,13 @@ info:
     url: https://github.com/marcon21/bookeat/blob/main/LICENSE
 
 servers:
-  - url: http://localhost:3001
+  - url: http://localhost:3001/api/v1
     description: Local server
 
 paths:
-  /piatti:
-    x-summary: Piatti
+  /menu/{idPiatto}:
     get:
-      summary: Get All Piatti
+      summary: Ritorna tutti i piatti del menu
       responses:
         "200":
           description: OK
@@ -27,45 +26,329 @@ paths:
               schema:
                 type: object
                 properties:
-                  categorie:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Categorie"
+                  succes: 
+                    type: boolean
+                  message: 
+                    type: string
+                  data:
+                    type: object
+                    properties:              
+                      categorie:
+                        type: array
+                      piatti:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Piatto"
+              example:
+                succes: true
+                message: "OK"
+                data: 
+                  categorie: ["Pizze", "Primi"]
                   piatti:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Piatto"
+                    - _id: 1
+                      nome: "Pizza Margherita"
+                      prezzo: 500
+                      categoria: "Pizze"
+                      disponibile: 1
+                      descrizione: "Pizza con mozzarella e pomodoro"
+                      allergeni: ["Glutine", "Lattosio"]
+                      ingredientiModificabili:
+                        ["Mozzarella", "Salamino", "Funghi"]
+                    - _id: 2
+                      nome: "Pizza Diavola"
+                      categoria: "Pizze"
+                      prezzo: 600
+                      disponibile: 1
+                      descrizione: "Pizza con mozzarella, pomodoro e salame piccante"
+                      allergeni: ["Glutine", "Lattosio"]
+                      ingredientiModificabili:
+                        ["Mozzarella", "Salamino", "Funghi"]
 
-        "500":
-          description: Internal Server Error - Try again later
+        "424":
+          description: Errore nel recupero del menu
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  message: "Errore nel recupero del menu"
+    
+    post:
+      summary: Aggiunge un piatto al menu
+      requestBody:
+        description: Il piatto da inserire nel menu
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Piatto"
+            example:
+              _id: 1
+              nome: "Pizza Margherita"
+              prezzo: 500
+              categoria: "Pizze"
+              disponibile: 1
+              descrizione: "Pizza con mozzarella e pomodoro"
+              allergeni: ["Glutine", "Lattosio"]
+              ingredientiModificabili:
+                ["Mozzarella", "Salamino", "Funghi"]
+      
+      responses:
+        "201":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  succes: 
+                    type: boolean
+                  message: 
+                    type: string
+                  data: 
+                    type: array
+              example:
+                succes: true
+                message: "OK"
+                data: []
+          
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  message: "Unauthorized - Accedi con un account autorizzato e riprova"   
+                  
+        "424":
+          description: Creazione piatto fallita
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  message: "Creazione piatto fallita"
+    
+    put:
+      summary: Modifica un piatto identidificato da idPiatto
+      parameters:
+        - in: path
+          name: idPiatto
+          schema:
+            type: integer
+          required: true
+          description: Id del piatto da modificare
+      requestBody:
+        description: Il piatto da inserire nel menu
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Piatto"
+            example:
+              _id: 1
+              nome: "Pizza Margherita"
+              prezzo: 500
+              categoria: "Pizze"
+              disponibile: 1
+              descrizione: "Pizza con mozzarella e pomodoro"
+              allergeni: ["Glutine", "Lattosio"]
+              ingredientiModificabili:
+                ["Mozzarella", "Salamino", "Funghi"]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  succes: 
+                    type: boolean
+                  message: 
+                    type: string
+                  data: 
+                    type: array
+              example:
+                succes: true
+                message: "OK"
+                data: []
+                
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  message: "Unauthorized - Accedi con un account autorizzato e riprova"
+                  
+        "424":
+          description: Modifica piatto fallita
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  message: "Modifica piatto fallita"
+    
+    delete:
+      summary: Elimina un piatto identificato da idPiatto
+      parameters:
+        - in: path
+          name: idPiatto
+          schema:
+            type: integer
+          required: true
+          description: Id del piatto da eliminare
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  succes: 
+                    type: boolean
+                  message: 
+                    type: string
+                  data: 
+                    type: array
+              example:
+                succes: true
+                message: "OK"
+                data: []
+                
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  message: "Unauthorized - Accedi con un account autorizzato e riprova"
+                  
+        "424":
+          description: Eliminazione piatto fallita
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  message: "Eliminazione piatto fallita"
+  
+  /auth/login:
+    post:
+      summary: Path per loggarsi e rivecere il token jwt
+      requestBody:
+        description: Body con campo *email* e *password*
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Utente"
+            example:
+              email: "example@email.com"
+              password: "password"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                      type: boolean
+                  message:
+                      type: string
+                  data:
+                    type: object
+                    properties:
+                      token: 
+                        type: string
+              example:
+                success: true
+                message: Account creato correttamente
+                data:
+                  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0NjAkjnkaszJlM2UxYmYxNGIyYzEzZSIsImVtYWlsIjoiZGFuaWVsLm1hcmNvbkBzdHVkZW50aS51bml0bi5pdCJ9LCJpYXQiOjE2ODQzMzExNTJ9.fjfOnRwwunj9BuzhFiN_GpNCJajfAKnYqw3yFTVZS8U"
+        "403":
+            description: Bad credentials
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/ErrResponse"
+                example:
+                  success: false
+                  message: "Errore, credenziali errate"
+  
+  /auth/signup:
+    post:
+      summary: Path per registrarsi e rivecere il token jwt
+      requestBody:
+        description: Body con campo *email* e *passoword*
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Utente"
+            example:
+              email: "example@email.com"
+              password: "password"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                      type: boolean
+                  message:
+                      type: string
+                  data:
+                    type: object
+                    properties:
+                      token: 
+                        type: string
+              example:
+                success: true
+                message: Account creato correttamente
+                data:
+                  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0NjAkjnkaszJlM2UxYmYxNGIyYzEzZSIsImVtYWlsIjoiZGFuaWVsLm1hcmNvbkBzdHVkZW50aS51bml0bi5pdCJ9LCJpYXQiOjE2ODQzMzExNTJ9.fjfOnRwwunj9BuzhFiN_GpNCJajfAKnYqw3yFTVZS8U"
+        "403":
+            description: Bad credentials
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/ErrResponse"
+                example:
+                  success: false
+                  message: "Errore, credenziali errateAd"
 
 components:
   schemas:
-    Categorie:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: ID della categoria
-        nome:
-          type: string
-          description: Nome della categoria
-      example:
-        id: 1
-        nome: "Pizze"
-
     Piatto:
       type: object
       properties:
-        id:
+        _id:
           type: integer
           description: ID del piatto
         nome:
           type: string
           description: Nome del piatto
         prezzo:
-          type: string
+          type: integer
           description: Prezzo del piatto
+        categoria:
+          type: string
+          description: La categoria del piatto
         disponibile:
           type: number
           description: Disponibilità del piatto
@@ -73,16 +356,38 @@ components:
           type: string
           description: Descrizione del piatto
         allergeni:
-          type: string
+          type: array
           description: Allergeni del piatto
         ingredientiModificabili:
-          type: string
+          type: array
           description: Ingredienti modificabili del piatto
       example:
-        id: 1
+        _id: 1
         nome: "Pizza Margherita"
-        prezzo: "5.00"
+        prezzo: 500
+        categoria: "Pizze"
         disponibile: 1
         descrizione: "Pizza con mozzarella e pomodoro"
-        allergeni: "Glutine, Lattosio"
-        ingredientiModificabili: "Mozzarella, Salamino, Funghi"
+        allergeni: ["Glutine", "Lattosio"]
+        ingredientiModificabili: ["Mozzarella", "Salamino", "Funghi"]
+
+    Utente:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Campo email
+        password:
+          type: string
+          description: Campo password
+      example:
+        email: "example@email.com"
+        password: "password"
+        
+    ErrResponse:
+      type: object
+      properties:
+        success:
+            type: boolean
+        message:
+            type: string
