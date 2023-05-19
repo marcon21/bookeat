@@ -5,24 +5,27 @@
 var mongoose = require("mongoose");
 
 var SchemaPiatto = new mongoose.Schema({
-  id: Number,
-  nome: String,
-  prezzo: Number,
-  disponibile: Boolean,
+  nome: {
+    type: String,
+    required: true,
+  },
+  prezzo: {
+    type: Number,
+    required: true,
+    min: 0,
+    validate: { validator: Number.isInteger, }
+  },
+  categoria: {
+    type: String,
+    required: true,
+  },
+  disponibile: {
+    type: Boolean,
+    required: true,
+  },
   descrizione: String,
   allergeni: [String],
   ingredientiModificabili: [String],
-});
-
-
-// Getter per il prezzo
-SchemaPiatto.path('prezzo').get(function (num) {
-  return (num / 100).toFixed(2);
-});
-
-// Setter per il prezzo
-SchemaPiatto.path('prezzo').set(function (num) {
-  return num * 100;
 });
 
 var Piatto = mongoose.model('Plate', SchemaPiatto);

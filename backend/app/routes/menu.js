@@ -4,37 +4,45 @@
 var express = require('express');
 var router = express.Router();
 const { errorRes, successRes } = require("../response");
+const Piatto = require('../db/piatto').Piatto;
+const GestoreMenu = require("../gestori/GestoreMenu");
 
+// Ritorna tutti i piatti del menu
 router.get('/', async function (req, res, next) {
+
+  categorie = await Piatto.find().distinct('categoria')
+  piatti = await GestoreMenu.getMenu()
+
   data = {
-    categorie: [
-      { 'id': 1, nome: "Pizze" },
-      { id: 2, nome: "Antipasti" }
-    ],
-    piatti: [
-      {
-        'id': 1,
-        nome: "Pizza Margherita",
-        prezzo: "5.00",
-        disponibile: 1,
-        descrizione: "Pizza con mozzarella e pomodoro",
-        allergeni: ["Glutine", "Lattosio"],
-        ingredientiModificabili: ["Mozzarella", "Salamino", "Funghi"]
-      }
-    ]
+    categorie: categorie,
+    piatti: piatti
   }
-  successRes(res, 'OK', data);
+  successRes(res, "OK", data);
 });
 
+
+// Aggiunge un piatto al menu
 router.post('/', async function (req, res, next) {
+
+  GestoreMenu.aggiungiPiatto(
+    req.body.nome,
+    req.body.prezzo,
+    req.body.categoria,
+    req.body.disponibile,
+    req.body.descrizione,
+    req.body.allergeni,
+    req.body.ingredientiModificabili,
+    res
+  );
+});
+
+// Modifica un piatto identidificato da idPiatto
+router.put('/:idPiatto', async function (req, res, next) {
   // TODO
 });
 
-router.put('/:id', async function (req, res, next) {
-  // TODO
-});
-
-router.delete('/:id', async function (req, res, next) {
+// Elimina un piatto identificato da idPiatto
+router.delete('/:idPiatto', async function (req, res, next) {
   // TODO
 });
 
