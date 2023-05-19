@@ -35,8 +35,6 @@ paths:
                     properties:              
                       categorie:
                         type: array
-                        items:
-                          $ref: "#/components/schemas/Categorie"
                       piatti:
                         type: array
                         items:
@@ -45,41 +43,39 @@ paths:
                 succes: true
                 message: "OK"
                 data: 
-                  categorie:
-                    - id: 1
-                      nome: "Pizze"
-                    - id: 2
-                      nome: "Antipasti"
+                  categorie: ["Pizze", "Primi"]
                   piatti:
-                    - id: 1
+                    - _id: 1
                       nome: "Pizza Margherita"
-                      prezzo: "5.00"
+                      prezzo: 500
+                      categoria: "Pizze"
                       disponibile: 1
                       descrizione: "Pizza con mozzarella e pomodoro"
                       allergeni: ["Glutine", "Lattosio"]
                       ingredientiModificabili:
                         ["Mozzarella", "Salamino", "Funghi"]
-                    - id: 2
+                    - _id: 2
                       nome: "Pizza Diavola"
-                      prezzo: "6.00"
+                      categoria: "Pizze"
+                      prezzo: 600
                       disponibile: 1
                       descrizione: "Pizza con mozzarella, pomodoro e salame piccante"
                       allergeni: ["Glutine", "Lattosio"]
                       ingredientiModificabili:
                         ["Mozzarella", "Salamino", "Funghi"]
 
-        "500":
-          description: Internal server error
+        "424":
+          description: Errore nel recupero del menu
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrResponse"
               example:
                   success: false
-                  message: "Internal Server Error - Riprova piú tardi"
+                  message: "Errore nel recupero del menu"
     
     post:
-      summary: Aggiungi un piatto al menu
+      summary: Aggiunge un piatto al menu
       requestBody:
         description: Il piatto da inserire nel menu
         content:
@@ -87,9 +83,10 @@ paths:
             schema:
               $ref: "#/components/schemas/Piatto"
             example:
-              id: 1
+              _id: 1
               nome: "Pizza Margherita"
-              prezzo: "5.00"
+              prezzo: 500
+              categoria: "Pizze"
               disponibile: 1
               descrizione: "Pizza con mozzarella e pomodoro"
               allergeni: ["Glutine", "Lattosio"]
@@ -115,15 +112,25 @@ paths:
                 message: "OK"
                 data: []
           
-        "500":
-          description: Internal server error
+        "401":
+          description: Unauthorized
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrResponse"
               example:
                   success: false
-                  message: "Internal Server Error - Riprova piú tardi"         
+                  message: "Unauthorized - Accedi con un account autorizzato e riprova"   
+                  
+        "424":
+          description: Creazione piatto fallita
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  message: "Creazione piatto fallita"
     
     put:
       summary: Modifica un piatto identidificato da idPiatto
@@ -141,9 +148,10 @@ paths:
             schema:
               $ref: "#/components/schemas/Piatto"
             example:
-              id: 1
+              _id: 1
               nome: "Pizza Margherita"
-              prezzo: "5.00"
+              prezzo: 500
+              categoria: "Pizze"
               disponibile: 1
               descrizione: "Pizza con mozzarella e pomodoro"
               allergeni: ["Glutine", "Lattosio"]
@@ -168,15 +176,25 @@ paths:
                 message: "OK"
                 data: []
                 
-        "500":
-          description: Internal server error
+        "401":
+          description: Unauthorized
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrResponse"
               example:
                   success: false
-                  message: "Internal Server Error - Riprova piú tardi" 
+                  message: "Unauthorized - Accedi con un account autorizzato e riprova"
+                  
+        "424":
+          description: Modifica piatto fallita
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  message: "Modifica piatto fallita"
     
     delete:
       summary: Elimina un piatto identificato da idPiatto
@@ -206,15 +224,25 @@ paths:
                 message: "OK"
                 data: []
                 
-        "500":
-          description: Internal server error
+        "401":
+          description: Unauthorized
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrResponse"
               example:
                   success: false
-                  message: "Internal Server Error - Riprova piú tardi" 
+                  message: "Unauthorized - Accedi con un account autorizzato e riprova"
+                  
+        "424":
+          description: Eliminazione piatto fallita
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  message: "Eliminazione piatto fallita"
   
   /auth/login:
     post:
@@ -306,31 +334,21 @@ paths:
 
 components:
   schemas:
-    Categorie:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: ID della categoria
-        nome:
-          type: string
-          description: Nome della categoria
-      example:
-        id: 1
-        nome: "Pizze"
-
     Piatto:
       type: object
       properties:
-        id:
+        _id:
           type: integer
           description: ID del piatto
         nome:
           type: string
           description: Nome del piatto
         prezzo:
-          type: string
+          type: integer
           description: Prezzo del piatto
+        categoria:
+          type: string
+          description: La categoria del piatto
         disponibile:
           type: number
           description: Disponibilità del piatto
@@ -344,9 +362,10 @@ components:
           type: array
           description: Ingredienti modificabili del piatto
       example:
-        id: 1
+        _id: 1
         nome: "Pizza Margherita"
-        prezzo: "5.00"
+        prezzo: 500
+        categoria: "Pizze"
         disponibile: 1
         descrizione: "Pizza con mozzarella e pomodoro"
         allergeni: ["Glutine", "Lattosio"]
