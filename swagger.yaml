@@ -46,10 +46,8 @@ paths:
                 message: "OK"
                 data: 
                   categorie:
-                    - id: 1
-                      nome: "Pizze"
-                    - id: 2
-                      nome: "Antipasti"
+                    - nome: "Pizze"
+                    - nome: "Antipasti"
                   piatti:
                     - _id: 1
                       nome: "Pizza Margherita"
@@ -323,14 +321,10 @@ components:
     Categorie:
       type: object
       properties:
-        id:
-          type: integer
-          description: ID della categoria
         nome:
           type: string
           description: Nome della categoria
       example:
-        id: 1
         nome: "Pizze"
 
     Piatto:
