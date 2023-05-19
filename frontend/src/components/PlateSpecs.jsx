@@ -1,32 +1,23 @@
-export default function PlateSpecs({ image, description, allergenes, price }) {
+export default function PlateSpecs({ plate }) {
     return (
         <div className="modal-body">
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-4">
-                        <img src={image} alt="Plate Image" className="img-fluid" />
-                    </div>
-                    <div className="col-md-8">
-                        <p>{description}</p>
-                    </div>
+            <div className="row">
+                <div className="col-md-6">
+                    <img src={dish.img} className="img-fluid" alt={dish.nome} />
                 </div>
-                <div className="row mt-3">
-                    <div className="col-md-12">
-                        <h5>Allergeni:</h5>
-                        <div>
-                            <i className="bi bi-exclamation-circle text-danger" title="Gluten">Gluten </i>
-                            <i className="bi bi-exclamation-circle text-danger" title="Dairy">Dairy </i>
-                            <i className="bi bi-exclamation-circle text-danger" title="Soy">Soy </i>
+                <div className="col-md-6">
+                    <h4 className="modal-title">{dish.nome}</h4>
+                    <p><strong>Prezzo:</strong> {dish.prezzo}</p>
+                    <p><strong>Categoria:</strong> {dish.categoria.primaria}</p>
+                    <p><strong>Descrizione:</strong> {dish.descrizione}</p>
+                    <p><strong>Allergeni:</strong> {dish.allergeni.join(', ')}</p>
+                    <p><strong>Ingredienti modificabili:</strong></p>
+                    {dish.ingredientiModificabili.map((ingrediente, index) => (
+                        <div className="form-check" key={index}>
+                            <input className="form-check-input" type="checkbox" id={`${ingrediente}Checkbox`} />
+                            <label className="form-check-label" htmlFor={`${ingrediente}Checkbox`}>{ingrediente}</label>
                         </div>
-
-                        <h5>Edit Plate:</h5>
-                        <div className="input-group mb-5">
-                            <input type="text" className="form-control" placeholder="Scrivi qui le modifiche per il tuo piatto" aria-label="Edit Plate" aria-describedby="edit-plate-button" />
-                                <button className="btn btn-primary" type="button" id="edit-plate-button">Salva</button>
-                        </div>
-
-                        <h4 className="text-end">{price}€</h4>
-                    </div>
+                    ))}
                 </div>
             </div>
         </div>

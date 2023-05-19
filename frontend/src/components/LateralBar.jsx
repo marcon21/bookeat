@@ -1,11 +1,11 @@
 import { useState } from "react"
-import { makeKey } from "../utils"
+import { formatCategoryList, makeKey } from "../utils"
 
 export default function LateralBar({ list, onFilterClickHandler }) {
-    const localList = structuredClone(list)
+    const formattedCategoryList = formatCategoryList(list)
 
     // Data processing, mapping each element from backend in the correct html object
-    const items = localList.map((item, index) => {
+    const items = formattedCategoryList.map((item, index) => {
         const chlist = item.childrens.map((chitem, chindex) => {
             return (
                 <li key={makeKey(chindex)} onClick={(e) => onFilterClickHandler(item['label'], chitem['label'])}>
