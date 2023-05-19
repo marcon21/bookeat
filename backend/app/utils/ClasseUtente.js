@@ -1,3 +1,7 @@
+/**
+ * Classe di utility per ricavare la classe dato un tipo di utente
+ */
+
 const Cucina = require("../utenti/Cucina");
 const Dipendente = require("../utenti/Dipendente");
 const Manager = require("../utenti/Manager");
@@ -23,6 +27,13 @@ const classeUtente = {
 class ClasseUtente {
 
 
+    constructor() {
+        if (this.constructor === ClasseUtente) {
+            throw new TypeError("ClasseUtente non puo essere instanziato perché è una classe astratta");
+        }
+    }
+
+    // Metodo che restituisce la classe utente in base al tipo di utente
     static getClasseUtente(userType) {
         return classeUtente[userType];
     }

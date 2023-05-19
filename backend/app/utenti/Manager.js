@@ -7,6 +7,13 @@ const GestoreMenu = require("../gestori/GestoreMenu");
 
 class Manager extends Dipendente {
 
+
+    constructor() {
+        if (this.constructor === Manager) {
+            throw new TypeError("Manager non puo essere instanziato perché è una classe astratta");
+        }
+    }
+
     // Metodo per aggiungere un piatto al menu
     static aggiungiPiatto(
         nome,
