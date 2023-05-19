@@ -43,12 +43,19 @@ paths:
                 succes: true
                 message: "OK"
                 data: 
-                  categorie: ["Pizze", "Primi"]
+                  categorie: [{
+                    "primaria": "Pizza"
+                  }, { 
+                    "primaria": "Primo",
+                    "secondaria": "Mare" 
+                  }]
                   piatti:
                     - _id: 1
                       nome: "Pizza Margherita"
                       prezzo: 500
-                      categoria: "Pizze"
+                      categoria: {
+                        "primaria": "Pizza"
+                      }
                       disponibile: 1
                       descrizione: "Pizza con mozzarella e pomodoro"
                       allergeni: ["Glutine", "Lattosio"]
@@ -56,7 +63,9 @@ paths:
                         ["Mozzarella", "Salamino", "Funghi"]
                     - _id: 2
                       nome: "Pizza Diavola"
-                      categoria: "Pizze"
+                      categoria: {
+                        "primaria": "Pizza"
+                      }
                       prezzo: 600
                       disponibile: 1
                       descrizione: "Pizza con mozzarella, pomodoro e salame piccante"
@@ -86,7 +95,9 @@ paths:
               _id: 1
               nome: "Pizza Margherita"
               prezzo: 500
-              categoria: "Pizze"
+              categoria: {
+                "primaria": "Pizza"
+              }
               disponibile: 1
               descrizione: "Pizza con mozzarella e pomodoro"
               allergeni: ["Glutine", "Lattosio"]
@@ -151,7 +162,9 @@ paths:
               _id: 1
               nome: "Pizza Margherita"
               prezzo: 500
-              categoria: "Pizze"
+              categoria: {
+                "primaria": "Pizza"
+              }
               disponibile: 1
               descrizione: "Pizza con mozzarella e pomodoro"
               allergeni: ["Glutine", "Lattosio"]
@@ -347,7 +360,12 @@ components:
           type: integer
           description: Prezzo del piatto
         categoria:
-          type: string
+          type: object
+          properties:
+            primaria:
+              type: string
+            secondaria:
+              type: string
           description: La categoria del piatto
         disponibile:
           type: number
