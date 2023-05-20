@@ -3,8 +3,12 @@
  */
 
 class GestoreNotifiche {
-
-
-    static chiamaCameriere(idTavolo) { /** TODO */ }
-    static notificaProblematica(idDipendente, messaggio) { /** TODO */ }
+  static chiamaCameriere(idTavolo) {
+    /** TODO */
+  }
+  static notificaProblematica(idDipendente, messaggio) {
+    /** TODO */
+  }
 }
+
+module.exports = GestoreNotifiche;
