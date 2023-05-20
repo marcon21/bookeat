@@ -13,7 +13,7 @@ info:
 servers:
   - url: http://localhost:3001/api/v1
     description: Local server
-
+    
 paths:
   /menu/{idPiatto}:
     get:
@@ -85,6 +85,8 @@ paths:
     
     post:
       summary: Aggiunge un piatto al menu
+      security:
+        - jwtCookie: []
       requestBody:
         description: Il piatto da inserire nel menu
         content:
@@ -145,6 +147,8 @@ paths:
     
     put:
       summary: Modifica un piatto identidificato da idPiatto
+      security:
+        - jwtCookie: []
       parameters:
         - in: path
           name: idPiatto
@@ -211,6 +215,8 @@ paths:
     
     delete:
       summary: Elimina un piatto identificato da idPiatto
+      security:
+        - jwtCookie: []
       parameters:
         - in: path
           name: idPiatto
@@ -344,6 +350,7 @@ paths:
                 example:
                   success: false
                   message: "Errore, credenziali errate"
+  
   /utente/profile:
     get:
       summary: Ricevi informazioni sul profilo dell'utente
@@ -388,6 +395,7 @@ paths:
               example:
                 success: false
                 message: "Errore, credenziali errate"
+
 components:
   schemas:
     Piatto:
