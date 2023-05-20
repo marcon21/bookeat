@@ -343,8 +343,51 @@ paths:
                   $ref: "#/components/schemas/ErrResponse"
                 example:
                   success: false
-                  message: "Errore, credenziali errateAd"
-
+                  message: "Errore, credenziali errate"
+  /utente/profile:
+    get:
+      summary: Ricevi informazioni sul profilo dell'utente
+      security:
+        - jwtCookie: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                      type: boolean
+                  message:
+                      type: string
+                  data:
+                    type: object
+                    properties:
+                      user: 
+                        type: object
+                        properties:
+                          id: 
+                            type: string
+                          email: 
+                            type: string
+                          password:
+                            type: string
+                          nome:
+                            type: string
+                          userType:
+                            type: string
+                          googleId:
+                            type: string
+        "401":
+          description: Bad credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                success: false
+                message: "Errore, credenziali errate"
 components:
   schemas:
     Piatto:
@@ -409,3 +452,9 @@ components:
             type: boolean
         message:
             type: string
+            
+  securitySchemes:
+    jwtCookie:         
+      type: apiKey
+      in: cookie
+      name: jwt
