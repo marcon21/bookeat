@@ -18,19 +18,24 @@ export function makeKey(index) {
   return "".concat(index).concat("-").concat(makeString(10))
 }
 
+// Function to format the category list from backend in a way that can be used in the frontend
 export function formatCategoryList(list) {
   let icons = {
     "Antipasti": "bi bi-heptagon",
-    "Primi": "bi bi-dice-1",
-    "Secondi": "bi bi-dice-2",
-    "Dessert": "bi bi-dice-3",
-    "Bevande": "bi bi-cup-straw",
+    "Insalate": "bi bi-dice-1",
+    "Noodles": "bi bi-dice-2",
+    "Panini": "bi bi-dice-3",
+    "Pasta": "bi bi-dice-4",
+    "Piatti Principali": "bi bi-dice-5",
+    "Pizza": "bi bi-dice-6",
+    "Risotti": "bi bi-dice-1",
+    "Sushi": "bi bi-dice-2"
   }
   let result = []
   let secondarie = []
   list.forEach((item) => {
     if (item["primaria"]) {
-      if (!result.includes(item["primaria"])) {
+      if (!result.some((r) => r["label"] === item["primaria"])) {
         result.push({
           label: item["primaria"],
           icon: icons[item["primaria"]],

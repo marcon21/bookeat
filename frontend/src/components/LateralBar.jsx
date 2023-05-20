@@ -8,9 +8,9 @@ export default function LateralBar({ list, onFilterClickHandler }) {
     const items = formattedCategoryList.map((item, index) => {
         const chlist = item.childrens.map((chitem, chindex) => {
             return (
-                <li key={makeKey(chindex)} onClick={(e) => onFilterClickHandler(item['label'], chitem['label'])}>
+                <li className="d-none d-md-block" key={makeKey(chindex)} onClick={(e) => onFilterClickHandler(item['label'], chitem)}>
                     <a className="nav-link px-0">
-                        <span className="d-none d-sm-inline">{chitem.label}</span>
+                        <span className="d-none d-sm-inline">{chitem}</span>
                     </a>
                 </li>
             )

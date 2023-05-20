@@ -541,16 +541,13 @@ const data = [
 
 // Funzione per il popolamento del database
 async function populateDatabase() {
-    try {
-        // await Piatto.deleteMany({}); // Rimuove tutti i documenti dal modello
-
-        await Piatto.insertMany(data); // Inserisce i dati nel modello
-
-        console.log('Popolamento del database completato.');
-        mongoose.connection.close(); // Chiude la connessione al database dopo il completamento
-    } catch (error) {
-        console.error('Errore durante il popolamento del database:', error);
-    }
+    mongoose.connect("mongodb://user:1234@mongo:27017/restaurant")
+    Piatto.create(data).then((piatto) => {
+        console.log("OK");
+        mongoose.connection.close();
+    }).catch((err) => {
+        console.log(err);
+    });    
 }
 
 // Esecuzione della funzione di popolamento

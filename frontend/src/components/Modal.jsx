@@ -1,4 +1,4 @@
-export default function Modal({ modalId, title, closeButtonText="Chiudi", closeFunction, confirmButtonText="Conferma", confirmFunction, children }) {
+export default function Modal({ modalId, title, closeButtonText = "Chiudi", closeFunction, confirmButtonText = "Conferma", confirmFunction, children }) {
     return (
         <>
             <button hidden={true} id={modalId.concat("Button")} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={"#".concat(modalId)}>
