@@ -13,30 +13,30 @@ const UtenteAnonimo = require("../utenti/UtenteAnonimo");
 const UtenteLoggato = require("../utenti/UtenteLoggato");
 
 const classeUtente = {
-    "UtenteAbstract": UtenteAbstract,
-    "UtenteAnonimo": UtenteAnonimo,
-    "Utente": Utente,
-    "Dipendente": Dipendente,
-    "Tavolo": Tavolo,
-    "UtenteLoggato": UtenteLoggato,
-    "Cucina": Cucina,
-    "Sala": Sala,
-    "Manager": Manager
-}
+  UtenteAbstract: UtenteAbstract,
+  UtenteAnonimo: UtenteAnonimo,
+  Utente: Utente,
+  Dipendente: Dipendente,
+  Tavolo: Tavolo,
+  UtenteLoggato: UtenteLoggato,
+  Cucina: Cucina,
+  Sala: Sala,
+  Manager: Manager,
+};
 
 class ClasseUtente {
-
-
-    constructor() {
-        if (this.constructor === ClasseUtente) {
-            throw new TypeError("ClasseUtente non puo essere instanziato perché è una classe astratta");
-        }
+  constructor() {
+    if (this.constructor === ClasseUtente) {
+      throw new TypeError(
+        "ClasseUtente non puo essere instanziato perché è una classe astratta"
+      );
     }
+  }
 
-    // Metodo che restituisce la classe utente in base al tipo di utente
-    static getClasseUtente(userType) {
-        return classeUtente[userType];
-    }
+  // Metodo che restituisce la classe utente in base al tipo di utente
+  static getClasseUtente(userType) {
+    return classeUtente[userType];
+  }
 }
 
 module.exports = ClasseUtente;

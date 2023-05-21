@@ -13,7 +13,7 @@ info:
 servers:
   - url: http://localhost:3001/api/v1
     description: Local server
-
+    
 paths:
   /menu/{idPiatto}:
     get:
@@ -85,6 +85,8 @@ paths:
     
     post:
       summary: Aggiunge un piatto al menu
+      security:
+        - jwtCookie: []
       requestBody:
         description: Il piatto da inserire nel menu
         content:
@@ -145,6 +147,8 @@ paths:
     
     put:
       summary: Modifica un piatto identidificato da idPiatto
+      security:
+        - jwtCookie: []
       parameters:
         - in: path
           name: idPiatto
@@ -211,6 +215,8 @@ paths:
     
     delete:
       summary: Elimina un piatto identificato da idPiatto
+      security:
+        - jwtCookie: []
       parameters:
         - in: path
           name: idPiatto
@@ -291,7 +297,7 @@ paths:
                 message: Account creato correttamente
                 data:
                   token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0NjAkjnkaszJlM2UxYmYxNGIyYzEzZSIsImVtYWlsIjoiZGFuaWVsLm1hcmNvbkBzdHVkZW50aS51bml0bi5pdCJ9LCJpYXQiOjE2ODQzMzExNTJ9.fjfOnRwwunj9BuzhFiN_GpNCJajfAKnYqw3yFTVZS8U"
-        "403":
+        "401":
             description: Bad credentials
             content:
               application/json:
@@ -335,7 +341,7 @@ paths:
                 message: Account creato correttamente
                 data:
                   token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0NjAkjnkaszJlM2UxYmYxNGIyYzEzZSIsImVtYWlsIjoiZGFuaWVsLm1hcmNvbkBzdHVkZW50aS51bml0bi5pdCJ9LCJpYXQiOjE2ODQzMzExNTJ9.fjfOnRwwunj9BuzhFiN_GpNCJajfAKnYqw3yFTVZS8U"
-        "403":
+        "401":
             description: Bad credentials
             content:
               application/json:
@@ -343,7 +349,52 @@ paths:
                   $ref: "#/components/schemas/ErrResponse"
                 example:
                   success: false
-                  message: "Errore, credenziali errateAd"
+                  message: "Errore, credenziali errate"
+  
+  /utente/profile:
+    get:
+      summary: Ricevi informazioni sul profilo dell'utente
+      security:
+        - jwtCookie: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                      type: boolean
+                  message:
+                      type: string
+                  data:
+                    type: object
+                    properties:
+                      user: 
+                        type: object
+                        properties:
+                          id: 
+                            type: string
+                          email: 
+                            type: string
+                          password:
+                            type: string
+                          nome:
+                            type: string
+                          userType:
+                            type: string
+                          googleId:
+                            type: string
+        "401":
+          description: Bad credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                success: false
+                message: "Errore, credenziali errate"
 
 components:
   schemas:
@@ -409,3 +460,9 @@ components:
             type: boolean
         message:
             type: string
+            
+  securitySchemes:
+    jwtCookie:         
+      type: apiKey
+      in: cookie
+      name: jwt
