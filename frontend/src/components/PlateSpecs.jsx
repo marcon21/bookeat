@@ -1,34 +1,61 @@
-export default function PlateSpecs({ image, description, allergenes, price }) {
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+const schema = yup.object().shape({
+    notes: yup.string().required('Notes are required'),
+});
+
+export default function PlateSpecs({ plate, onSubmit }) {
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        resolver: yupResolver(schema),
+        defaultValues: {
+            ingredients: plate.ingredientiModificabili.map((ingrediente) => ingrediente),
+        },
+    });
+
     return (
         <div className="modal-body">
-            <div className="container">
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="row">
-                    <div className="col-md-4">
-                        <img src={image} alt="Plate Image" className="img-fluid" />
+                    <div className="col-md-6">
+                        <img src={plate.img} className="img-fluid" alt={plate.nome} />
                     </div>
-                    <div className="col-md-8">
-                        <p>{description}</p>
+                    <div className="col-md-6">
+                        <h4 className="modal-title">{plate.nome}</h4>
+                        <p><strong>Prezzo:</strong> {plate.prezzo}</p>
+                        <p><strong>Descrizione:</strong> {plate.descrizione}</p>
+                        <p><strong>Allergeni:</strong> {plate.allergeni.join(', ')}</p>
+                        <p><strong>Ingredienti modificabili:</strong></p>
+                        {plate.ingredientiModificabili.map((ingrediente, index) => (
+                            <div className="form-check" key={index}>
+                                <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={`${ingrediente}Checkbox`}
+                                    {...register('ingredients')}
+                                    value={ingrediente}
+                                />
+                                <label className="form-check-label" htmlFor={`${ingrediente}Checkbox`}>
+                                    {ingrediente}
+                                </label>
+                            </div>
+                        ))}
+                        <div className="form-group mt-3">
+                            <label htmlFor="notes">Note aggiuntive:</label>
+                            <input
+                                type="text"
+                                className={`form-control ${errors.notes ? 'is-invalid' : ''}`}
+                                id="notes"
+                                {...register('notes')}
+                            />
+                            {errors.notes && (
+                                <div className="invalid-feedback">{errors.notes.message}</div>
+                            )}
+                        </div>
                     </div>
                 </div>
-                <div className="row mt-3">
-                    <div className="col-md-12">
-                        <h5>Allergeni:</h5>
-                        <div>
-                            <i className="bi bi-exclamation-circle text-danger" title="Gluten">Gluten </i>
-                            <i className="bi bi-exclamation-circle text-danger" title="Dairy">Dairy </i>
-                            <i className="bi bi-exclamation-circle text-danger" title="Soy">Soy </i>
-                        </div>
-
-                        <h5>Edit Plate:</h5>
-                        <div className="input-group mb-5">
-                            <input type="text" className="form-control" placeholder="Scrivi qui le modifiche per il tuo piatto" aria-label="Edit Plate" aria-describedby="edit-plate-button" />
-                                <button className="btn btn-primary" type="button" id="edit-plate-button">Salva</button>
-                        </div>
-
-                        <h4 className="text-end">{price}€</h4>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
-    )
+    );
 }

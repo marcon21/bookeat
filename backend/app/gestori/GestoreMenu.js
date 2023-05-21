@@ -1,9 +1,8 @@
 /**
  * Classe che implementa metodi per la gestione del menu
  */
-const Piatto = require("../db/piatto").Piatto;
-const piatto = require("../db/piatto");
-const { errorRes, successRes } = require("../response");
+const Piatto = require('../db/piatto').Piatto;
+const { errorRes, successRes } = require('../response');
 
 class GestoreMenu {
   // Metodo per ottenere tutti i piatti del menu
