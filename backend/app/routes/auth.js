@@ -9,13 +9,22 @@ const jwt = require("jsonwebtoken");
 const { ServerResponse } = require("http");
 
 // Setting up route for registering a new user
-router.post(
-  "/signup",
-  passport.authenticate("signup", { session: false }),
-  async (req, res, next) => {
+// router.post(
+//   "/signup",
+//   passport.authenticate("signup", { session: false }),
+//   async (req, res, next) => {
+//     successRes(res, "Signup successful", { user: req.user });
+//   }
+// );
+router.post("/signup", function (req, res, next) {
+  passport.authenticate("signup", function (err, user, info) {
+    if (err || !user) {
+      return errorRes(res, err, "Signup failed", 401);
+    }
+
     successRes(res, "Signup successful", { user: req.user });
-  }
-);
+  })(req, res, next);
+});
 
 // Setting up route for logging in a user
 router.post("/login", async (req, res, next) => {
