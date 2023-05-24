@@ -6,17 +6,17 @@ export default function MenuSections({ menu, filter }) {
     let menuPlates = menu['piatti']
 
     // Filtering
-    if(filter[0] !== 0) {
+    if (filter[0] !== 0) {
         menuCategories = menuCategories.filter((s) => s['label'] === filter[0])
         menuPlates = menuPlates.filter((p) => p['categoria']['primaria'] === filter[0])
     }
-    if(filter[1] !== 0) {
-        menuCategories = menuCategories.map((s)=>{
+    if (filter[1] !== 0) {
+        menuCategories = menuCategories.map((s) => {
             s['childrens'] = s['childrens'].filter((c) => c === filter[1])
             return s
         })
         menuPlates = menuPlates.filter((p) => {
-            if(p['categoria']['secondaria']) {
+            if (p['categoria']['secondaria']) {
                 return p['categoria']['secondaria'] === filter[1]
             } else {
                 return false
@@ -40,8 +40,10 @@ export default function MenuSections({ menu, filter }) {
             return (
                 <div key={makeKey(index)}>
                     <h2 className="mt-4">{item['label']}</h2>
-                    <div className="row">
-                        {r}
+                    <div className="d-flex flex-wrap">
+                        <div className="row">
+                            {r}
+                        </div>
                     </div>
                 </div>
             )
@@ -59,8 +61,10 @@ export default function MenuSections({ menu, filter }) {
                 return (
                     <div key={makeKey(sindex)}>
                         <h4 className="mt-2" >{subsection}</h4>
-                        <div className="row">
-                            {plates}
+                        <div className="d-flex flex-wrap">
+                            <div className="row">
+                                {plates}
+                            </div>
                         </div>
                     </div>
                 )
@@ -68,15 +72,23 @@ export default function MenuSections({ menu, filter }) {
             return (
                 <div key={makeKey(index)}>
                     <h2 className="mt-4">{item['label']}</h2>
-                    {r}
+                    <div className="d-flex flex-wrap">
+                        <div className="row">
+                            {r}
+                        </div>
+                    </div>
                 </div>
             )
         }
     })
 
     return (
-        <>
-            {items}
-        </>
+        <div className="container">
+            <div className="row">
+                <div className="col">
+                    {items}
+                </div>
+            </div>
+        </div>
     )
 }
