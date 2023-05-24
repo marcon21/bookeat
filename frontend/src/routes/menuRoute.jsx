@@ -32,22 +32,19 @@ export default function MenuRoute() {
     function onFilterClickHandler(section = 0, subsection = 0) {
         setFilter([section, subsection])
     }
-
     return (
-        <>
-            <div className="row flex-nowrap">
-                <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
-                    <LateralBar list={menuCategories} onFilterClickHandler={onFilterClickHandler} />
+        <div className="row flex-nowrap">
+            <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark position-fixed" style={{ height: '100vh', overflowY: 'auto', scrollSnapType: 'none' }}>
+                <LateralBar list={menuCategories} onFilterClickHandler={onFilterClickHandler} />
+            </div>
+            <div className="col-auto col-md-9 col-xl-10 px-sm-10" style={{ marginLeft: 'calc(100% / 6)', scrollSnapType: 'none' }}>
+                <div className="row sticky-top" style={{ overflowY: 'auto' }}>
+                    <NavBar label={pageName} onFilterClickHandler={onFilterClickHandler} />
                 </div>
-                <div className="col-auto col-md-9 col-xl-10 px-sm-10">
-                    <div className="row">
-                        <NavBar label={pageName} onFilterClickHandler={onFilterClickHandler} />
-                    </div>
-                    <div className="row ms-2 me-2">
-                        <MenuSections menu={menu} filter={filter} />
-                    </div>
+                <div className="row ms-2 me-2" style={{ overflowY: 'auto' }}>
+                    <MenuSections menu={menu} filter={filter} />
                 </div>
             </div>
-        </>
+        </div>
     )
 }
