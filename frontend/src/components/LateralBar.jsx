@@ -1,7 +1,8 @@
 import { useState } from "react"
 import { formatCategoryList, makeKey } from "../utils"
+import { logout } from "../requests"
 
-export default function LateralBar({ list, onFilterClickHandler }) {
+export default function LateralBar({ list, onFilterClickHandler, setRedirect }) {
     const formattedCategoryList = formatCategoryList(list)
 
     // Data processing, mapping each element from backend in the correct html object
@@ -51,7 +52,10 @@ export default function LateralBar({ list, onFilterClickHandler }) {
 
                 <ul className="nav nav-pills flex-column mb-2 mb-0 align-items-bottom align-items-sm-start" id="menu" >
                     <li className="nav-item">
-                        <a href="#" className="nav-link align-middle px-0">
+                        <a onClick={async ()=>{
+                            await logout()
+                            setRedirect('/login')
+                        }} className="nav-link align-middle px-0">
                             <i className='bi bi-box-arrow-right nav_icon'></i> <span className="nav_namms-1 d-none d-sm-inline">SignOut</span>
                         </a>
                     </li>

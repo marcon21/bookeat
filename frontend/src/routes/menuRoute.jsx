@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, Navigate } from "react-router-dom";
 import { useState } from "react";
 
 import LateralBar from "../components/LateralBar";
@@ -15,6 +15,7 @@ export async function loader() {
 }
 
 export default function MenuRoute() {
+    const [redirect, setRedirect] = useState(false)
     const [filter, setFilter] = useState([0, 0]) // [sectiom, subsection] - 0 if no filter, string matching to filter
     if (!useLoaderData()["status"]) {
         return (
@@ -34,8 +35,9 @@ export default function MenuRoute() {
     }
     return (
         <div className="row flex-nowrap">
+            {redirect && <Navigate to={redirect} />}
             <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark position-fixed" style={{ height: '100vh', overflowY: 'auto', scrollSnapType: 'none' }}>
-                <LateralBar list={menuCategories} onFilterClickHandler={onFilterClickHandler} />
+                <LateralBar list={menuCategories} onFilterClickHandler={onFilterClickHandler} setRedirect={setRedirect} />
             </div>
             <div className="col-auto col-md-9 col-xl-10 px-sm-10" style={{ marginLeft: 'calc(100% / 6)', scrollSnapType: 'none' }}>
                 <div className="row sticky-top" style={{ overflowY: 'auto' }}>
