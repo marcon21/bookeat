@@ -81,7 +81,7 @@ paths:
                 $ref: "#/components/schemas/ErrResponse"
               example:
                   success: false
-                  message: "Errore nel recupero del menu"
+                  error: "Errore nel recupero del menu"
     
     post:
       summary: Aggiunge un piatto al menu
@@ -133,7 +133,7 @@ paths:
                 $ref: "#/components/schemas/ErrResponse"
               example:
                   success: false
-                  message: "Unauthorized - Accedi con un account autorizzato e riprova"   
+                  error: "Unauthorized - Accedi con un account autorizzato e riprova"   
                   
         "424":
           description: Creazione piatto fallita
@@ -143,7 +143,7 @@ paths:
                 $ref: "#/components/schemas/ErrResponse"
               example:
                   success: false
-                  message: "Creazione piatto fallita"
+                  error: "Creazione piatto fallita"
     
     put:
       summary: Modifica un piatto identidificato da idPiatto
@@ -201,7 +201,7 @@ paths:
                 $ref: "#/components/schemas/ErrResponse"
               example:
                   success: false
-                  message: "Unauthorized - Accedi con un account autorizzato e riprova"
+                  error: "Unauthorized - Accedi con un account autorizzato e riprova"
                   
         "424":
           description: Modifica piatto fallita
@@ -211,7 +211,7 @@ paths:
                 $ref: "#/components/schemas/ErrResponse"
               example:
                   success: false
-                  message: "Modifica piatto fallita"
+                  error: "Modifica piatto fallita"
     
     delete:
       summary: Elimina un piatto identificato da idPiatto
@@ -251,7 +251,7 @@ paths:
                 $ref: "#/components/schemas/ErrResponse"
               example:
                   success: false
-                  message: "Unauthorized - Accedi con un account autorizzato e riprova"
+                  error: "Unauthorized - Accedi con un account autorizzato e riprova"
                   
         "424":
           description: Eliminazione piatto fallita
@@ -261,7 +261,7 @@ paths:
                 $ref: "#/components/schemas/ErrResponse"
               example:
                   success: false
-                  message: "Eliminazione piatto fallita"
+                  error: "Eliminazione piatto fallita"
   
   /auth/login:
     post:
@@ -305,7 +305,7 @@ paths:
                   $ref: "#/components/schemas/ErrResponse"
                 example:
                   success: false
-                  message: "Errore, credenziali errate"
+                  error: "Errore, credenziali errate"
   
   /auth/signup:
     post:
@@ -349,7 +349,7 @@ paths:
                   $ref: "#/components/schemas/ErrResponse"
                 example:
                   success: false
-                  message: "Errore, credenziali errate"
+                  error: "Errore, credenziali errate"
   
   /utente/profile:
     get:
@@ -394,7 +394,7 @@ paths:
                 $ref: "#/components/schemas/ErrResponse"
               example:
                 success: false
-                message: "Errore, credenziali errate"
+                error: "Errore, credenziali errate"
 
 components:
   schemas:
@@ -458,7 +458,7 @@ components:
       properties:
         success:
             type: boolean
-        message:
+        error:
             type: string
             
   securitySchemes:
