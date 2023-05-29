@@ -40,7 +40,10 @@ router.post("/login", async (req, res, next) => {
 
         const token = GestoreProfilo.generaJWT(user._id, user.email);
 
-        return successRes(res, "Login successful", { token: token });
+        return successRes(res, "Login successful", {
+          token: token,
+          userType: user.userType,
+        });
       });
     } catch (error) {
       return errorRes(res, error, "Login failed", 401);
