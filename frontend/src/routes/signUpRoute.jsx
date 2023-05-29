@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from "yup"
@@ -13,6 +13,11 @@ export default function SignUpRoute() {
         email: yup.string()
             .required("L'email è richiesta")
             .email("L'email deve essere valida"),
+        username: yup.string()
+            .required("L'username è richiesto")
+            .min(4, "L'username deve contenere almeno 4 caratteri")
+            .max(12, "L'username non può contenere più di 12 caratteri")
+            .matches(/^[a-zA-Z0-9_.]*$/, "L'username può contenere solo lettere, numeri, punti e underscore"),
         password: yup.string()
             .required("La password è richiesta")
             .min(4, "La password deve contenere almeno 4 caratteri")
@@ -37,13 +42,13 @@ export default function SignUpRoute() {
         mode: "onTouched",
         resolver: yupResolver(formSchema)
     })
-    
+
     const onSubmit = async (data) => {
         console.log(data)
         let isSignedUp = await signUp(data.email, data.password)
         console.log(isSignedUp)
-        if (isSignedUp) {
-            setRedirect('/login')
+        if (isSignedUp["status"]) {
+            setRedirect('/menu')
         } else {
             reset()
         }
@@ -73,6 +78,13 @@ export default function SignUpRoute() {
                                                     <input {...register("email")} type="email" id="signupEmail" className={"form-control form-control-lg".concat(errors.email ? " is-invalid" : "")} />
                                                     <div className="invalid-feedback">
                                                         {errors.email?.message}
+                                                    </div>
+                                                </div>
+                                                <div className="form-outline mb-4">
+                                                    <label className="form-label" htmlFor="signupUsername">Username</label>
+                                                    <input {...register("username")} type="text" id="signupUsername" className={"form-control form-control-lg".concat(errors.username ? " is-invalid" : "")} />
+                                                    <div className="invalid-feedback">
+                                                        {errors.username?.message}
                                                     </div>
                                                 </div>
                                                 <div className="form-outline mb-4">

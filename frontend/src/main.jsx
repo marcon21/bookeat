@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {
   createBrowserRouter,
+  Navigate,
   RouterProvider,
 } from 'react-router-dom'
 
@@ -13,6 +14,8 @@ import MenuRoute, { loader as menuLoader } from './routes/menuRoute'
 import LoginRoute from './routes/loginRoute'
 import SignUpRoute from './routes/signUpRoute'
 
+const isLoggedIn = document.cookie.split(';').some((item) => item.trim().startsWith('jwt='))
+
 // Router of the app
 const router = createBrowserRouter([
   {
@@ -22,11 +25,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: <LoginRoute />
+    element: isLoggedIn ? <Navigate to={"/menu"} /> : <LoginRoute />
   },
   {
     path: '/signup',
-    element: <SignUpRoute />
+    element: isLoggedIn ? <Navigate to={"/menu"} /> : <SignUpRoute />
   }
 ])
 

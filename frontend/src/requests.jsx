@@ -16,9 +16,9 @@ export async function getMenu() {
         .then(res => res.json())
         .then(data => {
             if (data['success']) {
-                return {"status":data['success'], "data":data['data']}
+                return { "status": data['success'], "data": data['data'] }
             } else {
-                return {"status":data['success'], "message":data['message']}
+                return { "status": data['success'], "message": data['error'] }
             }
         })
     return r
@@ -45,9 +45,9 @@ export async function insertPlate(name, price, category, available, description,
         .then(res => res.json())
         .then(data => {
             if (data['success']) {
-                return {"status":data['success'], "data":data['data']}
+                return { "status": data['success'], "data": data['data'] }
             } else {
-                return {"status":data['success'], "message":data['message']}
+                return { "status": data['success'], "message": data['error'] }
             }
         })
     return r
@@ -74,9 +74,9 @@ export async function editPlate(plateID, name, price, category, available, descr
         .then(res => res.json())
         .then(data => {
             if (data['success']) {
-                return {"status":data['success'], "data":data['data']}
+                return { "status": data['success'], "data": data['data'] }
             } else {
-                return {"status":data['success'], "message":data['message']}
+                return { "status": data['success'], "message": data['error'] }
             }
         })
     return r
@@ -93,9 +93,9 @@ export async function deletePlate(plateID) {
         .then(res => res.json())
         .then(data => {
             if (data['success']) {
-                return {"status":data['success'], "data":data['data']}
+                return { "status": data['success'], "data": data['data'] }
             } else {
-                return {"status":data['success'], "message":data['message']}
+                return { "status": data['success'], "message": data['error'] }
             }
         })
     return r
@@ -117,9 +117,13 @@ export async function signUp(email, pw) {
         .then(res => res.json())
         .then(data => {
             if (data['success']) {
-                return {"status":data['success'], "data":data['data']}
+                let token = data['data']['token']
+                let userType = data['data']['userType']
+                document.cookie = "jwt=" + token + "; path=/; max-age=86400; samesite=lax"
+                document.cookie = "userType=" + userType + "; path=/; max-age=86400; samesite=lax"
+                return { "status": data['success'], "data": data['data'] }
             } else {
-                return {"status":data['success'], "message":data['message']}
+                return { "status": data['success'], "message": data['error'] }
             }
         })
     return r
@@ -137,14 +141,34 @@ export async function login(email, pw) {
             "password": pw
         })
     }
-    let token = await fetch(backendUrl.concat('/auth/login'), requestOptions)
+    let r = await fetch(backendUrl.concat('/auth/login'), requestOptions)
         .then(res => res.json())
         .then(data => {
+            console.log(data)
             if (data['success']) {
-                return {"status":data['success'], "data":data['data']}
+                let token = data['data']['token']
+                let userType = data['data']['userType']
+                document.cookie = "jwt=" + token + "; path=/; max-age=86400; samesite=lax"
+                document.cookie = "userType=" + userType + "; path=/; max-age=86400; samesite=lax"
+                return { "status": data['success'], "data": data['data'] }
             } else {
-                return {"status":data['success'], "message":data['message']}
+                return { "status": data['success'], "message": data['error'] }
             }
         })
-    return token
+    return r
+}
+
+// Frontend only - logout a user dropping the cookie
+// returns an array, first element is a boolean that indicate the success of the request,
+// second element is the message
+export async function logout() {
+    // check if the cookie exists
+    if (document.cookie.split(';').some((item) => item.trim().startsWith('jwt=')) && document.cookie.split(';').some((item) => item.trim().startsWith('userType='))) {
+        // if it exists, delete it
+        document.cookie = "jwt=; path=/; max-age=0; samesite=lax"
+        document.cookie = "userType=; path=/; max-age=0; samesite=lax"
+        return { "status": true, "message": "User logged out" }
+    } else {
+        return { "status": false, "message": "User not logged in" }
+    }
 }
