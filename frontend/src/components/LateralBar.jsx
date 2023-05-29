@@ -2,7 +2,7 @@ import { useState } from "react"
 import { formatCategoryList, makeKey } from "../utils"
 import { logout } from "../requests"
 
-export default function LateralBar({ list, onFilterClickHandler, setRedirect }) {
+export default function LateralBar({ list, onFilterClickHandler }) {
     const formattedCategoryList = formatCategoryList(list)
 
     // Data processing, mapping each element from backend in the correct html object
@@ -18,12 +18,10 @@ export default function LateralBar({ list, onFilterClickHandler, setRedirect }) 
         })
         return (
             <li className="nav-item" key={makeKey(index)}>
-                <div onClick={(e) => onFilterClickHandler(item['label'], 0)}>
-                    <a className="nav-link align-middle px-0">
-                        <i className={item.icon}></i>{" "}
-                        <span className="ms-1 d-none d-sm-inline">{item.label}</span>
-                    </a>
-                </div>
+                <a className="nav-link align-middle px-0" onClick={(e) => onFilterClickHandler(item['label'], 0)}>
+                    <i className={item.icon}></i>{" "}
+                    <span className="ms-1 d-sm-inline">{item.label}</span>
+                </a>
                 {item.childrens.length !== 0 &&
                     <ul
                         className="collapse show nav flex-column ms-1"
@@ -37,35 +35,14 @@ export default function LateralBar({ list, onFilterClickHandler, setRedirect }) 
         )
     })
 
+
     return (
-        <>
-            <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                <span className="fs-5 d-none d-sm-inline">User Name</span>
-                <hr />
-
-                <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu" >
-                    {items}
-                </ul>
-
-                <hr />
-                <img src="/logo.svg" className="rounded mx-auto d-block w-50 d-none d-md-block" alt="logo" />
-
-                <ul className="nav nav-pills flex-column mb-2 mb-0 align-items-bottom align-items-sm-start" id="menu" >
-                    <li className="nav-item">
-                        <a onClick={async ()=>{
-                            await logout()
-                            setRedirect('/login')
-                        }} className="nav-link align-middle px-0">
-                            <i className='bi bi-box-arrow-right nav_icon'></i> <span className="nav_namms-1 d-none d-sm-inline">SignOut</span>
-                        </a>
-                    </li>
-                    <li className="nav-item">
-                        <a href="#" className="nav-link align-middle px-0">
-                            <i className='bi bi-gear-fill nav_icon'></i> <span className="ms-1 d-none d-sm-inline">Settings</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </>
+        <div className="position-sticky pt-3">
+            <ul className="nav flex-column ">
+                {items}
+            </ul>
+            <hr />
+            <img src="/logo.svg" className="rounded mx-auto d-block w-50 d-none d-md-block" alt="logo" />
+        </div>
     )
 }       
