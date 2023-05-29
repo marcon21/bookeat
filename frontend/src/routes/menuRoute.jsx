@@ -34,19 +34,25 @@ export default function MenuRoute() {
         setFilter([section, subsection])
     }
     return (
-        <div className="row flex-nowrap">
+        <>
             {redirect && <Navigate to={redirect} />}
-            <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark position-fixed" style={{ height: '100vh', overflowY: 'auto', scrollSnapType: 'none' }}>
-                <LateralBar list={menuCategories} onFilterClickHandler={onFilterClickHandler} setRedirect={setRedirect} />
-            </div>
-            <div className="col-auto col-md-9 col-xl-10 px-sm-10" style={{ marginLeft: 'calc(100% / 6)', scrollSnapType: 'none' }}>
-                <div className="row sticky-top" style={{ overflowY: 'auto' }}>
-                    <NavBar label={pageName} onFilterClickHandler={onFilterClickHandler} />
+            <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+                <NavBar label={pageName} onFilterClickHandler={onFilterClickHandler} setRedirect={setRedirect} />
+            </header>
+
+            <div className="container-fluid">
+                <div className="row">
+
+                    {/* /Lateralbar */}
+                    <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar sidebar-sticky collapse">
+                        <LateralBar list={menuCategories} onFilterClickHandler={onFilterClickHandler} />
+                    </nav>
+
+                    <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                        <MenuSections menu={menu} filter={filter} />
+                    </main>
                 </div>
-                <div className="row ms-2 me-2" style={{ overflowY: 'auto' }}>
-                    <MenuSections menu={menu} filter={filter} />
-                </div>
             </div>
-        </div>
+        </>
     )
 }
