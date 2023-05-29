@@ -13,15 +13,15 @@ const UtenteAnonimo = require("../utenti/UtenteAnonimo");
 const UtenteLoggato = require("../utenti/UtenteLoggato");
 
 const classeUtente = {
-  UtenteAbstract: UtenteAbstract,
-  UtenteAnonimo: UtenteAnonimo,
-  Utente: Utente,
-  Dipendente: Dipendente,
-  Tavolo: Tavolo,
-  UtenteLoggato: UtenteLoggato,
-  Cucina: Cucina,
-  Sala: Sala,
-  Manager: Manager,
+  "UtenteAbstract": UtenteAbstract,
+  "UtenteAnonimo": UtenteAnonimo,
+  "Utente": Utente,
+  "Dipendente": Dipendente,
+  "Tavolo": Tavolo,
+  "UtenteLoggato": UtenteLoggato,
+  "Cucina": Cucina,
+  "Sala": Sala,
+  "Manager": Manager,
 };
 
 class ClasseUtente {
