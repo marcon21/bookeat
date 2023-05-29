@@ -344,6 +344,7 @@ paths:
                 message: Account creato correttamente
                 data:
                   token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0NjAkjnkaszJlM2UxYmYxNGIyYzEzZSIsImVtYWlsIjoiZGFuaWVsLm1hcmNvbkBzdHVkZW50aS51bml0bi5pdCJ9LCJpYXQiOjE2ODQzMzExNTJ9.fjfOnRwwunj9BuzhFiN_GpNCJajfAKnYqw3yFTVZS8U"
+                  userType: "UtenteLoggato"
         "401":
             description: Bad credentials
             content:
