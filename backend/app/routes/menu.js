@@ -8,6 +8,7 @@ const passport = require("passport");
 const User = require("../db/utente").User;
 const ClasseUtente = require("../utils/ClasseUtente");
 const UtenteAnonimo = require("../utenti/UtenteAnonimo");
+const { errorRes } = require("../response");
 
 // Ritorna tutti i piatti del menu
 router.get("/", async function (req, res, next) {
@@ -24,16 +25,21 @@ router.post(
   async function (req, res, next) {
     const user = await User.findOne({ _id: req.user._id });
 
-    ClasseUtente.getClasseUtente(user.userType).aggiungiPiatto(
-      req.body.nome,
-      req.body.prezzo,
-      req.body.categoria,
-      req.body.disponibile,
-      req.body.descrizione,
-      req.body.allergeni,
-      req.body.ingredientiModificabili,
-      res
-    );
+    try {
+      ClasseUtente.getClasseUtente(user.userType).aggiungiPiatto(
+        req.body.nome,
+        req.body.prezzo,
+        req.body.categoria,
+        req.body.disponibile,
+        req.body.descrizione,
+        req.body.allergeni,
+        req.body.ingredientiModificabili,
+        res
+      );
+    } catch (e) {
+      errorRes(res, e, "E");
+    }
+    
   }
 );
 

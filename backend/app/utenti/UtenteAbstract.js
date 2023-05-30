@@ -2,6 +2,7 @@
  * La classe padre di tutti i tipi di utente disponibili sull'applicazione
  */
 const errorRes = require("../response").errorRes;
+const UnauthorizedException  = require("../exceptions/UnauthorizedException");
 
 class UtenteAbstract {
 
@@ -21,14 +22,7 @@ class UtenteAbstract {
         descrizione,
         allergeni,
         ingredientiModificabili,
-        res) {
-        errorRes(
-            res,
-            "Unauthorized - Accedi con un account autorizzato e riprova",
-            "Unauthorized - Accedi con un account autorizzato e riprova",
-            401
-        );
-    }
+        res) { throw new UnauthorizedException("Unauthorized - Accedi con un account autorizzato e riprova"); }
 
     // Metodo per rimuovere un piatto dal menu, identificato da idPiatto
     static rimuoviPiatto(idPiatto, res) {
