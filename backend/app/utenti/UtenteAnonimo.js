@@ -16,7 +16,7 @@ class UtenteAnonimo {
 
     static registrati(email, password, nome) { /** TODO */ }
     static login(email, password) { /** TODO */ }
-    static getMenu(res) { GestoreMenu.getMenu(res); }
+    static async getMenu() { return await GestoreMenu.getMenu(); }
 }
 
 module.exports = UtenteAnonimo;

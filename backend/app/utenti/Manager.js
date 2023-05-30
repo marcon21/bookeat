@@ -14,34 +14,57 @@ class Manager extends Dipendente {
         }
     }
 
-    // Metodo per aggiungere un piatto al menu
-    static aggiungiPiatto(
+    /**
+     * Metodo per aggiungere un piatto al menu
+     * 
+     * @param nome - Il nome del piatto
+     * @param prezzo - Il prezzo del piatto
+     * @param categoria - La categoria del piatto
+     * @param disponibile - Indica se il piatto è disponibile
+     * @param descrizione - La descrizione del piatto
+     * @param allergeni - Gli allergeni del piatto
+     * @param ingredientiModificabili - Gli ingredienti modificabili del piatto
+     */
+    static async aggiungiPiatto(
         nome,
         prezzo,
         categoria,
         disponibile,
         descrizione,
         allergeni,
-        ingredientiModificabili,
-        res) {
+        ingredientiModificabili
+    ) {
 
-        GestoreMenu.aggiungiPiatto(
+        await GestoreMenu.aggiungiPiatto(
             nome,
             prezzo,
             categoria,
             disponibile,
             descrizione,
             allergeni,
-            ingredientiModificabili,
-            res
+            ingredientiModificabili
         );
     }
 
-    // Metodo per rimuovere un piatto dal menu, identificato da idPiatto
-    static rimuoviPiatto(idPiatto, res) { GestoreMenu.rimuoviPiatto(idPiatto, res); };
+    /**
+     *  Metodo per rimuovere un piatto dal menu, identificato da idPiatto
+     * 
+     * @param idPiatto - L'id del piatto da rimuovere
+     */
+    static async rimuoviPiatto(idPiatto) { await GestoreMenu.rimuoviPiatto(idPiatto); };
 
-    // Metodo per modificare un piatto del menu, identificato da idPiatto
-    static modificaPiatto(
+    /**
+     * Metodo per modificare un piatto del menu, identificato da idPiatto
+     * 
+     * @param nome - Il nome del piatto
+     * @param prezzo - Il prezzo del piatto
+     * @param categoria - La categoria del piatto
+     * @param disponibile - Indica se il piatto è disponibile
+     * @param descrizione - La descrizione del piatto
+     * @param allergeni - Gli allergeni del piatto
+     * @param ingredientiModificabili - Gli ingredienti modificabili del piatto 
+     */
+    static async modificaPiatto(
         idPiatto,
         nome,
         prezzo,
@@ -49,10 +72,10 @@ class Manager extends Dipendente {
         disponibile,
         descrizione,
         allergeni,
-        ingredientiModificabili,
-        res) {
+        ingredientiModificabili
+    ) {
 
-        GestoreMenu.modificaPiatto(
+        await GestoreMenu.modificaPiatto(
             idPiatto,
             nome,
             prezzo,
@@ -60,8 +83,8 @@ class Manager extends Dipendente {
             disponibile,
             descrizione,
             allergeni,
-            ingredientiModificabili,
-            res);
+            ingredientiModificabili
+        );
     }
 }
 

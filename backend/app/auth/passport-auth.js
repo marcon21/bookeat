@@ -24,7 +24,7 @@ passport.use(
       try {
         const user = await GestoreProfilo.creaAccount(
           "Daniel",
-          "UtenteLoggato",
+          "Manager",
           email,
           password,
           ""
