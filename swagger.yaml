@@ -263,6 +263,126 @@ paths:
                   success: false
                   error: "Eliminazione piatto fallita"
   
+  /conto/apriConto:
+    post:
+      summary: Apre un conto
+      security:
+        - jwtCookie: []
+        
+      responses:
+        "201":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  succes: 
+                    type: boolean
+                  message: 
+                    type: string
+                  data: 
+                    type: string
+                    description: Id del conto aperto
+              example:
+                succes: true
+                message: "OK"
+                data: "6467b502aa1394c96fe45299"
+          
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  error: "Unauthorized - Accedi con un account autorizzato e riprova"   
+                  
+        "424":
+          description: Apertura conto fallita
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  error: "Apertura conto fallita"
+      
+  /conto/invioOrdine:
+    post:
+      summary: Invia un ordine
+      security:
+        - jwtCookie: []
+      requestBody:
+        description: L'ordine da inviare
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Portata"
+            example: 
+              - nome: "Pizza Margherita"
+                prezzo: 500
+                ingredientiScelti: []
+                note: ""
+                status: 0
+                prioritá: 0
+              
+              - nome: "Pizza Margherita"
+                prezzo: 500
+                ingredientiScelti: []
+                note: ""
+                status: 0
+                prioritá: 0
+              
+              - nome: "Tiramisú"
+                prezzo: 350
+                ingredientiScelti: []
+                note: ""
+                status: 0
+                prioritá: 2
+      
+      responses:
+        "201":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  succes: 
+                    type: boolean
+                  message: 
+                    type: string
+                  data: 
+                    type: array
+              example:
+                succes: true
+                message: "OK"
+                data: []
+          
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  error: "Unauthorized - Accedi con un account autorizzato e riprova"   
+                  
+        "424":
+          description: Creazione piatto fallita
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  error: "Creazione piatto fallita"
+  
   /auth/login:
     post:
       summary: Path per loggarsi e rivecere il token jwt
@@ -406,7 +526,7 @@ components:
       type: object
       properties:
         _id:
-          type: integer
+          type: string
           description: ID del piatto
         nome:
           type: string
@@ -443,7 +563,32 @@ components:
         descrizione: "Pizza con mozzarella e pomodoro"
         allergeni: ["Glutine", "Lattosio"]
         ingredientiModificabili: ["Mozzarella", "Salamino", "Funghi"]
-
+    
+    Portata: 
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id della portata
+        nome:
+          type: string
+          description: Il nome della portata
+        prezzo:
+          type: integer
+          description: il prezzo della portata
+        ingredientiScelti:
+          type: array
+          description: Ingredienti opzionali selezionati dall'utente
+        note:
+          type: string
+          description: Note addizionali scritte dall'utente
+        status:
+          type: integer
+          description: Lo status della portata
+        prioritá:
+          type: integer
+          description: La prioritá della portata
+    
     Utente:
       type: object
       properties:
