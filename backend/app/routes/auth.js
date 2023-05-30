@@ -22,7 +22,16 @@ router.post("/signup", function (req, res, next) {
       return errorRes(res, err, "Signup failed", 401);
     }
 
-    successRes(res, "Signup successful", { user: req.user });
+    req.login(user, { session: false }, async (error) => {
+      if (error) return errorRes(res, error, "Signup failed", 401);
+
+      const token = GestoreProfilo.generaJWT(user._id, user.email);
+
+      return successRes(res, "Signup successful", {
+        token: token,
+        userType: user.userType,
+      });
+    });
   })(req, res, next);
 });
 
@@ -40,7 +49,10 @@ router.post("/login", async (req, res, next) => {
 
         const token = GestoreProfilo.generaJWT(user._id, user.email);
 
-        return successRes(res, "Login successful", { token: token });
+        return successRes(res, "Login successful", {
+          token: token,
+          userType: user.userType,
+        });
       });
     } catch (error) {
       return errorRes(res, error, "Login failed", 401);

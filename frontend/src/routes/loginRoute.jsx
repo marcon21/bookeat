@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from "yup"
@@ -30,15 +30,15 @@ export default function LogbuttoninRoute() {
     })
 
     const onSubmit = async (data) => {
-        console.log(data)
-        let token = await login(data.email, data.password)
-        console.log(token)
-        if (token) {
-            localStorage.setItem('jwt', token)
+        let response = await login(data.email, data.password)
+        if (response && response["status"]) {
             setRedirect('/menu')
+        } else {
+            console.log(response["message"])
+            reset()
         }
     }
-    
+
     let a = {
         "web": {
             "client_id": "596841181986-4mbjpaop1352i033dr72odthmkulvbr0.apps.googleusercontent.com",
