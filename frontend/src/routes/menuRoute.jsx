@@ -5,7 +5,7 @@ import LateralBar from "../components/LateralBar";
 import MenuSections from "../components/MenuSections";
 import NavBar from "../components/Navbar";
 
-import { getMenu } from "../requests";
+import { getMenu, sendOrder } from "../requests";
 import Modal from "../components/Modal";
 import CheckOut from "../components/CheckOut"
 
@@ -53,6 +53,21 @@ export default function MenuRoute() {
         }
     }
 
+    const checkoutHandler = async () => {
+        // clone checkout, remove the field _id and send it to the server
+        let checkoutCopy = structuredClone(checkout)
+        checkoutCopy.forEach((item) => {
+            delete item["_id"]
+        })
+        let r = await sendOrder(checkoutCopy)
+        if (r["status"]) {
+            setCheckout([])
+            // setRedirect("/bill")
+        } else {
+            alert(r["message"])
+        }
+    }
+
 
 
     let menu = structuredClone(useLoaderData()["data"])
@@ -91,7 +106,7 @@ export default function MenuRoute() {
                 closeButtonText="Chiudi"
                 confirmButtonText="Invia Ordine"
                 closeFunction={() => { console.log("close") }}
-                confirmFunction={() => { console.log("confirm") }}
+                confirmFunction={checkoutHandler}
                 showButtons={checkout.length > 0}
             >
                 <CheckOut checkoutList={checkout} removeFromCheckout={removeFromCheckout} increasePriority={increasePriority} decreasePriority={decreasePriority} />

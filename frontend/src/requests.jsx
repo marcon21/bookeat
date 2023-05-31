@@ -74,6 +74,20 @@ export async function deletePlate(plateID) {
     return (await fetchAPI('/menu/'.concat(plateID), 'DELETE'))
 }
 
+// API: POST /conto/apriConto, open a new bill,
+// returns an array, first element is a boolean that indicate the success of the request,
+// second element is the data or the error message
+export async function openBill() {
+    return (await fetchAPI('/conto/apriConto', 'POST'))
+}
+
+// API: POST /conto/invioOrdine, send an order,
+// returns an array, first element is a boolean that indicate the success of the request,
+// second element is the data or the error message
+export async function sendOrder(order) {
+    return (await fetchAPI('/conto/invioOrdine', 'POST', order))
+}
+
 // API POST /auth/signUp, sign up a new user,
 // returns an array, first element is a boolean that indicate the success of the request, 
 // second element is the data or the error message
