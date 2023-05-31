@@ -268,7 +268,14 @@ paths:
       summary: Apre un conto
       security:
         - jwtCookie: []
-        
+      requestBody:
+        description: Il numero di coperti 
+        content:
+          application/json:
+            schema:
+              type: integer
+            example:
+              nCoperti: 4
       responses:
         "201":
           description: OK
