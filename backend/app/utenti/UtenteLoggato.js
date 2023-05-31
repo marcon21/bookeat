@@ -1,6 +1,7 @@
 /**
  * Classe che rappresenta l'utente loggato
  */
+const GestoreProfilo = require("../gestori/GestoreProfilo");
 const Utente = require("./Utente");
 
 class UtenteLoggato extends Utente {
@@ -13,9 +14,9 @@ class UtenteLoggato extends Utente {
     }
 
     static modificaEmail(id, email) { /** TODO */ }
-    static modificaPassword(id, vecchiaPassword, nuovaPassword) { /** TODO */ }
+    static async modificaPassword(id, vecchiaPassword, nuovaPassword) { await GestoreProfilo.modificaPassword(id,vecchiaPassword,nuovaPassword) }
     static modificaGoogleAccount() { /** TODO */ }
-    static modificaNome() { /** TODO */ }
+    static async modificaNome(id, nome) { await GestoreProfilo.modificaNome(id,nome) }
     static eliminaAccount() { /** TODO */ }
     static chiudiConto() { /** TODO */ }
 }

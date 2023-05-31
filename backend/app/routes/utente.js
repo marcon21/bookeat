@@ -14,7 +14,7 @@ router.get("/profile", async (req, res, next) => {
 });
 
 //Route for change password
-router.post("/profile/changepassword", async (req, res, next) => {
+router.put("/profile/changepassword", async (req, res, next) => {
   // Ottieni l'ID dell'utente loggato
   const userId = req.user._id; 
   // Ottieni vecchia e nuova password dalla richiesta
@@ -31,7 +31,7 @@ router.post("/profile/changepassword", async (req, res, next) => {
 });
 
 //Route for change name
-router.post("/profile/changename", async (req, res, next) => {
+router.put("/profile/changename", async (req, res, next) => {
   // Ottieni l'ID dell'utente loggato
   const userId = req.user._id; 
   // Ottieni nuovo nome dalla richiesta
