@@ -3,7 +3,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 const schema = yup.object().shape({
-    notes: yup.string().required('Notes are required'),
+    notes: yup.string(),
+    ingredients: yup.array().of(yup.string())
 });
 
 export default function PlateSpecs({ plate, onSubmit }) {
@@ -16,7 +17,7 @@ export default function PlateSpecs({ plate, onSubmit }) {
 
     return (
         <div className="modal-body">
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form id={plate._id.concat("-form")} onSubmit={handleSubmit(onSubmit)}>
                 <div className="row">
                     <div className="col-md-6">
                         <img src={plate.img} className="img-fluid" alt={plate.nome} />
@@ -55,6 +56,7 @@ export default function PlateSpecs({ plate, onSubmit }) {
                         </div>
                     </div>
                 </div>
+                <button hidden={true} type="submit" id={plate._id.concat("-formSubmitButton")}></button>
             </form>
         </div>
     );

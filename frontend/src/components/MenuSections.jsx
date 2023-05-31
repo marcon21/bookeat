@@ -1,7 +1,7 @@
 import { formatCategoryList, makeKey } from "../utils"
 import MenuItem from "./MenuItem"
 
-export default function MenuSections({ menu, filter }) {
+export default function MenuSections({ menu, filter, addToCheckout }) {
     let menuCategories = formatCategoryList(menu['categorie'])
     let menuPlates = menu['piatti']
 
@@ -33,7 +33,7 @@ export default function MenuSections({ menu, filter }) {
             }).map((plate, pindex) => {
                 return (
                     <div className="col mt-3" key={makeKey(pindex)}>
-                        <MenuItem plate={plate} />
+                        <MenuItem plate={plate} addToCheckout={addToCheckout} />
                     </div>
                 )
             })

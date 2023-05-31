@@ -24,6 +24,11 @@ export default function MenuRoute() {
             </div>
         )
     }
+    const [checkout, setCheckout] = useState([])
+    function addToCheckout(item) {
+        setCheckout([...checkout, item])
+    }
+
     let menu = structuredClone(useLoaderData()["data"])
     let menuCategories = structuredClone(useLoaderData()["data"]["categorie"])
     let pageName = filter[0] === 0 ? 'Menu completo' : filter[1] === 0 ? "Menu: ".concat(filter[0]) : "Menu: ".concat(filter[0]).concat(" - ").concat(filter[1])
@@ -49,7 +54,7 @@ export default function MenuRoute() {
                     </nav>
 
                     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                        <MenuSections menu={menu} filter={filter} />
+                        <MenuSections menu={menu} filter={filter} addToCheckout={addToCheckout} />
                     </main>
                 </div>
             </div>

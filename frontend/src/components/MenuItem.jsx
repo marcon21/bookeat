@@ -2,7 +2,7 @@ import { makeString } from "../utils"
 import Modal from "./Modal"
 import PlateSpecs from "./PlateSpecs"
 
-export default function MenuItem({ plate }) {
+export default function MenuItem({ plate, addToCheckout }) {
     let plateCopy = structuredClone(plate)
 
     plateCopy["prezzo"] = (plate["prezzo"] / 100).toLocaleString('it-IT', { style: 'currency', currency: 'EUR' })
@@ -17,7 +17,7 @@ export default function MenuItem({ plate }) {
     const onSubmit = (data) => {
         console.log(data);
         // Perform further actions with the form data, e.g., API calls, state updates, etc.
-      };
+    };
 
     return (
         <>
@@ -27,7 +27,9 @@ export default function MenuItem({ plate }) {
                 closeButtonText="Chiudi"
                 confirmButtonText="Aggiungi al carrello"
                 closeFunction={() => { console.log("close") }}
-                confirmFunction={() => { console.log("confirm") }}
+                // to confirm and submit the form it should be:
+                confirmFunction={() => { document.getElementById(plate._id.concat("-formSubmitButton")).click() }}
+            // confirmFunction={() => { console.log("confirm") }}
             >
                 <PlateSpecs plate={plateCopy} onSubmit={onSubmit} />
             </Modal>
