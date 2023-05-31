@@ -328,27 +328,31 @@ paths:
             schema:
               type: array
               items:
-                $ref: "#/components/schemas/Portata"
+                type: object
+                properties:
+                  idPiatto:
+                    type: string
+                  ingredientiScelti:
+                    type: array
+                  note:
+                    type: string
+                  priorita:
+                    type: integer
+              
             example: 
-              - nome: "Pizza Margherita"
-                prezzo: 500
+              - idPiatto: "6467b502aa1394c96fe45299"
                 ingredientiScelti: []
                 note: ""
-                status: 0
                 prioritá: 0
               
-              - nome: "Pizza Margherita"
-                prezzo: 500
+              - idPiatto: "6467b502aa1394c96fe45299"
                 ingredientiScelti: []
                 note: ""
-                status: 0
                 prioritá: 0
               
-              - nome: "Tiramisú"
-                prezzo: 350
+              - idPiatto: "6467bhb1231394c96fe45299"
                 ingredientiScelti: []
                 note: ""
-                status: 0
                 prioritá: 2
       
       responses:
