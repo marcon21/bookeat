@@ -31,6 +31,29 @@ export default function MenuRoute() {
         checkoutCopy.push(item)
         setCheckout(checkoutCopy)
     }
+    const removeFromCheckout = (index) => {
+        let checkoutCopy = structuredClone(checkout)
+        checkoutCopy.splice(index, 1)
+        setCheckout(checkoutCopy)
+    }
+    const increasePriority = (index) => {
+        let checkoutCopy = structuredClone(checkout)
+        // if there arent items with same priority as the one we want to increase, dont increase
+        if (checkoutCopy.filter((item) => item["priorita"] === checkoutCopy[index]["priorita"]).length === 1) {
+            return
+        }
+        checkoutCopy[index]["priorita"] += 1
+        setCheckout(checkoutCopy)
+    }
+    const decreasePriority = (index) => {
+        let checkoutCopy = structuredClone(checkout)
+        if (checkoutCopy[index]["priorita"] > 0) {
+            checkoutCopy[index]["priorita"] -= 1
+            setCheckout(checkoutCopy)
+        }
+    }
+
+
 
     let menu = structuredClone(useLoaderData()["data"])
     let menuCategories = structuredClone(useLoaderData()["data"]["categorie"])
@@ -69,8 +92,9 @@ export default function MenuRoute() {
                 confirmButtonText="Invia Ordine"
                 closeFunction={() => { console.log("close") }}
                 confirmFunction={() => { console.log("confirm") }}
+                showButtons={checkout.length > 0}
             >
-                <CheckOut checkoutList={checkout} />
+                <CheckOut checkoutList={checkout} removeFromCheckout={removeFromCheckout} increasePriority={increasePriority} decreasePriority={decreasePriority} />
             </Modal>
         </>
     )

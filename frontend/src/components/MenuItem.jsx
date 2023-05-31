@@ -22,7 +22,7 @@ export default function MenuItem({ plate, addToCheckout }) {
             "ingredientiScelti": data["ingredients"],
             "note": data["notes"],
             "status": 0,
-            "prioritá": 0
+            "priorita": 0
         }
         addToCheckout(item)
     };
@@ -36,6 +36,7 @@ export default function MenuItem({ plate, addToCheckout }) {
                 confirmButtonText="Aggiungi al carrello"
                 closeFunction={() => { console.log("close") }}
                 confirmFunction={() => { document.getElementById(plate._id.concat("-formSubmitButton")).click() }}
+                showButtons={true}
             >
                 <PlateSpecs plate={plateCopy} onSubmit={onSubmit} />
             </Modal>
