@@ -25,9 +25,12 @@ export default function MenuRoute() {
         )
     }
     const [checkout, setCheckout] = useState([])
-    function addToCheckout(item) {
-        setCheckout([...checkout, item])
+    const addToCheckout = (item) => {
+        let checkoutCopy = structuredClone(checkout)
+        checkoutCopy.push(item)
+        setCheckout(checkoutCopy)
     }
+    console.log(checkout)
 
     let menu = structuredClone(useLoaderData()["data"])
     let menuCategories = structuredClone(useLoaderData()["data"]["categorie"])

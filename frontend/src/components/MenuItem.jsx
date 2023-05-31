@@ -15,8 +15,17 @@ export default function MenuItem({ plate, addToCheckout }) {
     }
 
     const onSubmit = (data) => {
-        console.log(data);
-        // Perform further actions with the form data, e.g., API calls, state updates, etc.
+        let item = {
+            "_id": plate["_id"],
+            "nome": plate["nome"],
+            "prezzo": plate["prezzo"],
+            "ingredientiScelti": data["ingredients"],
+            "note": data["notes"],
+            "status": 0,
+            "prioritá": 0
+        }
+        addToCheckout(item)
+        console.log(item)
     };
 
     return (
@@ -27,9 +36,7 @@ export default function MenuItem({ plate, addToCheckout }) {
                 closeButtonText="Chiudi"
                 confirmButtonText="Aggiungi al carrello"
                 closeFunction={() => { console.log("close") }}
-                // to confirm and submit the form it should be:
                 confirmFunction={() => { document.getElementById(plate._id.concat("-formSubmitButton")).click() }}
-            // confirmFunction={() => { console.log("confirm") }}
             >
                 <PlateSpecs plate={plateCopy} onSubmit={onSubmit} />
             </Modal>

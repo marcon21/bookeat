@@ -54,7 +54,7 @@ export default function MenuSections({ menu, filter, addToCheckout }) {
                 }).map((plate, pindex) => {
                     return (
                         <div className="col mt-3" key={makeKey(pindex)}>
-                            <MenuItem plate={plate} />
+                            <MenuItem plate={plate} addToCheckout={addToCheckout} />
                         </div>
                     )
                 })
