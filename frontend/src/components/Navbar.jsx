@@ -1,8 +1,13 @@
 import { logout } from "../requests"
 
-export default function NavBar({ label, onFilterClickHandler, setRedirect }) {
+export default function NavBar({ label, onFilterClickHandler, setRedirect, checkout }) {
+
+    function launchModal(modalId) {
+        document.getElementById(modalId.concat("Button")).click()
+    }
+
     return (
-        <>
+        <>  
             <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3" onClick={(e) => onFilterClickHandler(0, 0)}>
                 {label}
             </a>
@@ -25,7 +30,9 @@ export default function NavBar({ label, onFilterClickHandler, setRedirect }) {
             />
             <div className="navbar-nav">
                 <div className="nav-item text-nowrap">
-                    <a className="nav-link px-3" role="button">
+                    <a className="nav-link px-3" role="button" onClick={ ()=> {
+                        launchModal("checkoutModal")
+                    }}>
                     <i className="bi bi-cart4 fs-4"></i>
                     </a>
                 </div>

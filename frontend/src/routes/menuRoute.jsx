@@ -7,6 +7,7 @@ import NavBar from "../components/Navbar";
 
 import { getMenu } from "../requests";
 import Modal from "../components/Modal";
+import CheckOut from "../components/CheckOut"
 
 // Loader function called each time route is visited
 export async function loader() {
@@ -30,7 +31,6 @@ export default function MenuRoute() {
         checkoutCopy.push(item)
         setCheckout(checkoutCopy)
     }
-    console.log(checkout)
 
     let menu = structuredClone(useLoaderData()["data"])
     let menuCategories = structuredClone(useLoaderData()["data"]["categorie"])
@@ -45,7 +45,7 @@ export default function MenuRoute() {
         <>
             {redirect && <Navigate to={redirect} />}
             <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-                <NavBar label={pageName} onFilterClickHandler={onFilterClickHandler} setRedirect={setRedirect} />
+                <NavBar label={pageName} onFilterClickHandler={onFilterClickHandler} setRedirect={setRedirect} checkout={checkout} />
             </header>
 
             <div className="container-fluid">
@@ -61,6 +61,17 @@ export default function MenuRoute() {
                     </main>
                 </div>
             </div>
+
+            <Modal
+                modalId={"checkoutModal"}
+                title={"Carrello"}
+                closeButtonText="Chiudi"
+                confirmButtonText="Invia Ordine"
+                closeFunction={() => { console.log("close") }}
+                confirmFunction={() => { console.log("confirm") }}
+            >
+                <CheckOut checkoutList={checkout} />
+            </Modal>
         </>
     )
 }

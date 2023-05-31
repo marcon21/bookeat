@@ -25,7 +25,6 @@ export default function MenuItem({ plate, addToCheckout }) {
             "prioritá": 0
         }
         addToCheckout(item)
-        console.log(item)
     };
 
     return (
