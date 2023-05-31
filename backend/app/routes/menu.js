@@ -17,7 +17,7 @@ router.get("/", async function (req, res, next) {
 
   try {
     data = await UtenteAnonimo.getMenu();
-    successRes(res, data);
+    successRes(res, "OK", data);
   } catch (error) {
     errorRes(res, error, error.message, error.code);
   }
@@ -47,7 +47,7 @@ router.post(
         req.body.ingredientiModificabili
       );
 
-      successRes(res, "Piatto aggiunto con successo");
+      successRes(res, "OK");
     } catch (error) {
       errorRes(res, error, error.message, error.code);
     }
@@ -79,7 +79,7 @@ router.put(
         req.body.ingredientiModificabili
       );
 
-      successRes(res, "Piatto modificato con successo");
+      successRes(res, "OK");
     } catch (error) {
       errorRes(res, error, error.message, error.code);
     }
@@ -101,7 +101,7 @@ router.delete(
     try {
       await ClasseUtente.getClasseUtente(user.userType).rimuoviPiatto(req.params.idPiatto);
 
-      successRes(res, "Piatto eliminato con successo");
+      successRes(res, "OK");
     } catch (error) {
       errorRes(res, error, error.message, error.code);
     }
