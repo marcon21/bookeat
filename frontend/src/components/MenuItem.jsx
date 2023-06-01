@@ -30,7 +30,7 @@ export default function MenuItem({ plate, addToCheckout }) {
     // string of the usertype from the cookie if cookie exists, null otherwise
     const userType = document.cookie.split(';').some((item) => item.trim().startsWith('userType=')) ? document.cookie.split('; ').find(row => row.startsWith('userType=')).split('=')[1] : null
     // users ENUM: UtenteLoggato, Tavolo, Sala, Cucina, Manager
-    const canOrder = userType === "Utente" || userType === "Tavolo"
+    const canOrder = userType === "UtenteLoggato" || userType === "Tavolo"
 
     return (
         <>

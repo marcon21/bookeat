@@ -119,7 +119,7 @@ export async function login(email, pw) {
     if (data['status']) {
         let token = data['data']['token']
         // let userType = data['data']['userType']
-        let userType = "Sala"
+        let userType = "UtenteLoggato"
         document.cookie = "jwt=" + token + "; path=/; max-age=86400; samesite=lax"
         document.cookie = "userType=" + userType + "; path=/; max-age=86400; samesite=lax"
         return { "status": data['status'], "data": data['data'] }
