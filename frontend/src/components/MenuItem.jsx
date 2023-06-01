@@ -26,6 +26,12 @@ export default function MenuItem({ plate, addToCheckout }) {
         addToCheckout(item)
     };
 
+    const isLoggedIn = document.cookie.split(';').some((item) => item.trim().startsWith('jwt='))
+    // string of the usertype from the cookie if cookie exists, null otherwise
+    const userType = document.cookie.split(';').some((item) => item.trim().startsWith('userType=')) ? document.cookie.split('; ').find(row => row.startsWith('userType=')).split('=')[1] : null
+    // users ENUM: UtenteLoggato, Tavolo, Sala, Cucina, Manager
+    const canOrder = userType === "Utente" || userType === "Tavolo"
+
     return (
         <>
             <Modal
@@ -35,7 +41,7 @@ export default function MenuItem({ plate, addToCheckout }) {
                 confirmButtonText="Aggiungi al carrello"
                 closeFunction={() => { console.log("close") }}
                 confirmFunction={() => { document.getElementById(plate._id.concat("-formSubmitButton")).click() }}
-                showButtons={true}
+                showButtons={(isLoggedIn && canOrder)}
             >
                 <PlateSpecs plate={plateCopy} onSubmit={onSubmit} />
             </Modal>
