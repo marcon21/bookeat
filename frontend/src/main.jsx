@@ -13,6 +13,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import MenuRoute, { loader as menuLoader } from './routes/menuRoute'
 import LoginRoute from './routes/loginRoute'
 import SignUpRoute from './routes/signUpRoute'
+import DashboardRoute from './routes/dashboardRoute'
 
 // Router of the app
 const router = createBrowserRouter([
@@ -22,12 +23,16 @@ const router = createBrowserRouter([
     loader: menuLoader
   },
   {
+    path: '/dashboard',
+    element: <DashboardRoute />
+  },
+  {
     path: '/login',
-    element: document.cookie.split(';').some((item) => item.trim().startsWith('jwt=')) ? <Navigate to={"/"} /> : <LoginRoute />
+    element: <LoginRoute />
   },
   {
     path: '/signup',
-    element: document.cookie.split(';').some((item) => item.trim().startsWith('jwt=')) ? <Navigate to={"/"} /> : <SignUpRoute />
+    element: <SignUpRoute />
   }
 ])
 
