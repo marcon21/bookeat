@@ -58,25 +58,25 @@ export default function NavBar({ label, onFilterClickHandler, setRedirect, check
                 </div>
             )}
             {isLoggedIn && (
-                <>
-                    <div className="navbar-nav">
-                        <div className="nav-item text-nowrap">
-                            <a className="nav-link px-3" role="button">
-                                <i className='bi bi-gear-fill fs-4'></i>
-                            </a>
-                        </div>
+                <div className="navbar-nav">
+                    <div className="nav-item text-nowrap">
+                        <a className="nav-link px-3" role="button">
+                            <i className='bi bi-gear-fill fs-4'></i>
+                        </a>
                     </div>
-                    <div className="navbar-nav">
-                        <div className="nav-item text-nowrap">
-                            <a className="nav-link px-3" onClick={async () => {
-                                await logout()
-                                setRedirect('/login')
-                            }}>
-                                <i className='bi bi-box-arrow-right fs-4'></i>
-                            </a>
-                        </div>
+                </div>
+            )}
+            {(isLoggedIn && userType !== "Tavolo") && (
+                <div className="navbar-nav">
+                    <div className="nav-item text-nowrap">
+                        <a className="nav-link px-3" onClick={async () => {
+                            await logout()
+                            setRedirect('/login')
+                        }}>
+                            <i className='bi bi-box-arrow-right fs-4'></i>
+                        </a>
                     </div>
-                </>
+                </div>
             )}
             {!isLoggedIn && (
                 <>
