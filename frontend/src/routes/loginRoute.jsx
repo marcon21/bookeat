@@ -32,7 +32,7 @@ export default function LogbuttoninRoute() {
     const onSubmit = async (data) => {
         let response = await login(data.email, data.password)
         if (response && response["status"]) {
-            setRedirect('/menu')
+            setRedirect('/')
         } else {
             console.log(response["message"])
             reset()

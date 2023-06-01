@@ -59,9 +59,18 @@ export default function CheckOut({ checkoutList, removeFromCheckout, increasePri
             )
         }
 
+        // return items and the total price at the end right
         return (
             <>
                 {items}
+                <div className="row">
+                    <div className="col-8">
+                        <h5>Totale</h5>
+                    </div>
+                    <div className="col-4">
+                        <h5>{(checkoutList.reduce((accumulator, item) => accumulator + item["prezzo"], 0) / 100).toLocaleString('it-IT', { style: 'currency', currency: 'EUR' })}</h5>
+                    </div>
+                </div>
             </>
         )
     }
