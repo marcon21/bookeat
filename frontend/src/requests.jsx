@@ -92,40 +92,39 @@ export async function sendOrder(order) {
 // returns an array, first element is a boolean that indicate the success of the request, 
 // second element is the data or the error message
 export async function signUp(email, pw) {
-    return (await fetchAPI('/auth/signup', 'POST', {
+    let data = await fetchAPI('/auth/signup', 'POST', {
         "email": email,
         "password": pw
-    })).then(data => {
-        if (data['status']) {
-            let token = data['data']['token']
-            let userType = data['data']['userType']
-            document.cookie = "jwt=" + token + "; path=/; max-age=86400; samesite=lax"
-            document.cookie = "userType=" + userType + "; path=/; max-age=86400; samesite=lax"
-            return { "status": data['status'], "data": data['data'] }
-        } else {
-            return { "status": data['status'], "message": data['message'] }
-        }
     })
+
+    if (data['status']) {
+        let token = data['data']['token']
+        let userType = data['data']['userType']
+        document.cookie = "jwt=" + token + "; path=/; max-age=86400; samesite=lax"
+        document.cookie = "userType=" + userType + "; path=/; max-age=86400; samesite=lax"
+        return { "status": data['status'], "data": data['data'] }
+    } else {
+        return { "status": data['status'], "message": data['message'] }
+    }
 }
 
 // API POST /auth/login, login a user,
 // returns an array, first element is a boolean that indicate the success of the request, 
 // second element is the data or the error message
 export async function login(email, pw) {
-    return (await fetchAPI('/auth/login', 'POST', {
+    let data = await fetchAPI('/auth/login', 'POST', {
         "email": email,
         "password": pw
-    })).then(data => {
-        if (data['status']) {
-            let token = data['data']['token']
-            let userType = data['data']['userType']
-            document.cookie = "jwt=" + token + "; path=/; max-age=86400; samesite=lax"
-            document.cookie = "userType=" + userType + "; path=/; max-age=86400; samesite=lax"
-            return { "status": data['status'], "data": data['data'] }
-        } else {
-            return { "status": data['status'], "message": data['message'] }
-        }
     })
+    if (data['status']) {
+        let token = data['data']['token']
+        let userType = data['data']['userType']
+        document.cookie = "jwt=" + token + "; path=/; max-age=86400; samesite=lax"
+        document.cookie = "userType=" + userType + "; path=/; max-age=86400; samesite=lax"
+        return { "status": data['status'], "data": data['data'] }
+    } else {
+        return { "status": data['status'], "message": data['message'] }
+    }
 }
 
 // Frontend only - logout a user dropping the cookie
