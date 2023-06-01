@@ -1,4 +1,4 @@
-export default function Modal({ modalId, title, closeButtonText = "Chiudi", closeFunction, confirmButtonText = "Conferma", confirmFunction, children }) {
+export default function Modal({ modalId, title, closeButtonText = "Chiudi", closeFunction, confirmButtonText = "Conferma", confirmFunction, showButtons, children }) {
     return (
         <>
             <button hidden={true} id={modalId.concat("Button")} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={"#".concat(modalId)}>
@@ -15,10 +15,12 @@ export default function Modal({ modalId, title, closeButtonText = "Chiudi", clos
                         <div className="modal-body">
                             {children}
                         </div>
+                        {showButtons &&
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={closeFunction}>{closeButtonText}</button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={confirmFunction}>{confirmButtonText}</button>
                         </div>
+                        }
                     </div>
                 </div>
             </div>
