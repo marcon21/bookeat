@@ -47,6 +47,17 @@ export default function MenuRoute() {
     }
     const decreasePriority = (index) => {
         let checkoutCopy = structuredClone(checkout)
+        let maxPriorita = 0
+        checkoutCopy.forEach((item) => {
+            if (item["priorita"] > maxPriorita) {
+                maxPriorita = item["priorita"]
+            }
+        })
+        // if there arent items with same priority as the one we want to decrease, dont decrease, but only to priorities between 0 and maxPriority
+        if (checkoutCopy.filter((item) => item["priorita"] === checkoutCopy[index]["priorita"]).length === 1 && checkoutCopy[index]["priorita"] > 0 && checkoutCopy[index]["priorita"] < maxPriorita) {
+            return
+        }
+
         if (checkoutCopy[index]["priorita"] > 0) {
             checkoutCopy[index]["priorita"] -= 1
             setCheckout(checkoutCopy)
