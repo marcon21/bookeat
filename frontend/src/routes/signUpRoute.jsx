@@ -48,7 +48,7 @@ export default function SignUpRoute() {
         let isSignedUp = await signUp(data.email, data.password)
         console.log(isSignedUp)
         if (isSignedUp["status"]) {
-            setRedirect('/menu')
+            setRedirect('/')
         } else {
             reset()
         }

@@ -17,17 +17,17 @@ import SignUpRoute from './routes/signUpRoute'
 // Router of the app
 const router = createBrowserRouter([
   {
-    path: '/menu',
+    path: '/',
     element: <MenuRoute />,
     loader: menuLoader
   },
   {
     path: '/login',
-    element: document.cookie.split(';').some((item) => item.trim().startsWith('jwt=')) ? <Navigate to={"/menu"} /> : <LoginRoute />
+    element: document.cookie.split(';').some((item) => item.trim().startsWith('jwt=')) ? <Navigate to={"/"} /> : <LoginRoute />
   },
   {
     path: '/signup',
-    element: document.cookie.split(';').some((item) => item.trim().startsWith('jwt=')) ? <Navigate to={"/menu"} /> : <SignUpRoute />
+    element: document.cookie.split(';').some((item) => item.trim().startsWith('jwt=')) ? <Navigate to={"/"} /> : <SignUpRoute />
   }
 ])
 
