@@ -11,7 +11,7 @@ export default function DashboardNavBar({ label, setRedirect }) {
 
     return (
         <>
-            <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3">
+            <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3" onClick={(e) => {setRedirect("/dashboard")}}>
                 {label + " - " + userType}
             </a>
             <button

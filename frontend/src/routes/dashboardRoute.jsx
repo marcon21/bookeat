@@ -21,7 +21,7 @@ export default function DashboardRoute() {
             {
                 label: "Gestione Utenti",
                 icon: "bi bi-person-gear fs-4",
-                link: "/dashboard/signup"
+                link: "/dashboard/staff"
             },
             {
                 label: "Modifica Menu",
@@ -46,7 +46,7 @@ export default function DashboardRoute() {
             {
                 label: "Problematiche",
                 icon: "bi bi-exclamation-triangle fs-4",
-                link: "/dashboard/reservations"
+                link: "/dashboard/problems"
             },
         ],
         "Sala": [
@@ -68,7 +68,7 @@ export default function DashboardRoute() {
             {
                 label: "Problematiche",
                 icon: "bi bi-exclamation-triangle fs-4",
-                link: "/dashboard/reservations"
+                link: "/dashboard/problems"
             },
         ],
         "Cucina": [
@@ -85,7 +85,7 @@ export default function DashboardRoute() {
             {
                 label: "Problematiche",
                 icon: "bi bi-exclamation-triangle fs-4",
-                link: "/dashboard/reservations"
+                link: "/dashboard/problems"
             },
         ]
     }
@@ -117,8 +117,7 @@ export default function DashboardRoute() {
     } else {
         return (
             <>
-                {redirect && <Navigate to={redirect} />
-                }
+                {redirect && <Navigate to={redirect} />}
             </>
         )
     }

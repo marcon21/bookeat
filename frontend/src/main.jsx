@@ -14,6 +14,13 @@ import MenuRoute, { loader as menuLoader } from './routes/menuRoute'
 import LoginRoute from './routes/loginRoute'
 import SignUpRoute from './routes/signUpRoute'
 import DashboardRoute from './routes/dashboardRoute'
+import StaffRoute from './routes/staffRoute'
+import EditMenuRoute from './routes/editMenuRoute'
+import TablesRoute from './routes/tablesRoute'
+import BillHistoryRoute from './routes/billHistoryRoute'
+import OrdersRoute from './routes/ordersRoute'
+import ReservationsRoute from './routes/reservationsRoute'
+import ProblemsRoute from './routes/problemsRoute'
 
 // Router of the app
 const router = createBrowserRouter([
@@ -24,7 +31,37 @@ const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: <DashboardRoute />
+    element: <DashboardRoute />,
+    children: [
+      {
+        path: '/dashboard/history',
+        element: <BillHistoryRoute />,
+      },
+      {
+        path: '/dashboard/staff',
+        element: <StaffRoute />
+      },
+      {
+        path: '/dashboard/menu',
+        element: <EditMenuRoute />,
+      },
+      {
+        path: '/dashboard/tables',
+        element: <TablesRoute />,
+      },
+      {
+        path: '/dashboard/orders',
+        element: <OrdersRoute />,
+      },
+      {
+        path: '/dashboard/reservations',
+        element: <ReservationsRoute />,
+      },
+      {
+        path: '/dashboard/problems',
+        element: <ProblemsRoute />,
+      }
+    ]
   },
   {
     path: '/login',
