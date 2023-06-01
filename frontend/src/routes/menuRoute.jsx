@@ -65,12 +65,14 @@ export default function MenuRoute() {
     }
 
     const checkoutHandler = async () => {
-        // clone checkout, remove the field _id and send it to the server
         let checkoutCopy = structuredClone(checkout)
         checkoutCopy.forEach((item) => {
+            delete item["nome"]
+            delete item["prezzo"]
+            item["idPiatto"] = item["_id"]
             delete item["_id"]
         })
-        let r = await sendOrder(checkoutCopy)
+        let r = await sendOrder({ "portate": checkoutCopy })
         if (r["status"]) {
             setCheckout([])
             // setRedirect("/bill")

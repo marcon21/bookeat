@@ -21,7 +21,6 @@ export default function MenuItem({ plate, addToCheckout }) {
             "prezzo": plate["prezzo"],
             "ingredientiScelti": data["ingredients"],
             "note": data["notes"],
-            "status": 0,
             "priorita": 0
         }
         addToCheckout(item)
