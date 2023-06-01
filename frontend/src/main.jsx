@@ -14,8 +14,6 @@ import MenuRoute, { loader as menuLoader } from './routes/menuRoute'
 import LoginRoute from './routes/loginRoute'
 import SignUpRoute from './routes/signUpRoute'
 
-const isLoggedIn = document.cookie.split(';').some((item) => item.trim().startsWith('jwt='))
-
 // Router of the app
 const router = createBrowserRouter([
   {
@@ -25,11 +23,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element: isLoggedIn ? <Navigate to={"/menu"} /> : <LoginRoute />
+    element: document.cookie.split(';').some((item) => item.trim().startsWith('jwt=')) ? <Navigate to={"/menu"} /> : <LoginRoute />
   },
   {
     path: '/signup',
-    element: isLoggedIn ? <Navigate to={"/menu"} /> : <SignUpRoute />
+    element: document.cookie.split(';').some((item) => item.trim().startsWith('jwt=')) ? <Navigate to={"/menu"} /> : <SignUpRoute />
   }
 ])
 
