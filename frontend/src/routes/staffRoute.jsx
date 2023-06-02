@@ -1,5 +1,30 @@
 import { useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useLoaderData } from 'react-router-dom'
+import { makeKey } from '../utils'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from "yup"
+
+export async function loader() {
+    // let staff = await getStaff()
+    let staff = [
+        {
+            "name": "Mario",
+            "surname": "Rossi",
+            "role": "Sala",
+            "username": "mario.rossi",
+            "password": "password"
+        },
+        {
+            "name": "Luigi",
+            "surname": "Verdi",
+            "role": "Cucina",
+            "username": "luigi.verdi",
+            "password": "password"
+        },
+    ]
+    return staff
+}
 
 export default function StaffRoute() {
     // users ENUM: UtenteLoggato, Tavolo, Sala, Cucina, Manager
@@ -7,10 +32,143 @@ export default function StaffRoute() {
 
     const [redirect, setRedirect] = useState(userType === "Manager" ? false : "/")
 
+    const formSchema = yup.object().shape({
+        name: yup.string()
+            .required("Il nome è richiesto")
+            .min(2, "Il nome deve contenere almeno 2 caratteri")
+            .max(12, "Il nome non può contenere più di 12 caratteri")
+            .matches(/^[a-zA-Z]*$/, "Il nome può contenere solo lettere"),
+        surname: yup.string()
+            .required("Il cognome è richiesto")
+            .min(2, "Il cognome deve contenere almeno 2 caratteri")
+            .max(12, "Il cognome non può contenere più di 12 caratteri")
+            .matches(/^[a-zA-Z]*$/, "Il cognome può contenere solo lettere"),
+        role: yup.string()
+            .required("Il ruolo è richiesto")
+            .oneOf(["Sala", "Cucina", "Manager"], "Il ruolo deve essere Sala, Cucina o Manager"),
+        email: yup.string()
+            .required("L'email è richiesta")
+            .email("L'email deve essere valida"),
+        username: yup.string()
+            .required("L'username è richiesto")
+            .min(4, "L'username deve contenere almeno 4 caratteri")
+            .max(12, "L'username non può contenere più di 12 caratteri")
+            .matches(/^[a-zA-Z0-9_.]*$/, "L'username può contenere solo lettere, numeri, punti e underscore"),
+        password: yup.string()
+            .required("La password è richiesta")
+            .min(4, "La password deve contenere almeno 4 caratteri")
+            .max(12, "La password non può contenere più di 12 caratteri")
+            .matches(/(?=.*[0-9])/, "La password deve contenere almeno un numero")
+            .matches(/(?=.*[a-z])/, "La password deve contenere almeno una lettera minuscola")
+            .matches(/(?=.*[A-Z])/, "La password deve contenere almeno una lettera maiuscola")
+            .matches(/(?=.*[!@#$%^&*])/, "La password deve contenere almeno un carattere speciale tra !@#$%^&*"),
+        cpassword: yup.string()
+            .required("La conferma della password è richiesta")
+            .oneOf([yup.ref("password")], "La password non corrisponde"),
+    })
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+        watch,
+        getValues
+    } = useForm({
+        mode: "onTouched",
+        resolver: yupResolver(formSchema)
+    })
+
+    const onSubmit = async (data) => {
+    }
+
     if (userType === "Manager") {
         return (
             <>
                 {redirect && <Navigate to={redirect} />}
+                <div className="row mt-4">
+                    <div className="col-8">
+                        <h3>Aggiungi Staff</h3>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <div className="btn-group mt-3 mb-3">
+                                <button type="submit" className="btn btn-outline-success">Crea</button>
+                                <button type="reset" className="btn btn-outline-warning" onClick={() => { reset() }}>Annulla</button>
+                                <button type="button" className="btn btn-outline-danger">Chiudi</button>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-6 mb-3">
+                                    <label htmlFor="name" className="form-label">Nome</label>
+                                    <input type="text" className="form-control" id="name" {...register("name")} />
+                                    <div className="form-text text-danger">{errors.name?.message}</div>
+                                </div>
+                                <div className="col-md-6 mb-3">
+                                    <label htmlFor="surname" className="form-label">Cognome</label>
+                                    <input type="text" className="form-control" id="surname" {...register("surname")} />
+                                    <div className="form-text text-danger">{errors.surname?.message}</div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-6 mb-3">
+                                    <label htmlFor="role" className="form-label">Ruolo</label>
+                                    <select className="form-select" id="role" {...register("role")}>
+                                        <option value="Sala">Sala</option>
+                                        <option value="Cucina">Cucina</option>
+                                        <option value="Manager">Manager</option>
+                                    </select>
+                                    <div className="form-text text-danger">{errors.role?.message}</div>
+
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-6 mb-3">
+                                    <label htmlFor="username" className="form-label">Username</label>
+                                    <input type="text" className="form-control" id="username" {...register("username")} />
+                                    <div className="form-text text-danger">{errors.username?.message}</div>
+                                </div>
+                                <div className="col-md-6 mb-3">
+                                    <label htmlFor="email" className="form-label">Email</label>
+                                    <input type="email" className="form-control" id="email" {...register("email")} />
+                                    <div className="form-text text-danger">{errors.email?.message}</div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-6 mb-3">
+                                    <label htmlFor="password" className="form-label">Password</label>
+                                    <input type="password" className="form-control" id="password" {...register("password")} />
+                                    <div className="form-text text-danger">{errors.password?.message}</div>
+                                </div>
+                                <div className="col-md-6 mb-3">
+                                    <label htmlFor="cpassword" className="form-label">Conferma Password</label>
+                                    <input type="password" className="form-control" id="cpassword" {...register("cpassword")} />
+                                    <div className="form-text text-danger">{errors.cpassword?.message}</div>
+                                </div>
+                            </div>
+                        </form>
+                    </div >
+                    <div className="col-4">
+                        <h3>Staff</h3>
+                        <div className="list-group">
+                            {useLoaderData().map((staff, index) => {
+                                return (
+                                    <div key={makeKey(index)} className="list-group-item">
+                                        <div className="row align-items-center">
+                                            <div className="col">
+                                                <div className="btn-group-vertical" role="group">
+                                                    <button type="button" className="btn btn-outline-danger"><i className='bi bi-x'></i></button>
+                                                    <button type="button" className="btn btn-outline-dark"><i className='bi bi-pencil'></i></button>
+                                                </div>
+                                            </div>
+                                            <div className="col">
+                                                <h5 className="card-title">{staff['name']} {staff['surname']}</h5>
+                                                <h6 className="card-subtitle mb-2 text-body-secondary">{staff['role']}</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </div >
             </>
         )
     } else {

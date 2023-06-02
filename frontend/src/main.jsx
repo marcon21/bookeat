@@ -14,7 +14,7 @@ import MenuRoute, { loader as menuLoader } from './routes/menuRoute'
 import LoginRoute from './routes/loginRoute'
 import SignUpRoute from './routes/signUpRoute'
 import DashboardRoute from './routes/dashboardRoute'
-import StaffRoute from './routes/staffRoute'
+import StaffRoute, { loader as staffLoader } from './routes/staffRoute'
 import EditMenuRoute from './routes/editMenuRoute'
 import TablesRoute from './routes/tablesRoute'
 import BillHistoryRoute from './routes/billHistoryRoute'
@@ -39,7 +39,8 @@ const router = createBrowserRouter([
       },
       {
         path: '/dashboard/staff',
-        element: <StaffRoute />
+        element: <StaffRoute />,
+        loader: staffLoader
       },
       {
         path: '/dashboard/menu',
