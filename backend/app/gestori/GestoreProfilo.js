@@ -48,14 +48,51 @@ class GestoreProfilo {
   static modificaEmail(id, email) {
     /** TODO */
   }
-  static modificaPassword(id, vecchiaPassword, nuovaPassword) {
-    /** TODO */
+  static async modificaPassword(id, vecchiaPassword, nuovaPassword) {
+    try {
+      const user = await User.findById(id);
+
+      if (!user) {
+        throw new Error("Utente non trovato");
+      }
+
+      // Verifica che la vecchia password fornita corrisponda con password corrente
+      if (user.password !== vecchiaPassword) {
+        throw new Error("Vecchia password inserita non coriisponde con quella corrente");
+      }
+
+      // Aggiorna la password dell'utente con nuova password
+      user.password = nuovaPassword;
+      await user.save();
+
+      return "Password modificata correttamente";
+    } catch (error) {
+      throw new Error("Errore nel modificare password");
+    }
   }
   static eliminaAccount(id) {
     /** TODO */
   }
-  static modificaNome(id, nome) {
-    /** TODO */
+  static async modificaNome(id, nome) {
+    try {
+      const user = await User.findById(id);
+
+      if (!user) {
+        throw new Error("Utente non trovato");
+      }
+      // Aggiorna nome dell'utente con nuovo nome, diverso da quello attuale
+      //verifica veridicità
+      if(user.nome !== nome){
+        user.nome = nome;
+        await user.save();
+        return "Nome modificato correttamente";
+      }else{
+        throw new Error("Nome inserito già in uso")
+      }
+      
+    } catch (error) {
+      throw new Error("Errore nel modificare nome");
+    }
   }
   static mandaEmailConferma(id) {
     /** TODO */
