@@ -4,6 +4,7 @@ import { makeKey } from '../utils'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from "yup"
+import FormFieldsManager from '../components/FormFieldsManager'
 
 export async function loader() {
     // let staff = await getStaff()
@@ -12,6 +13,7 @@ export async function loader() {
             "name": "Mario",
             "surname": "Rossi",
             "role": "Sala",
+            "email": "mario.rossi@gmail.com",
             "username": "mario.rossi",
             "password": "password"
         },
@@ -19,9 +21,18 @@ export async function loader() {
             "name": "Luigi",
             "surname": "Verdi",
             "role": "Cucina",
+            "email": "luigi.verdi@gmail.com",
             "username": "luigi.verdi",
             "password": "password"
         },
+        {
+            "name": "Giovanni",
+            "surname": "Bianchi",
+            "role": "Manager",
+            "email": "giovanni.bianchi@gmail.com",
+            "username": "giovanni.bianchi",
+            "password": "password"
+        }
     ]
     return staff
 }
@@ -31,6 +42,13 @@ export default function StaffRoute() {
     const userType = document.cookie.split(';').some((item) => item.trim().startsWith('userType=')) ? document.cookie.split('; ').find(row => row.startsWith('userType=')).split('=')[1] : null
 
     const [redirect, setRedirect] = useState(userType === "Manager" ? false : "/")
+    const [staff, setStaff] = useState(useLoaderData())
+    const [staffSelected, setStaffSelected] = useState(null)
+    const [formFields, setFormFields] = useState(null)
+    function onFormFieldChange(fields) {
+        setFormFields(fields)
+        reset(fields)
+    }
 
     const formSchema = yup.object().shape({
         name: yup.string()
@@ -73,27 +91,71 @@ export default function StaffRoute() {
         formState: { errors },
         reset,
         watch,
-        getValues
+        getValues,
+        defaultValues
     } = useForm({
         mode: "onTouched",
-        resolver: yupResolver(formSchema)
+        resolver: yupResolver(formSchema),
+        defaultValues: formFields
     })
 
     const onSubmit = async (data) => {
+        console.log(data)
+        if (staffSelected !== null) {
+            // await updateStaff(data)
+            // setStaff(await getStaff())
+            let tmp = structuredClone(staff)
+            delete data.cpassword
+            tmp[staffSelected] = data
+            setStaff(tmp)
+        } else {
+            // await createStaff(data)
+            // setStaff(await getStaff())
+            let tmp = structuredClone(staff)
+            delete data.cpassword
+            tmp.push(data)
+            setStaff(tmp)
+        }
+        setStaffSelected(null)
+        reset(formFields)
+    }
+
+    let handleEdit = (index) => {
+        setStaffSelected(index)
+    }
+
+    let handleDelete = (index) => {
+        // await deleteStaff(index)
+        // setStaff(await getStaff())
+        let tmp = structuredClone(staff)
+        tmp.splice(index, 1)
+        setStaff(tmp)
     }
 
     if (userType === "Manager") {
         return (
             <>
                 {redirect && <Navigate to={redirect} />}
+                <FormFieldsManager
+                    onFormFieldChange={onFormFieldChange}
+                    formFieldsEmpty={{
+                        name: "",
+                        surname: "",
+                        role: "",
+                        email: "",
+                        username: "",
+                        password: "",
+                        cpassword: ""
+                    }}
+                    indexToLoad={staffSelected}
+                />
                 <div className="row mt-4">
                     <div className="col-8">
-                        <h3>Aggiungi Staff</h3>
+                        <h3>{staffSelected !== null ? "Modifica Staff" : "Aggiungi Staff"}</h3>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="btn-group mt-3 mb-3">
-                                <button type="submit" className="btn btn-outline-success">Crea</button>
-                                <button type="reset" className="btn btn-outline-warning" onClick={() => { reset() }}>Annulla</button>
-                                <button type="button" className="btn btn-outline-danger">Chiudi</button>
+                                <button type="submit" className="btn btn-outline-success">{staffSelected === null ? "Crea" : "Aggiorna"}</button>
+                                {staffSelected !== null && <button type="button" className="btn btn-outline-danger" onClick={() => { setStaffSelected(null) }}>Chiudi</button>}
                             </div>
                             <div className="row">
                                 <div className="col-md-6 mb-3">
@@ -148,19 +210,20 @@ export default function StaffRoute() {
                     <div className="col-4">
                         <h3>Staff</h3>
                         <div className="list-group">
-                            {useLoaderData().map((staff, index) => {
+                            {staff.length === 0 && <div className="list-group-item">Nessun utente</div>}
+                            {staff.map((user, index) => {
                                 return (
                                     <div key={makeKey(index)} className="list-group-item">
                                         <div className="row align-items-center">
                                             <div className="col">
                                                 <div className="btn-group-vertical" role="group">
-                                                    <button type="button" className="btn btn-outline-danger"><i className='bi bi-x'></i></button>
-                                                    <button type="button" className="btn btn-outline-dark"><i className='bi bi-pencil'></i></button>
+                                                    <button type="button" className="btn btn-outline-danger" onClick={() => { handleDelete(index) }}><i className='bi bi-x'></i></button>
+                                                    <button type="button" className="btn btn-outline-dark" onClick={() => { handleEdit(index) }} ><i className='bi bi-pencil'></i></button>
                                                 </div>
                                             </div>
                                             <div className="col">
-                                                <h5 className="card-title">{staff['name']} {staff['surname']}</h5>
-                                                <h6 className="card-subtitle mb-2 text-body-secondary">{staff['role']}</h6>
+                                                <h5 className="card-title">{user['name']} {user['surname']}</h5>
+                                                <h6 className="card-subtitle mb-2 text-body-secondary">{user['role']}</h6>
                                             </div>
                                         </div>
                                     </div>
