@@ -15,7 +15,7 @@ import LoginRoute from './routes/loginRoute'
 import SignUpRoute from './routes/signUpRoute'
 import DashboardRoute from './routes/dashboardRoute'
 import StaffRoute, { loader as staffLoader } from './routes/staffRoute'
-import EditMenuRoute from './routes/editMenuRoute'
+import EditMenuRoute, { loader as editMenuLoader } from './routes/editMenuRoute'
 import TablesRoute from './routes/tablesRoute'
 import BillHistoryRoute from './routes/billHistoryRoute'
 import OrdersRoute from './routes/ordersRoute'
@@ -45,6 +45,7 @@ const router = createBrowserRouter([
       {
         path: '/dashboard/menu',
         element: <EditMenuRoute />,
+        loader: editMenuLoader
       },
       {
         path: '/dashboard/tables',
