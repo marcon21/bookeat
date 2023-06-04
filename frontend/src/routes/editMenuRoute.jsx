@@ -6,6 +6,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { makeKey } from '../utils'
 import Modal from '../components/Modal'
+import AddPlateModal from '../components/AddPlateModal'
+import EditPlateModal from '../components/EditPlateModal'
 
 export async function loader() {
     const menu = await getMenu()
@@ -30,100 +32,41 @@ export default function EditMenuRoute() {
         // }
     }
 
+    let handleAddPlate = async (data) => {
+        console.log(data)
+        // data["allergeni"] = data["allergeni"].split(", ")
+        // data["ingredientiModificabili"] = data["ingredientiModificabili"].split(", ")
+        // let r = await insertPlate(data["nome"], data["prezzo"], data["categoria"], data["disponibile"], data["descrizione"], data["allergeni"], data["ingredientiModificabili"])
+        // if (r["status"] === "success") {
+        //     setMenu((await getMenu())["data"]["piatti"])
+        // }
+    }
+
+    let handleEditPlate = async (data) => {
+        console.log(data)
+        // data["allergeni"] = data["allergeni"].split(", ")
+        // data["ingredientiModificabili"] = data["ingredientiModificabili"].split(", ")
+        // let r = await editPlate(data["nome"], data["prezzo"], data["categoria"], data["disponibile"], data["descrizione"], data["allergeni"], data["ingredientiModificabili"])
+        // if (r["status"] === "success") {
+        //     setMenu((await getMenu())["data"]["piatti"])
+        // }
+    }
+
+    let handleDeletePlate = async (index) => {
+        console.log(menu[index])
+        // let r = await deletePlate(menu[index]["_id"])
+        // if (r["status"] === "success") {
+        //     setMenu((await getMenu())["data"]["piatti"])
+        // }
+    }
+
     function launchModal(modalId) {
         document.getElementById(modalId.concat("Button")).click()
     }
 
     const modals = menu.map((item, index) => {
-        let schema = yup.object().shape({
-            nome: yup.string().required("Nome obbligatorio"),
-            prezzo: yup.number().required("Prezzo obbligatorio").positive("Prezzo deve essere positivo").integer("Prezzo deve essere un numero intero"),
-            categoria: yup.object().shape({
-                primaria: yup.string().required("Categoria primaria obbligatoria"),
-                secondaria: yup.string()
-            }),
-            disponibile: yup.boolean().required("Disponibilità obbligatoria"),
-            descrizione: yup.string().required("Descrizione obbligatoria"),
-            allergeni: yup.array().of(yup.string()),
-            ingredientiModificabili: yup.array().of(yup.string())
-        });
-
-        let { register, handleSubmit, formState: { errors } } = useForm({
-            resolver: yupResolver(schema),
-            defaultValues: {
-                nome: item["nome"],
-                prezzo: item["prezzo"],
-                categoria: item["categoria"],
-                disponibile: item["disponibile"],
-                descrizione: item["descrizione"],
-                allergeni: item["allergeni"],
-                ingredientiModificabili: item["ingredientiModificabili"]
-            },
-        });
-
-        let onSubmit = async (data) => {
-            console.log(data)
-        }
-
         return (
-            <Modal
-                key={makeKey(index)}
-                modalId={"editMenuModal-" + index}
-                title={"Modifica piatto"}
-                closeButtonText="Chiudi"
-                confirmButtonText="Conferma modifica"
-                closeFunction={() => { console.log("close") }}
-                confirmFunction={() => { document.getElementById("formSubmitButton-" + index).click() }}
-                showButtons={true}
-            >
-                <div className="modal-body">
-                    <form id={"editMenuForm-" + index} onSubmit={handleSubmit(onSubmit)}>
-                        <div className="row">
-                            <label htmlFor="nome">Nome</label>
-                            <input type="text" className="form-control" id="nome" {...register('nome')} />
-                            <p className="text-danger">{errors.nome?.message}</p>
-                        </div>
-                        <div className="row">
-                            <label htmlFor="prezzo">Prezzo in centesimi (1000 = 10€)</label>
-                            <input type="number" className="form-control" id="prezzo" {...register('prezzo')} />
-                            <p className="text-danger">{errors.prezzo?.message}</p>
-                        </div>
-                        <div className="row">
-                            <label htmlFor="categoria.primaria">Categoria primaria</label>
-                            <input type="text" className="form-control" id="categoria.primaria" {...register('categoria.primaria')} />
-                            <p className="text-danger">{errors.categoria?.primaria?.message}</p>
-                        </div>
-                        <div className="row">
-                            <label htmlFor="categoria.secondaria">Categoria secondaria</label>
-                            <input type="text" className="form-control" id="categoria.secondaria" {...register('categoria.secondaria')} />
-                            <p className="text-danger">{errors.categoria?.secondaria?.message}</p>
-                        </div>
-                        <div className="row">
-                            <label htmlFor="descrizione">Descrizione</label>
-                            <input type="text" className="form-control" id="descrizione" {...register('descrizione')} />
-                            <p className="text-danger">{errors.descrizione?.message}</p>
-                        </div>
-                        <div className="row">
-                            <label htmlFor="allergeni">Allergeni</label>
-                            <input type="text" className="form-control" id="allergeni" {...register('allergeni')} />
-                            <p className="text-danger">{errors.allergeni?.message}</p>
-                        </div>
-                        <div className="row">
-                            <label htmlFor="ingredientiModificabili">Ingredienti modificabili</label>
-                            <input type="text" className="form-control" id="ingredientiModificabili" {...register('ingredientiModificabili')} />
-                            <p className="text-danger">{errors.ingredientiModificabili?.message}</p>
-                        </div>
-                        <div className="row">
-                            <div className="form-check">
-                                <input className="form-check-input" type="checkbox" id="disponibile" {...register('disponibile')} />
-                                <label className="form-check-label" htmlFor="disponibile">Disponibile</label>
-                                <p className="text-danger">{errors.disponibile?.message}</p>
-                            </div>
-                        </div>
-                        <button hidden={true} type="submit" id={"formSubmitButton-" + index}></button>
-                    </form>
-                </div>
-            </Modal>
+            <EditPlateModal key={makeKey(index)} onSubmit={handleEditPlate} modalId="editMenuModal" item={item} index={index} />
         )
     })
 
@@ -131,13 +74,18 @@ export default function EditMenuRoute() {
         return (
             <tr key={makeKey(index)}>
                 <td>
-                    <button type="button" className="btn btn-outline-dark" onClick={() => { launchModal("editMenuModal-" + index) }} ><i className='bi bi-pencil'></i></button>
-                </td>
-                <td>
-                    {item["disponibile"] ?
-                        <button type="button" className="btn btn-success" onClick={() => { handleToggle(index) }} ><i className='bi bi-check'></i></button> :
-                        <button type="button" className="btn btn-danger" onClick={() => { handleToggle(index) }} ><i className='bi bi-x'></i></button>
-                    }
+                    <div className="btn-group">
+                        {userType === "Manager" &&
+                            <button type="button" className="btn btn-outline-dark" onClick={() => { launchModal("editMenuModal-" + index) }} ><i className='bi bi-pencil'></i></button>
+                        }
+                        {item["disponibile"] ?
+                            <button type="button" className="btn btn-success" onClick={() => { handleToggle(index) }} ><i className='bi bi-check'></i></button> :
+                            <button type="button" className="btn btn-danger" onClick={() => { handleToggle(index) }} ><i className='bi bi-x'></i></button>
+                        }
+                        {userType === "Manager" &&
+                            <button type="button" className="btn btn-outline-danger" onClick={() => { handleDeletePlate(index) }} ><i className='bi bi-trash'></i></button>
+                        }
+                    </div>
                 </td>
                 <td>{item["nome"]}</td>
                 <td>{item["descrizione"]}</td>
@@ -155,11 +103,13 @@ export default function EditMenuRoute() {
             <>
                 {redirect && <Navigate to={redirect} />}
                 <h3 className='mt-4'>Modifica Menu</h3>
+                {userType === "Manager" &&
+                    <button type="button" className="btn btn-outline-success" onClick={() => { launchModal("addMenuModal") }} ><i className='bi bi-plus'></i>Aggiungi un piatto</button>
+                }
                 <div className="table-responsive">
                     <table className="table table-hover">
                         <thead>
                             <tr>
-                                <th scope="col"></th>
                                 <th scope="col"></th>
                                 <th scope="col">Nome</th>
                                 <th scope="col">Descrizione</th>
@@ -175,7 +125,12 @@ export default function EditMenuRoute() {
                         </tbody>
                     </table>
                 </div>
-                {modals}
+                {userType === "Manager" &&
+                    <AddPlateModal onSubmit={handleAddPlate} modalId="addMenuModal" />
+                }
+                {userType === "Manager" &&
+                    modals
+                }
             </>
         )
     } else {
