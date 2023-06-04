@@ -1,10 +1,5 @@
 const backendUrl = 'http://localhost:3001/api/v1'
 
-// headers: {
-//     'Content-Type': 'application/json',
-//     'Authentication': 'Bearer '.concat(token)
-// },
-
 async function fetchAPI(endpoint, method, body = {}) {
     const requestOptions = {
         method: method,
@@ -13,6 +8,10 @@ async function fetchAPI(endpoint, method, body = {}) {
             'Cache-Control': 'no-cache'
         }
     }
+    // if (document.cookie.split(';').some((item) => item.trim().startsWith('jwt='))) {
+    //     let token = document.cookie.split('; ').find(row => row.startsWith('jwt=')).split('=')[1]
+    //     requestOptions["headers"]["Authentication"] = 'Bearer '.concat(token)
+    // }
     if (method != 'GET') {
         requestOptions["body"] = JSON.stringify(body)
     }
@@ -118,8 +117,8 @@ export async function login(email, pw) {
     })
     if (data['status']) {
         let token = data['data']['token']
-        // let userType = data['data']['userType']
-        let userType = "Manager"
+        let userType = data['data']['userType']
+        // let userType = "Manager"
         document.cookie = "jwt=" + token + "; path=/; max-age=86400; samesite=lax"
         document.cookie = "userType=" + userType + "; path=/; max-age=86400; samesite=lax"
         return { "status": data['status'], "data": data['data'] }
@@ -141,4 +140,8 @@ export async function logout() {
     } else {
         return { "status": false, "message": "User not logged in" }
     }
+}
+
+export async function userInfo() {
+    return(await fetchAPI('/utente/profile', 'GET'))
 }
