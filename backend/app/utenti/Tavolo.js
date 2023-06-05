@@ -12,6 +12,9 @@ class Tavolo extends Utente {
         }
     }
 
+
+    static async invioOrdine(portate) { /** TODO */ };
+
     static chiamaCameriere() { /** TODO */ }
     static getPrenotazione() { /** TODO */ }
     static getStatus() { /** TODO */ }

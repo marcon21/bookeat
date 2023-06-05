@@ -13,7 +13,6 @@ class Utente extends UtenteAbstract {
         }
     }
 
-    static inviaOrdine(portata) { /** TODO */ }
     static visualizzaConto() { /** TODO */ }
 
     /**

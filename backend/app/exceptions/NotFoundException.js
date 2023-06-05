@@ -1,4 +1,4 @@
-class InvalidUserException extends Error {
+class NotFoundException extends Error {
     constructor(message) {
         super(message);
         this.name = this.constructor.name;
@@ -6,4 +6,4 @@ class InvalidUserException extends Error {
     }
 }
 
-module.exports = InvalidUserException;
+module.exports = NotFoundException;

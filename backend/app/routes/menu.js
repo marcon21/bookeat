@@ -12,6 +12,8 @@ const { errorRes, successRes } = require("../response");
 
 /**
  * Ritorna tutti i piatti del menu
+ * 
+ * @returns menu - Il menu del ristorante
  */
 router.get("/", async function (req, res, next) {
 
@@ -26,6 +28,14 @@ router.get("/", async function (req, res, next) {
 
 /**
  * Aggiunge un piatto al menu
+ * 
+ * @requires body.nome - Il nome del piatto
+ * @requires body.prezzo - Il prezzo del piatto
+ * @requires body.categoria - La categoria del piatto
+ * @requires body.disponibile - Indica se il piatto è disponibile
+ * @requires body.descrizione - La descrizione del piatto
+ * @requires body.allergeni - Gli allergeni del piatto
+ * @requires body.ingredientiModificabili - Gli ingredienti modificabili del piatto
  */
 router.post(
   "/",
