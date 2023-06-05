@@ -12,6 +12,18 @@ import CheckOut from "../components/CheckOut"
 // Loader function called each time route is visited
 export async function loader() {
     const menu = await getMenu()
+    // filter menu["data"]["piatti"] to only include available plates
+    menu["data"]["piatti"] = menu["data"]["piatti"].filter((item) => item["disponibile"])
+    // filter menu["data"]["categorie"] to only include categories that have at least one plate available
+    menu["data"]["categorie"] = menu["data"]["categorie"].filter((item) => menu["data"]["piatti"].some((plate) => plate["categoria"]["primaria"] === item["primaria"] && plate["disponibile"]))
+    // filter menu["data"]["categorie"] to only include secondary categories that have at least one plate available
+    menu["data"]["categorie"].forEach((item) => {
+        if (item["secondaria"]) {
+            if (!menu["data"]["piatti"].some((plate) => plate["categoria"]["primaria"] === item["primaria"] && plate["categoria"]["secondaria"] === item["secondaria"] && plate["disponibile"])) {
+                item["secondaria"] = undefined
+            }
+        }
+    })
     return menu
 }
 

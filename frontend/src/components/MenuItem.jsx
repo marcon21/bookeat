@@ -46,7 +46,14 @@ export default function MenuItem({ plate, addToCheckout }) {
                 <PlateSpecs plate={plateCopy} onSubmit={onSubmit} />
             </Modal>
             <div className="card h-100" style={{ width: 15 + 'em' }} onClick={() => { launchModal(modalId) }}>
-                <img src={plateCopy["img"]} className="card-img-top" alt={plateCopy["img"]} />
+                <img
+                    src={plateCopy["img"]}
+                    onError={(e) => {
+                        e.target.src = '/plates/default.jpg';
+                    }}
+                    className="card-img-top"
+                    alt={plateCopy["img"]}
+                />
                 <div className="card-body">
                     <h5 className="card-title">{plateCopy["nome"]}</h5>
                     <h6 className="card-subtitle mb-2 text-body-secondary">{plateCopy["prezzo"]}</h6>
