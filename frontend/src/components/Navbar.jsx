@@ -60,7 +60,9 @@ export default function NavBar({ label, onFilterClickHandler, setRedirect, check
             {isLoggedIn && (
                 <div className="navbar-nav">
                     <div className="nav-item text-nowrap">
-                        <a className="nav-link px-3" role="button">
+                        <a className="nav-link px-3" role="button" onClick={() =>{ 
+                            setRedirect('/settings')
+                            }}>
                             <i className='bi bi-gear-fill fs-4'></i>
                         </a>
                     </div>
