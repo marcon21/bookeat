@@ -102,15 +102,19 @@ export default function StaffRoute() {
     const onSubmit = async (data) => {
         console.log(data)
         if (staffSelected !== null) {
-            // await updateStaff(data)
-            // setStaff(await getStaff())
+            // let r = await updateStaff(data)
+            // if (r["status"]) {
+            //     setStaff(await getStaff())
+            // }
             let tmp = structuredClone(staff)
             delete data.cpassword
             tmp[staffSelected] = data
             setStaff(tmp)
         } else {
-            // await createStaff(data)
-            // setStaff(await getStaff())
+            // let r = await createStaff(data)
+            // if (r["status"]) {
+            //     setStaff(await getStaff())
+            // }
             let tmp = structuredClone(staff)
             delete data.cpassword
             tmp.push(data)
@@ -124,9 +128,11 @@ export default function StaffRoute() {
         setStaffSelected(index)
     }
 
-    let handleDelete = (index) => {
-        // await deleteStaff(index)
-        // setStaff(await getStaff())
+    let handleDelete = async (index) => {
+        // let r = await deleteStaff(index)
+        // if (r["status"]) {
+        //     setStaff(await getStaff())
+        // }
         let tmp = structuredClone(staff)
         tmp.splice(index, 1)
         setStaff(tmp)
