@@ -101,3 +101,14 @@ body {
     box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
   }
   
+  .custom-bg-color {
+    background-color: lightblue; 
+  }
+
+  .font-label {
+    color: #261095; 
+    font-size: 18px; 
+    font-weight: bold;
+  }
+
+  

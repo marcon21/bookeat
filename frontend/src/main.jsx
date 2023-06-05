@@ -21,6 +21,7 @@ import BillHistoryRoute from './routes/billHistoryRoute'
 import OrdersRoute from './routes/ordersRoute'
 import ReservationsRoute from './routes/reservationsRoute'
 import ProblemsRoute from './routes/problemsRoute'
+import SettingsRoute, { loader as settingsRouteLoader} from './routes/settingsRoute'
 
 // Router of the app
 const router = createBrowserRouter([
@@ -62,8 +63,18 @@ const router = createBrowserRouter([
       {
         path: '/dashboard/problems',
         element: <ProblemsRoute />,
+      },
+      {
+        path: '/dashboard/settings',
+        element: <SettingsRoute />,
+        loader: settingsRouteLoader
       }
     ]
+  },
+  {
+    path: '/settings',
+    element: <SettingsRoute />,
+    loader: settingsRouteLoader
   },
   {
     path: '/login',
