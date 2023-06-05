@@ -13,7 +13,6 @@ async function fetchAPI(endpoint, method, body = {}) {
         requestOptions['credentials']= 'include'
         requestOptions['headers']['Cookie'] = "jwt=" + token
     }
-    console.log(requestOptions)
     if (method != 'GET') {
         requestOptions["body"] = JSON.stringify(body)
     }

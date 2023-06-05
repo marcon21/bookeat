@@ -84,6 +84,7 @@ export default function EditPlateModal({ onSubmit, item, index, modalId = "editP
                             <p className="text-danger">{errors.disponibile?.message}</p>
                         </div>
                     </div>
+                    <input hidden={true} type="text" value={item["_id"]} {...register('_id')} />
                     <button hidden={true} type="submit" id={modalId + "-formSubmitButton-" + index}></button>
                 </form>
             </div>
