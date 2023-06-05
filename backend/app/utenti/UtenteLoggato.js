@@ -13,7 +13,14 @@ class UtenteLoggato extends Utente {
         }
     }
 
+    /**
+     * Metodo che apre un conto ed invia automaticamente le portate
+     * 
+     * @param {*} idUtente L'id dell'utente che apre il conto
+     * @param {*} portate Le portate da inviare
+     */
     static async invioOrdine(idUtente, portate) {
+        
         let idConto = await GestoreConti.apriConto(idUtente, 0);
         await GestoreConti.aggiungiPortata(idConto, portate);
     };
@@ -23,7 +30,13 @@ class UtenteLoggato extends Utente {
     static modificaGoogleAccount() { /** TODO */ }
     static modificaNome() { /** TODO */ }
     static eliminaAccount() { /** TODO */ }
-    static chiudiConto() { /** TODO */ }
+    static async chiudiConto(idUtente) {
+
+        // TODO Pagamento Conto
+
+        idConto = await GestoreConti.getContoAperto(idUtente);
+        GestoreConti.chiudiConto(idConto);
+    }
 }
 
 module.exports = UtenteLoggato;

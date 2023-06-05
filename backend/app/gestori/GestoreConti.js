@@ -7,15 +7,27 @@ const FailedDependencyException = require("../exceptions/FailedDependencyExcepti
 const NotFoundException = require("../exceptions/NotFoundException");
 
 class GestoreConti {
+
+
   static getConti() {
     /** TODO */
   }
-  static getConto(idUtente) {
-    /** TODO */
+
+  /**
+   * Metodo che ritorna un conto aperto dato l'id dell'utente
+   * @param idUtente 
+   * @returns Il conto aperto
+   */
+  static async getContoWithUser(idUtente) {
+
+    const conto = await Conto.findOne({ idUtente: idUtente, status: "aperto" }).catch((err) => {
+      console.error(err);
+      throw new NotFoundException("Errore durante il recupero del conto");
+    });
+
+    return conto;
   }
-  static getConto(idConto) {
-    /** TODO */
-  }
+
   static getStoricoConti() {
     /** TODO */
   }
@@ -45,14 +57,36 @@ class GestoreConti {
     });
   }
 
-  static chiudiConto(idConto) {
-    /** TODO */
+  /**
+   * Metodo per chiudere un conto
+   * 
+   * @param idConto - L'id conto da chiudere
+   * 
+   * @throws FailedDependencyException - Se la chiusura del conto fallisce
+   */
+  static async chiudiConto(idConto) {
+
+    await Conto.updateOne({ _id: idConto }, { status: "chiuso" }).then((conto) => {
+      console.log("Conto chiuso con successo");
+    }).catch((err) => {
+      console.error(err);
+      throw new FailedDependencyException("Errore durante la chiusura del conto");
+    });
   }
 
   static pagaConto(idConto) {
     /** TODO */
   }
 
+  /**
+   * Metodo per aggiungere delle portate ad un conto
+   * 
+   * @param idConto - L'id del conto a cui aggiungere le portate
+   * @param portate - Le portate da aggiungere
+   * 
+   * @throws NotFoundException - Se il conto o il piatto non esiste
+   * @throws FailedDependencyException - Se l'aggiunta della portata fallisce
+   */
   static async aggiungiPortata(idConto, portate) {
 
     console.log("Id Conto: " + idConto);
@@ -91,6 +125,7 @@ class GestoreConti {
       });
     });
   }
+
   static modificaStatusPortata(idPortata, status) {
     /** TODO */
   }

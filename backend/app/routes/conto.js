@@ -17,8 +17,7 @@ const NotFoundException = require("../exceptions/NotFoundException");
  */
 router.post("/apriConto",
     passport.authenticate("jwt", {
-        session: false,
-        failureRedirect: "/api/v1/auth/login",
+        session: false
     }),
     async function (req, res, next) {
         const user = await User.findOne({ _id: req.user._id });
@@ -33,14 +32,15 @@ router.post("/apriConto",
     }
 );
 
+
+
 /**
  * Invia un ordine 
  * 
  */
 router.post("/invioOrdine",
     passport.authenticate("jwt", {
-        session: false,
-        failureRedirect: "/api/v1/auth/login",
+        session: false
     }),
     async function (req, res, next) {
         const user = await User.findOne({ _id: req.user._id });

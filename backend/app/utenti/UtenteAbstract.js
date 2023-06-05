@@ -85,6 +85,14 @@ class UtenteAbstract {
      * @throws UnauthorizedException - Se l'utente non è autorizzato ad eseguire l'operazione
     */
     static async apriConto(idUtente, nCoperti) { throw new UnauthorizedException("Unauthorized - Accedi con un account autorizzato e riprova"); }
+
+     /**
+     * Metodo che apre un conto ed invia automaticamente le portate
+     * 
+     * @param {*} idUtente L'id dell'utente che apre il conto
+     * @param {*} portate Le portate da inviare
+     */
+     static async invioOrdine(idUtente, portate) { throw new UnauthorizedException("Unauthorized - Accedi con un account autorizzato e riprova"); }
 }
 
 module.exports = UtenteAbstract;
