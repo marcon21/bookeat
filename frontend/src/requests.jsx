@@ -8,10 +8,12 @@ async function fetchAPI(endpoint, method, body = {}) {
             'Cache-Control': 'no-cache'
         }
     }
-    // if (document.cookie.split(';').some((item) => item.trim().startsWith('jwt='))) {
-    //     let token = document.cookie.split('; ').find(row => row.startsWith('jwt=')).split('=')[1]
-    //     requestOptions["headers"]["Authentication"] = 'Bearer '.concat(token)
-    // }
+    if (document.cookie.split(';').some((item) => item.trim().startsWith('jwt='))) {
+        let token = document.cookie.split('; ').find(row => row.startsWith('jwt=')).split('=')[1]
+        requestOptions['credentials']= 'include'
+        requestOptions['headers']['Cookie'] = "jwt=" + token
+    }
+    console.log(requestOptions)
     if (method != 'GET') {
         requestOptions["body"] = JSON.stringify(body)
     }
