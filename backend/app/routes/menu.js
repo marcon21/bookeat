@@ -31,7 +31,6 @@ router.post(
   "/",
   passport.authenticate("jwt", {
     session: false,
-    failureRedirect: "/api/v1/auth/login",
   }),
   async function (req, res, next) {
     const user = await User.findOne({ _id: req.user._id });
@@ -62,7 +61,6 @@ router.put(
   "/:idPiatto",
   passport.authenticate("jwt", {
     session: false,
-    failureRedirect: "/api/v1/auth/login",
   }),
   async function (req, res, next) {
     const user = await User.findOne({ _id: req.user._id });
@@ -93,7 +91,6 @@ router.delete(
   "/:idPiatto",
   passport.authenticate("jwt", {
     session: false,
-    failureRedirect: "/api/v1/auth/login",
   }),
   async function (req, res, next) {
     const user = await User.findOne({ _id: req.user._id });

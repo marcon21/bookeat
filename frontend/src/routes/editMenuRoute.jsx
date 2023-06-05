@@ -23,13 +23,13 @@ export default function EditMenuRoute() {
 
     let handleToggle = async (index) => {
         console.log(menu[index])
-        // let r = await editPlate(menu[index]["_id"], menu[index]["nome"], menu[index]["prezzo"], menu[index]["categoria"], !menu[index]["disponibile"], menu[index]["descrizione"], menu[index]["allergeni"], menu[index]["ingredientiModificabili"])
-        // if (r["status"] === "success") {
-        //     // let menuCopy = structuredClone(menu)
-        //     // menuCopy[index]["disponibile"] = !menuCopy[index]["disponibile"]
-        //     // setMenu(menuCopy)
-        //     // setMenu((await getMenu())["data"]["piatti"])
-        // }
+        let r = await editPlate(menu[index]["_id"], menu[index]["nome"], menu[index]["prezzo"], menu[index]["categoria"], !menu[index]["disponibile"], menu[index]["descrizione"], menu[index]["allergeni"], menu[index]["ingredientiModificabili"])
+        if (r["status"] === "success") {
+            let menuCopy = structuredClone(menu)
+            menuCopy[index]["disponibile"] = !menuCopy[index]["disponibile"]
+            setMenu(menuCopy)
+            setMenu((await getMenu())["data"]["piatti"])
+        }
     }
 
     let handleAddPlate = async (data) => {
