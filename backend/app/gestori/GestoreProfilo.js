@@ -58,7 +58,9 @@ class GestoreProfilo {
 
       // Verifica che la vecchia password fornita corrisponda con password corrente
       if (user.password !== vecchiaPassword) {
-        throw new Error("Vecchia password inserita non coriisponde con quella corrente");
+        throw new Error(
+          "Vecchia password inserita non coriisponde con quella corrente"
+        );
       }
 
       // Aggiorna la password dell'utente con nuova password
@@ -82,14 +84,13 @@ class GestoreProfilo {
       }
       // Aggiorna nome dell'utente con nuovo nome, diverso da quello attuale
       //verifica veridicità
-      if(user.nome !== nome){
+      if (user.nome !== nome) {
         user.nome = nome;
         await user.save();
         return "Nome modificato correttamente";
-      }else{
-        throw new Error("Nome inserito già in uso")
+      } else {
+        throw new Error("Nome inserito già in uso");
       }
-      
     } catch (error) {
       throw new Error("Errore nel modificare nome");
     }

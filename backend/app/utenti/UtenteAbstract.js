@@ -80,6 +80,12 @@ class UtenteAbstract {
       "Unauthorized - Accedi con un account autorizzato e riprova"
     );
   }
+
+  static async modificaNome(id, nome) {
+    throw new UnauthorizedException(
+      "Unauthorized - Accedi con un account autorizzato e riprova"
+    );
+  }
 }
 
 module.exports = UtenteAbstract;

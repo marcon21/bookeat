@@ -5,6 +5,8 @@ const GestoreProfilo = require("../gestori/GestoreProfilo");
 
 const { db } = require("../db");
 const User = require("../db/utente").User;
+const ClasseUtente = require("../utils/ClasseUtente");
+const Manager = require("../utenti/Manager");
 
 // Route for getting user profile, only accessible if logged in
 router.get("/profile", async (req, res, next) => {
@@ -14,11 +16,11 @@ router.get("/profile", async (req, res, next) => {
 });
 
 //Route for change password
-router.put("/profile/changepassword", async (req, res, next) => {
+router.put("/changepassword", async (req, res, next) => {
   // Ottieni l'ID dell'utente loggato
-  const userId = req.user._id; 
+  const userId = req.user._id;
   // Ottieni vecchia e nuova password dalla richiesta
-  const { oldPassword, newPassword } = req.body; 
+  const { oldPassword, newPassword } = req.body;
 
   try {
     // Chiamare il metodo per cambiare la password nel GestoreProfilo
@@ -31,19 +33,23 @@ router.put("/profile/changepassword", async (req, res, next) => {
 });
 
 //Route for change name
-router.put("/profile/changename", async (req, res, next) => {
-  // Ottieni l'ID dell'utente loggato
-  const userId = req.user._id; 
-  // Ottieni nuovo nome dalla richiesta
-  const { Name } = req.body; 
-
+router.put("/changename/:id?", async (req, res, next) => {
   try {
-    // Chiamare il metodo per cambiare la password nel GestoreProfilo
-    await GestoreProfilo.modificaNome(userId, Name);
+    const user = await User.findOne({ _id: req.user._id });
 
-    successRes(res, "Nome cambiato con successo");
+    let id =
+      req.params.id != null && user.userType == "Manager"
+        ? req.params.id
+        : req.user._id;
+
+    await ClasseUtente.getClasseUtente(user.userType).modificaNome(
+      id,
+      req.body.nome
+    );
+
+    successRes(res, "Nome cambiato con successo", {});
   } catch (error) {
-    errorRes(res, "Impossibile cambiare il nome", error);
+    errorRes(res, error, "Impossibile cambiare il nome");
   }
 });
 

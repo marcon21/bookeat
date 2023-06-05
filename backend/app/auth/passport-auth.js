@@ -1,6 +1,7 @@
 const { db } = require("../db");
 const User = require("../db/utente").User;
 const GestoreProfilo = require("../gestori/GestoreProfilo");
+const UtenteAnonimo = require("../utenti/UtenteAnonimo");
 
 const { errorRes, successRes } = require("../response");
 
@@ -19,12 +20,21 @@ passport.use(
     {
       usernameField: "email",
       passwordField: "password",
+      passReqToCallback: true,
     },
     async (email, password, done) => {
       try {
-        const user = await GestoreProfilo.creaAccount(
-          "Daniel",
-          "Manager",
+        // const user = await GestoreProfilo.creaAccount(
+        //   "Daniel",
+        //   "Manager",
+        //   email,
+        //   password,
+        //   ""
+        // );
+
+        const user = await UtenteAnonimo.creaAccount(
+          req.body.nome,
+          "UtenteLoggato",
           email,
           password,
           ""

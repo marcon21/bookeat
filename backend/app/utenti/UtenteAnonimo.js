@@ -2,7 +2,7 @@
  * Classe che rappresenta un utente anonimo, ovvero non loggato
  */
 const GestoreMenu = require("../gestori/GestoreMenu");
-const GestoreMenu = require("../gestori/GestoreProfilo");
+const GestoreProfilo = require("../gestori/GestoreProfilo");
 
 class UtenteAnonimo {
   constructor() {
@@ -25,6 +25,16 @@ class UtenteAnonimo {
 
   static async generaJWT(id, email) {
     return await GestoreProfilo.generaJWT(id, email);
+  }
+
+  static async creaAccount(nome, tipo, email, password, googleId) {
+    return await GestoreProfilo.creaAccount(
+      nome,
+      tipo,
+      email,
+      password,
+      googleId
+    );
   }
 }
 

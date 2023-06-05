@@ -1,14 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const { errorRes, successRes } = require("../response");
-const GestoreProfilo = require("../gestori/GestoreProfilo");
-const User = require("../models/User");
 
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 
 const { ServerResponse } = require("http");
-const Utente = require("../utenti/Utente");
 const UtenteAnonimo = require("../utenti/UtenteAnonimo");
 
 // Setting up route for registering a new user
