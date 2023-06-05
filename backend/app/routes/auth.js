@@ -2,11 +2,14 @@ const express = require("express");
 const router = express.Router();
 const { errorRes, successRes } = require("../response");
 const GestoreProfilo = require("../gestori/GestoreProfilo");
+const User = require("../models/User");
 
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 
 const { ServerResponse } = require("http");
+const Utente = require("../utenti/Utente");
+const UtenteAnonimo = require("../utenti/UtenteAnonimo");
 
 // Setting up route for registering a new user
 // router.post(
@@ -25,7 +28,7 @@ router.post("/signup", function (req, res, next) {
     req.login(user, { session: false }, async (error) => {
       if (error) return errorRes(res, error, "Signup failed", 401);
 
-      const token = GestoreProfilo.generaJWT(user._id, user.email);
+      const token = await UtenteAnonimo.generaJWT(user._id, user.email);
 
       return successRes(res, "Signup successful", {
         token: token,
@@ -47,7 +50,7 @@ router.post("/login", async (req, res, next) => {
       req.login(user, { session: false }, async (error) => {
         if (error) return errorRes(res, error, "Login failed", 401);
 
-        const token = GestoreProfilo.generaJWT(user._id, user.email);
+        const token = await UtenteAnonimo.generaJWT(user._id, user.email);
 
         return successRes(res, "Login successful", {
           token: token,
