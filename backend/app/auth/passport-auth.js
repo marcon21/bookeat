@@ -2,6 +2,7 @@ const { db } = require("../db");
 const User = require("../db/utente").User;
 const GestoreProfilo = require("../gestori/GestoreProfilo");
 const UtenteAnonimo = require("../utenti/UtenteAnonimo");
+const UtenteLoggato = require("../utenti/UtenteLoggato");
 
 const { errorRes, successRes } = require("../response");
 
@@ -115,9 +116,8 @@ passport.use(
     async function (accessToken, refreshToken, profile, cb) {
       const email = profile["emails"][0]["value"];
 
-      let user = await GestoreProfilo.linkGoogleAccount(email, profile.id);
-
-      const token = GestoreProfilo.generaJWT(user._id, user.email);
+      const user = await UtenteLoggato.linkGoogleAccount(email, profile.id);
+      const token = await UtenteAnonimo.generaJWT(user._id, user.email);
 
       return cb(null, { token: token, user: user });
     }

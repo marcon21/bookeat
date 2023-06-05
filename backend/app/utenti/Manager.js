@@ -89,6 +89,10 @@ class Manager extends Dipendente {
   static async modificaNome(id, nome) {
     await GestoreProfilo.modificaNome(id, nome);
   }
+
+  static async modificaPassword(id, vecchiaPassword, nuovaPassword) {
+    await GestoreProfilo.modificaPassword(id, vecchiaPassword, nuovaPassword);
+  }
 }
 
 module.exports = Manager;

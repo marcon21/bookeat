@@ -19,9 +19,10 @@ class UtenteLoggato extends Utente {
   static async modificaPassword(id, vecchiaPassword, nuovaPassword) {
     await GestoreProfilo.modificaPassword(id, vecchiaPassword, nuovaPassword);
   }
-  static modificaGoogleAccount() {
-    /** TODO */
+  static async linkGoogleAccount(email, googleId) {
+    await GestoreProfilo.linkGoogleAccount(email, googleId);
   }
+
   static async modificaNome(id, nome) {
     await GestoreProfilo.modificaNome(id, nome);
   }

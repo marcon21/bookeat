@@ -23,8 +23,18 @@ router.put("/changepassword", async (req, res, next) => {
   const { oldPassword, newPassword } = req.body;
 
   try {
-    // Chiamare il metodo per cambiare la password nel GestoreProfilo
-    await GestoreProfilo.modificaPassword(userId, oldPassword, newPassword);
+    const user = await User.findOne({ _id: req.user._id });
+
+    let id =
+      req.params.id != null && user.userType == "Manager"
+        ? req.params.id
+        : req.user._id;
+
+    await ClasseUtente.getClasseUtente(user.userType).modificaPassword(
+      id,
+      oldPassword,
+      newPassword
+    );
 
     successRes(res, "Password cambiata con successo");
   } catch (error) {

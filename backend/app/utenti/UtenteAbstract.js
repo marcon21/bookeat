@@ -86,6 +86,12 @@ class UtenteAbstract {
       "Unauthorized - Accedi con un account autorizzato e riprova"
     );
   }
+
+  static async modificaPassword(id, oldPassword, newPassword) {
+    throw new UnauthorizedException(
+      "Unauthorized - Accedi con un account autorizzato e riprova"
+    );
+  }
 }
 
 module.exports = UtenteAbstract;
