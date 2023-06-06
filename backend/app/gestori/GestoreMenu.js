@@ -63,6 +63,8 @@ class GestoreMenu {
       descrizione: descrizione,
       allergeni: allergeni,
       ingredientiModificabili: ingredientiModificabili,
+    }).then((piatto) => {
+      console.log("Piatto creato con successo");
     }).catch((err) => {
       console.error(err);
       throw new FailedDependencyException("Creazione piatto fallita");
@@ -77,7 +79,9 @@ class GestoreMenu {
    * @throws FailedDependencyException - Se la rimozione del piatto fallisce
    */
   static async rimuoviPiatto(idPiatto) {
-    await Piatto.deleteOne({ _id: idPiatto }).catch((err) => {
+    await Piatto.deleteOne({ _id: idPiatto }).then(() => {
+      console.log("Piatto eliminato con successo");
+    }).catch((err) => {
       console.error(err);
       throw new FailedDependencyException("Eliminazione piatto fallita");
     });
@@ -116,6 +120,8 @@ class GestoreMenu {
         descrizione: descrizione,
         allergeni: allergeni,
         ingredientiModificabili: ingredientiModificabili,
+      }).then(() => {
+        console.log("Piatto modificato con successo");
       }).catch((err) => {
         console.error(err);
         throw new FailedDependencyException("Modifica piatto fallita");

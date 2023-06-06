@@ -3,6 +3,7 @@
  */
 const GestoreProfilo = require("../gestori/GestoreProfilo");
 const Utente = require("./Utente");
+const GestoreConti = require("../gestori/GestoreConti");
 
 class UtenteLoggato extends Utente {
   constructor() {
@@ -29,8 +30,24 @@ class UtenteLoggato extends Utente {
   static eliminaAccount() {
     /** TODO */
   }
-  static chiudiConto() {
-    /** TODO */
+
+  /**
+     * Metodo che apre un conto ed invia automaticamente le portate
+     * 
+     * @param {*} idUtente L'id dell'utente che apre il conto
+     * @param {*} portate Le portate da inviare
+     */
+  static async invioOrdine(idUtente, portate) {
+
+    let idConto = await GestoreConti.apriConto(idUtente, 0);
+    await GestoreConti.aggiungiPortata(idConto, portate);
+  };
+
+  static async chiudiConto() {
+    // TODO Pagamento Conto
+
+    idConto = await GestoreConti.getContoAperto(idUtente);
+    GestoreConti.chiudiConto(idConto);
   }
 }
 

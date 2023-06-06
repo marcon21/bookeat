@@ -81,6 +81,25 @@ class UtenteAbstract {
     );
   }
 
+  /**
+     * Metodo per aprire un conto, salvando le sue informazioni nel database
+     * 
+     * @param idUtente - L'id dell'utente che apre il conto	
+     * @param nCoperti - Il numero di coperti del conto
+     * 
+     * @throws FailedDependencyException - Se la creazione del conto fallisce
+     * @throws UnauthorizedException - Se l'utente non è autorizzato ad eseguire l'operazione
+    */
+  static async apriConto(idUtente, nCoperti) { throw new UnauthorizedException("Unauthorized - Accedi con un account autorizzato e riprova"); }
+
+  /**
+  * Metodo che apre un conto ed invia automaticamente le portate
+  * 
+  * @param {*} idUtente L'id dell'utente che apre il conto
+  * @param {*} portate Le portate da inviare
+  */
+  static async invioOrdine(idUtente, portate) { throw new UnauthorizedException("Unauthorized - Accedi con un account autorizzato e riprova"); }
+
   static async modificaNome(id, nome) {
     throw new UnauthorizedException(
       "Unauthorized - Accedi con un account autorizzato e riprova"
