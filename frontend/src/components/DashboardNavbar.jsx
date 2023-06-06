@@ -1,4 +1,5 @@
 import { logout } from "../requests"
+import { toast } from "react-toastify"
 
 export default function DashboardNavBar({ label, setRedirect }) {
 
@@ -51,6 +52,7 @@ export default function DashboardNavBar({ label, setRedirect }) {
                 <div className="nav-item text-nowrap">
                     <a className="nav-link px-3" onClick={async () => {
                         await logout()
+                        toast.success("Logout effettuato")
                         setRedirect('/login')
                     }}>
                         <i className='bi bi-box-arrow-right fs-4'></i>
