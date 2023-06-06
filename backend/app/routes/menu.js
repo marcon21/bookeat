@@ -14,14 +14,12 @@ const { errorRes, successRes } = require("../response");
  * Ritorna tutti i piatti del menu
  */
 router.get("/", async function (req, res, next) {
-
   try {
     data = await UtenteAnonimo.getMenu();
     successRes(res, data);
   } catch (error) {
     errorRes(res, error, error.message, error.code);
   }
-
 });
 
 /**
@@ -50,7 +48,6 @@ router.post(
     } catch (error) {
       errorRes(res, error, error.message, error.code);
     }
-
   }
 );
 
@@ -96,7 +93,9 @@ router.delete(
     const user = await User.findOne({ _id: req.user._id });
 
     try {
-      await ClasseUtente.getClasseUtente(user.userType).rimuoviPiatto(req.params.idPiatto);
+      await ClasseUtente.getClasseUtente(user.userType).rimuoviPiatto(
+        req.params.idPiatto
+      );
 
       successRes(res, "Piatto eliminato con successo");
     } catch (error) {
