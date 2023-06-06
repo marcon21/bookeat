@@ -486,7 +486,7 @@ paths:
                   success: false
                   error: "Errore, credenziali errate"
   
-  /utente/profile:
+  /utente/profilo:
     get:
       summary: Ricevi informazioni sul profilo dell'utente
       security:
@@ -506,21 +506,8 @@ paths:
                   data:
                     type: object
                     properties:
-                      user: 
-                        type: object
-                        properties:
-                          id: 
-                            type: string
-                          email: 
-                            type: string
-                          password:
-                            type: string
-                          nome:
-                            type: string
-                          userType:
-                            type: string
-                          googleId:
-                            type: string
+                      user:
+                        $ref: "#/components/schemas/UtenteResponse"
         "401":
           description: Bad credentials
           content:
@@ -529,9 +516,55 @@ paths:
                 $ref: "#/components/schemas/ErrResponse"
               example:
                 success: false
-                error: "Errore, credenziali errate"
+                error: "Utente non autenticato"
+                /utente/profilo:
+    put:
+      summary: Creazione di un nuovo utente, accessibile sola al manager
+      security:
+        - jwtCookie: []
+      requestBody:
+        description: Nuovo Utente
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                userTyp:
+                  type: string
+      responses:
+        "200":
+          description: Response with the user created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                      type: boolean
+                  message:
+                      type: string
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        $ref: "#/components/schemas/UtenteResponse"
+        "401":
+          description: Bad credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                success: false
+                error: "Utente non autenticato"
 
-  /utente/profile/changepassword:
+  /utente/password/{?idUtente}:
     put:
       summary: Modifica password dell'utente
       security:
@@ -557,18 +590,11 @@ paths:
                     type: boolean
                   message: 
                     type: string
-                  data: 
+                  data:
                     type: object
                     properties:
-                      user: 
-                        type: object
-                        properties:
-                          id: 
-                            type: string
-                          password: 
-                            type: string
-                          nuovapassword:
-                            type: string
+                      user:
+                        $ref: "#/components/schemas/UtenteResponse"
               example:
                 success: true
                 message: "Password modificata con successo"
@@ -592,7 +618,60 @@ paths:
               example:
                 success: false
                 error: "Unauthorized - Accedi"
+                
+  /utente/nome/{?idUtente}:
+    put:
+      summary: Modifica il nome dell'utente
+      security:
+        - jwtCookie: []
+      requestBody:
+        description: Nuovo nome dell'utente
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RichiestaCambioNome"
+            example:
+              nome: "Glauco"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  succes: 
+                    type: boolean
+                  message: 
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        $ref: "#/components/schemas/UtenteResponse"
+              example:
+                success: true
+                message: "Nome cambiato con successo"
 
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                success: false
+                error: "Richiesta non valida"
+        
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                success: false
+                error: "Unauthorized - Accedi"
 components:
   schemas:
     Piatto:
@@ -695,6 +774,34 @@ components:
       required:
         - vecchiaPassword
         - nuovaPassword
+        
+    RichiestaCambioNome:
+      type: object
+      properties:
+        nome:
+          type: string
+          description: Nuovo nome dell'utente
+      required:
+        - nome
+        
+    UtenteResponse:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            _id:
+              type: string
+            email:
+              type: string
+            password:
+              type: string
+            nome:
+              type: string
+            userType:
+              type: string
+            googleId:
+              type: string
             
   securitySchemes:
     jwtCookie:         
