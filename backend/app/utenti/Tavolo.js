@@ -15,6 +15,7 @@ class Tavolo extends Utente {
 
 
     static async invioOrdine(idUtente, portate) {
+
         const conto = await GestoreConti.getContoWithUser(idUtente);
         await GestoreConti.aggiungiPortata(conto._id, portate);
     };

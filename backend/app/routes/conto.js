@@ -32,8 +32,6 @@ router.post("/apriConto",
     }
 );
 
-
-
 /**
  * Invia un ordine 
  * 

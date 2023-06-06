@@ -25,6 +25,8 @@ class GestoreConti {
       throw new NotFoundException("Errore durante il recupero del conto");
     });
 
+    if (conto == null) { throw new NotFoundException("Errore durante il recupero del conto"); }
+
     return conto;
   }
 
