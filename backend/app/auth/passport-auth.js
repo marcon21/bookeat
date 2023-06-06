@@ -23,7 +23,7 @@ passport.use(
       passwordField: "password",
       passReqToCallback: true,
     },
-    async (email, password, done) => {
+    async (req, email, password, done) => {
       try {
         // const user = await GestoreProfilo.creaAccount(
         //   "Daniel",
@@ -43,7 +43,7 @@ passport.use(
 
         return done(null, user);
       } catch (error) {
-        done(null, false);
+        return done(null, false);
       }
     }
   )
@@ -96,6 +96,12 @@ passport.use(
     },
     async (token, done) => {
       try {
+        const user = await User.findById(token.user._id);
+
+        if (!user) {
+          return done(null, false, { message: "User not found" });
+        }
+
         return done(null, token.user);
       } catch (error) {
         done(error);

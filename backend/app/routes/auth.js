@@ -8,14 +8,6 @@ const jwt = require("jsonwebtoken");
 const { ServerResponse } = require("http");
 const UtenteAnonimo = require("../utenti/UtenteAnonimo");
 
-// Setting up route for registering a new user
-// router.post(
-//   "/signup",
-//   passport.authenticate("signup", { session: false }),
-//   async (req, res, next) => {
-//     successRes(res, "Signup successful", { user: req.user });
-//   }
-// );
 router.post("/signup", function (req, res, next) {
   passport.authenticate("signup", function (err, user, info) {
     if (err || !user) {

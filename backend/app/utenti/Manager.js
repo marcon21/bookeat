@@ -93,6 +93,16 @@ class Manager extends Dipendente {
   static async modificaPassword(id, vecchiaPassword, nuovaPassword) {
     await GestoreProfilo.modificaPassword(id, vecchiaPassword, nuovaPassword);
   }
+
+  static async creaAccount(nome, tipo, email, password, googleId) {
+    return await GestoreProfilo.creaAccount(
+      nome,
+      tipo,
+      email,
+      password,
+      googleId
+    );
+  }
 }
 
 module.exports = Manager;

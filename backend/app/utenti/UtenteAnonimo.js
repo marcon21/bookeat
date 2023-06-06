@@ -30,7 +30,7 @@ class UtenteAnonimo {
   static async creaAccount(nome, tipo, email, password, googleId) {
     return await GestoreProfilo.creaAccount(
       nome,
-      tipo,
+      "UtenteLoggato",
       email,
       password,
       googleId

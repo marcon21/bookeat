@@ -92,6 +92,12 @@ class UtenteAbstract {
       "Unauthorized - Accedi con un account autorizzato e riprova"
     );
   }
+
+  static async creaAccount(nome, tipo, email, password, googleId) {
+    throw new UnauthorizedException(
+      "Unauthorized - Accedi con un account autorizzato e riprova"
+    );
+  }
 }
 
 module.exports = UtenteAbstract;
