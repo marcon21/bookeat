@@ -112,7 +112,7 @@ describe('Menu', () => {
                 prezzo: piatti[0].prezzo,
                 categoria: piatti[0].categoria,
                 disponibile: piatti[0].disponibile,
-                descrizione: '',
+                descrizione: 1234,
                 allergeni: piatti[0].allergeni,
                 ingredientiModificabili: piatti[0].ingredientiModificabili,
             }, token)
@@ -262,7 +262,7 @@ describe('Menu', () => {
                 prezzo: piatti[0].prezzo,
                 categoria: piatti[0].categoria,
                 disponibile: piatti[0].disponibile,
-                descrizione: '',
+                descrizione: 1234,
                 allergeni: piatti[0].allergeni,
                 ingredientiModificabili: piatti[0].ingredientiModificabili
             }, token)
@@ -314,6 +314,27 @@ describe('Menu', () => {
                 allergeni: [makeString(10), makeString(10)],
                 ingredientiModificabili: [makeString(10), makeString(10)]
             }, token)
+            expect(res.statusCode).toEqual(200)
+        })
+    })
+    describe('DELETE /menu/:idPiatto', () => {
+        it('should return 401 if user is not logged in', async () => {
+            const idPiatto = await getMenu().then((r) => r.piatti[0]._id)
+            const res = await fetchAPI(`/menu/${idPiatto}`, 'DELETE')
+            expect(res.statusCode).toEqual(401)
+        })
+        it('should return 401 if user is not a manager', async () => {
+            const utenteManagerId = await User.findOne({ email: utenteManager.email }).then((res) => res._id)
+            const idPiatto = await getMenu().then((r) => r.piatti[0]._id)
+            const token = generaJWT(utenteManagerId, utenteManager.email)
+            const res = await fetchAPI(`/menu/${idPiatto}`, 'DELETE', {}, makeString(token.length))
+            expect(res.statusCode).toEqual(401)
+        })
+        it('should return 200 if id is valid', async () => {
+            const utenteManagerId = await User.findOne({ email: utenteManager.email }).then((res) => res._id)
+            const idPiatto = await getMenu().then((r) => r.piatti[0]._id)
+            const token = generaJWT(utenteManagerId, utenteManager.email)
+            const res = await fetchAPI(`/menu/${idPiatto}`, 'DELETE', {}, token)
             expect(res.statusCode).toEqual(200)
         })
     })
