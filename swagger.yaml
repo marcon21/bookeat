@@ -504,10 +504,7 @@ paths:
                   message:
                       type: string
                   data:
-                    type: object
-                    properties:
-                      user:
-                        $ref: "#/components/schemas/UtenteResponse"
+                    $ref: "#/components/schemas/UtenteResponse"
         "401":
           description: Bad credentials
           content:
@@ -519,7 +516,7 @@ paths:
                 error: "Utente non autenticato"
                 /utente/profilo:
     post:
-      summary: Creazione di un nuovo utente, accessibile solo al manager
+      summary: Creazione di un nuovo utente, accessibile sola al manager
       security:
         - jwtCookie: []
       requestBody:
@@ -535,7 +532,7 @@ paths:
                   type: string
                 password:
                   type: string
-                userType:
+                userTyp:
                   type: string
       responses:
         "200":
@@ -591,10 +588,7 @@ paths:
                   message: 
                     type: string
                   data:
-                    type: object
-                    properties:
-                      user:
-                        $ref: "#/components/schemas/UtenteResponse"
+                    $ref: "#/components/schemas/UtenteResponse"
               example:
                 success: true
                 message: "Password modificata con successo"
@@ -645,10 +639,7 @@ paths:
                   message: 
                     type: string
                   data:
-                    type: object
-                    properties:
-                      user:
-                        $ref: "#/components/schemas/UtenteResponse"
+                    $ref: "#/components/schemas/UtenteResponse"
               example:
                 success: true
                 message: "Nome cambiato con successo"
@@ -672,6 +663,7 @@ paths:
               example:
                 success: false
                 error: "Unauthorized - Accedi"
+
 components:
   schemas:
     Piatto:
