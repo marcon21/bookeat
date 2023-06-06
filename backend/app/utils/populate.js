@@ -42,8 +42,9 @@ async function manualPopulate() {
     mongoose.connection.close();
 }
 
-// Esecuzione della funzione di popolamento
-// manualPopulate();
+if (require.main === module) {
+    manualPopulate();
+}
 
 exports.populate = populate;
 exports.deleteDatabase = deleteDatabase;

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./app/bin/www",
-    "dev": "nodemon -L ./app/bin/www",
+    "dev": "node ./app/utils/populate.js & nodemon -L ./app/bin/www",
     "test": "jest --watchAll --verbose"
   },
   "dependencies": {
@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "jest": "^29.5.0",
+    "jest-html-reporter": "^3.10.0",
     "supertest": "^6.3.3"
   }
 }
