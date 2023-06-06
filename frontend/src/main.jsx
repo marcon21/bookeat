@@ -6,6 +6,9 @@ import {
   RouterProvider,
 } from 'react-router-dom'
 
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
@@ -21,7 +24,7 @@ import BillHistoryRoute from './routes/billHistoryRoute'
 import OrdersRoute from './routes/ordersRoute'
 import ReservationsRoute from './routes/reservationsRoute'
 import ProblemsRoute from './routes/problemsRoute'
-import SettingsRoute, { loader as settingsRouteLoader} from './routes/settingsRoute'
+import SettingsRoute, { loader as settingsRouteLoader } from './routes/settingsRoute'
 
 // Router of the app
 const router = createBrowserRouter([
@@ -89,5 +92,17 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <RouterProvider router={router} />
+    <ToastContainer
+      position="bottom-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss={false}
+      draggable
+      pauseOnHover
+      theme="dark"
+    />
   </React.StrictMode>,
 )
