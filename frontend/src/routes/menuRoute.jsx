@@ -5,12 +5,27 @@ import LateralBar from "../components/LateralBar";
 import MenuSections from "../components/MenuSections";
 import NavBar from "../components/Navbar";
 
-import { getMenu } from "../requests";
+import { getMenu, sendOrder } from "../requests";
 import Modal from "../components/Modal";
+import CheckOut from "../components/CheckOut"
+
+import { toast } from 'react-toastify'
 
 // Loader function called each time route is visited
 export async function loader() {
     const menu = await getMenu()
+    // filter menu["data"]["piatti"] to only include available plates
+    menu["data"]["piatti"] = menu["data"]["piatti"].filter((item) => item["disponibile"])
+    // filter menu["data"]["categorie"] to only include categories that have at least one plate available
+    menu["data"]["categorie"] = menu["data"]["categorie"].filter((item) => menu["data"]["piatti"].some((plate) => plate["categoria"]["primaria"] === item["primaria"] && plate["disponibile"]))
+    // filter menu["data"]["categorie"] to only include secondary categories that have at least one plate available
+    menu["data"]["categorie"].forEach((item) => {
+        if (item["secondaria"]) {
+            if (!menu["data"]["piatti"].some((plate) => plate["categoria"]["primaria"] === item["primaria"] && plate["categoria"]["secondaria"] === item["secondaria"] && plate["disponibile"])) {
+                item["secondaria"] = undefined
+            }
+        }
+    })
     return menu
 }
 
@@ -24,6 +39,82 @@ export default function MenuRoute() {
             </div>
         )
     }
+    const [checkout, setCheckout] = useState([])
+    const addToCheckout = (item) => {
+        let checkoutCopy = structuredClone(checkout)
+        checkoutCopy.push(item)
+        setCheckout(checkoutCopy)
+        toast.success(item["nome"] + " nel carrello")
+    }
+    const removeFromCheckout = (index) => {
+        let plateName = checkout[index]["nome"]
+        let checkoutCopy = structuredClone(checkout)
+        checkoutCopy.splice(index, 1)
+        setCheckout(checkoutCopy)
+        toast.success( plateName + " rimosso dal carrello")
+    }
+    const increasePriority = (index) => {
+        let checkoutCopy = structuredClone(checkout)
+        // if there arent items with same priority as the one we want to increase, dont increase
+        if (checkoutCopy.filter((item) => item["priorita"] === checkoutCopy[index]["priorita"]).length === 1) {
+            return
+        }
+        checkoutCopy[index]["priorita"] += 1
+        setCheckout(checkoutCopy)
+    }
+    const decreasePriority = (index) => {
+        let checkoutCopy = structuredClone(checkout)
+        let maxPriorita = 0
+        checkoutCopy.forEach((item) => {
+            if (item["priorita"] > maxPriorita) {
+                maxPriorita = item["priorita"]
+            }
+        })
+        // if there arent items with same priority as the one we want to decrease, dont decrease, but only to priorities between 0 and maxPriority
+        if (checkoutCopy.filter((item) => item["priorita"] === checkoutCopy[index]["priorita"]).length === 1 && checkoutCopy[index]["priorita"] > 0 && checkoutCopy[index]["priorita"] < maxPriorita) {
+            return
+        }
+
+        if (checkoutCopy[index]["priorita"] > 0) {
+            checkoutCopy[index]["priorita"] -= 1
+            setCheckout(checkoutCopy)
+        }
+    }
+
+    const checkoutHandler = async () => {
+        let checkoutCopy = structuredClone(checkout)
+        checkoutCopy.forEach((item) => {
+            delete item["nome"]
+            delete item["prezzo"]
+            item["idPiatto"] = item["_id"]
+            delete item["_id"]
+        })
+        let rt = await sendOrder(checkoutCopy)
+        let promiseApi = new Promise((resolve, reject) => {
+            if (rt["status"]) {
+                resolve(rt)
+            } else {
+                reject(rt)
+            }
+        })
+        await toast.promise(promiseApi, {
+            pending: {
+                render({ data }) {
+                    return "Invio ordine in corso..."
+                }
+            },
+            success: {
+                render({ data }) {
+                    setCheckout([])
+                    return "Ordine inviato con successo"
+                }
+            },
+            error: "Errore: " + rt["message"]
+        })
+    }
+
+
+
     let menu = structuredClone(useLoaderData()["data"])
     let menuCategories = structuredClone(useLoaderData()["data"]["categorie"])
     let pageName = filter[0] === 0 ? 'Menu completo' : filter[1] === 0 ? "Menu: ".concat(filter[0]) : "Menu: ".concat(filter[0]).concat(" - ").concat(filter[1])
@@ -37,7 +128,7 @@ export default function MenuRoute() {
         <>
             {redirect && <Navigate to={redirect} />}
             <header className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-                <NavBar label={pageName} onFilterClickHandler={onFilterClickHandler} setRedirect={setRedirect} />
+                <NavBar label={pageName} onFilterClickHandler={onFilterClickHandler} setRedirect={setRedirect} checkout={checkout} />
             </header>
 
             <div className="container-fluid">
@@ -49,10 +140,22 @@ export default function MenuRoute() {
                     </nav>
 
                     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                        <MenuSections menu={menu} filter={filter} />
+                        <MenuSections menu={menu} filter={filter} addToCheckout={addToCheckout} />
                     </main>
                 </div>
             </div>
+
+            <Modal
+                modalId={"checkoutModal"}
+                title={"Carrello"}
+                closeButtonText="Chiudi"
+                confirmButtonText="Invia Ordine"
+                closeFunction={() => { console.log("close") }}
+                confirmFunction={checkoutHandler}
+                showButtons={checkout.length > 0}
+            >
+                <CheckOut checkoutList={checkout} removeFromCheckout={removeFromCheckout} increasePriority={increasePriority} decreasePriority={decreasePriority} />
+            </Modal>
         </>
     )
 }

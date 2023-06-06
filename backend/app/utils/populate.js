@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Piatto = require('../db/piatto').Piatto;
+const User = require('../db/utente').User;
 
 // Creazione di un oggetto di esempio per il popolamento del database
 const data = [
@@ -539,15 +540,69 @@ const data = [
     }
 ];
 
+const utenti = [
+    {
+        "email": "mario.rossi@gmail.com",
+        "password": "qwertyQ1!",
+        "nome": "Mario",
+        "userType": "Manager"
+    },
+    {
+        "email": "luigi.verdi@gmail.com",
+        "password": "qwertyQ1!",
+        "nome": "Luigi",
+        "userType": "Sala"
+    },
+    {
+        "email": "wario.gialli@gmail.com",
+        "password": "qwertyQ1!",
+        "nome": "Wario",
+        "userType": "Cucina"
+    },
+    {
+        "email": "waluigi.violi@gmail.com",
+        "password": "qwertyQ1!",
+        "nome": "Waluigi",
+        "userType": "Tavolo"
+    },
+    {
+        "email": "toad@gmail.com",
+        "password": "qwertyQ1!",
+        "nome": "Toad",
+        "userType": "UtenteLoggato"
+    }
+];
+
+
 // Funzione per il popolamento del database
 async function populateDatabase() {
-    mongoose.connect("mongodb://user:1234@mongo:27017/restaurant")
-    Piatto.create(data).then((piatto) => {
-        console.log("OK");
-        mongoose.connection.close();
+    mongoose.connect("mongodb://user:1234@mongo:27017/restaurant");
+
+    await Piatto.deleteMany({}).then(() => {
+        console.log("Menu Eliminato");
     }).catch((err) => {
         console.log(err);
-    });    
+    });
+
+    await Piatto.create(data).then((piatto) => {
+        console.log("Menu Caricato");
+    }).catch((err) => {
+        console.log(err);
+    });
+
+    await User.deleteMany({}).then(() => {
+        console.log("Utenti Eliminati");
+    }).catch((err) => {
+        console.log(err);
+    });
+
+    await User.create(utenti).then((User) => {
+        console.log("Utenti Caricati");
+    }).catch((err) => {
+        console.log(err);
+    });
+
+    mongoose.connection.close();
 }
 
 // Esecuzione della funzione di popolamento

@@ -10,7 +10,6 @@ const auth = require("./auth");
 const base_url = "/api/v1";
 passport_options = {
   session: false,
-  failureRedirect: base_url + "/auth/login",
 };
 
 // Exporting routes

@@ -16,14 +16,12 @@ const { errorRes, successRes } = require("../response");
  * @returns menu - Il menu del ristorante
  */
 router.get("/", async function (req, res, next) {
-
   try {
     data = await UtenteAnonimo.getMenu();
     successRes(res, "OK", data);
   } catch (error) {
     errorRes(res, error, error.message, error.code);
   }
-
 });
 
 /**
@@ -41,7 +39,6 @@ router.post(
   "/",
   passport.authenticate("jwt", {
     session: false,
-    failureRedirect: "/api/v1/auth/login",
   }),
   async function (req, res, next) {
     const user = await User.findOne({ _id: req.user._id });
@@ -61,7 +58,6 @@ router.post(
     } catch (error) {
       errorRes(res, error, error.message, error.code);
     }
-
   }
 );
 
@@ -72,7 +68,6 @@ router.put(
   "/:idPiatto",
   passport.authenticate("jwt", {
     session: false,
-    failureRedirect: "/api/v1/auth/login",
   }),
   async function (req, res, next) {
     const user = await User.findOne({ _id: req.user._id });
@@ -103,13 +98,14 @@ router.delete(
   "/:idPiatto",
   passport.authenticate("jwt", {
     session: false,
-    failureRedirect: "/api/v1/auth/login",
   }),
   async function (req, res, next) {
     const user = await User.findOne({ _id: req.user._id });
 
     try {
-      await ClasseUtente.getClasseUtente(user.userType).rimuoviPiatto(req.params.idPiatto);
+      await ClasseUtente.getClasseUtente(user.userType).rimuoviPiatto(
+        req.params.idPiatto
+      );
 
       successRes(res, "OK");
     } catch (error) {

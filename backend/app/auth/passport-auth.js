@@ -1,6 +1,8 @@
 const { db } = require("../db");
 const User = require("../db/utente").User;
 const GestoreProfilo = require("../gestori/GestoreProfilo");
+const UtenteAnonimo = require("../utenti/UtenteAnonimo");
+const UtenteLoggato = require("../utenti/UtenteLoggato");
 
 const { errorRes, successRes } = require("../response");
 
@@ -19,12 +21,21 @@ passport.use(
     {
       usernameField: "email",
       passwordField: "password",
+      passReqToCallback: true,
     },
-    async (email, password, done) => {
+    async (req, email, password, done) => {
       try {
-        const user = await GestoreProfilo.creaAccount(
-          "Daniel",
-          "Manager",
+        // const user = await GestoreProfilo.creaAccount(
+        //   "Daniel",
+        //   "Manager",
+        //   email,
+        //   password,
+        //   ""
+        // );
+
+        const user = await UtenteAnonimo.creaAccount(
+          req.body.nome,
+          "UtenteLoggato",
           email,
           password,
           ""
@@ -32,7 +43,7 @@ passport.use(
 
         return done(null, user);
       } catch (error) {
-        done(null, false);
+        return done(null, false);
       }
     }
   )
@@ -70,7 +81,9 @@ passport.use(
 
 var cookieExtractor = function (req) {
   var token = null;
-  if (req && req.cookies) token = req.cookies["jwt"];
+  if (req && req.cookies) {
+    token = req.cookies["jwt"];
+  }
   return token;
 };
 
@@ -85,6 +98,12 @@ passport.use(
     },
     async (token, done) => {
       try {
+        const user = await User.findById(token.user._id);
+
+        if (!user) {
+          return done(null, false, { message: "User not found" });
+        }
+
         return done(null, token.user);
       } catch (error) {
         done(error);
@@ -105,9 +124,8 @@ passport.use(
     async function (accessToken, refreshToken, profile, cb) {
       const email = profile["emails"][0]["value"];
 
-      let user = await GestoreProfilo.linkGoogleAccount(email, profile.id);
-
-      const token = GestoreProfilo.generaJWT(user._id, user.email);
+      const user = await UtenteLoggato.linkGoogleAccount(email, profile.id);
+      const token = await UtenteAnonimo.generaJWT(user._id, user.email);
 
       return cb(null, { token: token, user: user });
     }
