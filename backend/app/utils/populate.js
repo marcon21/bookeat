@@ -5,36 +5,49 @@ const User = require('../db/utente').User;
 const data = require('./piatti.json');
 const utenti = require('./utenti.json');
 
-// Funzione per il popolamento del database
-async function populateDatabase() {
+async function deleteMenu() {
+    await Piatto.deleteMany({});
+}
+
+async function deleteUtenti() {
+    await User.deleteMany({});
+}
+
+async function deleteDatabase() {
+    await deleteMenu();
+    await deleteUtenti();
+}
+
+async function populateMenu() {
+    await Piatto.create(data);
+}
+
+async function populateUtenti() {
+    await User.create(utenti);
+}
+
+async function populate() {
+    await populateMenu();
+    await populateUtenti();
+}
+
+async function manualPopulate() {
     mongoose.connect("mongodb://user:1234@mongo:27017/restaurant");
-
-    await Piatto.deleteMany({}).then(() => {
-        console.log("Menu Eliminato");
-    }).catch((err) => {
-        console.log(err);
-    });
-
-    await Piatto.create(data).then((piatto) => {
-        console.log("Menu Caricato");
-    }).catch((err) => {
-        console.log(err);
-    });
-
-    await User.deleteMany({}).then(() => {
-        console.log("Utenti Eliminati");
-    }).catch((err) => {
-        console.log(err);
-    });
-
-    await User.create(utenti).then((User) => {
-        console.log("Utenti Caricati");
-    }).catch((err) => {
-        console.log(err);
-    });
-
+    await deleteDatabase()
+        .then(() => console.log("Database cancellato"))
+        .catch((err) => console.log(err));
+    await populate()
+        .then(() => console.log("Database popolato"))
+        .catch((err) => console.log(err));
     mongoose.connection.close();
 }
 
 // Esecuzione della funzione di popolamento
-populateDatabase();
+// manualPopulate();
+
+exports.populate = populate;
+exports.deleteDatabase = deleteDatabase;
+exports.populateMenu = populateMenu;
+exports.populateUtenti = populateUtenti;
+exports.deleteMenu = deleteMenu;
+exports.deleteUtenti = deleteUtenti;

@@ -4,9 +4,10 @@ const makePassword = require('./utils').makePassword
 const fetchAPI = require('./utils').fetchAPI
 
 const utenti = require('../utils/utenti.json');
-const utente = utenti.find((utente) => utente.userType === 'UtenteLoggato')
+const utente = utenti.find((utente) => utente.userType === 'UtenteLoggato');
 
 describe('Auth', () => {
+
     describe('POST /signup', () => {
         it('should return 401 if email is not valid', async () => {
             const res = await fetchAPI('/auth/signup', 'POST', {
@@ -38,6 +39,7 @@ describe('Auth', () => {
         }
         )
     })
+
     describe('POST /login', () => {
         it('should return 401 if email is not valid', async () => {
             const res = await fetchAPI('/auth/login', 'POST', {
@@ -68,6 +70,7 @@ describe('Auth', () => {
             expect(res.statusCode).toEqual(200)
         })
     })
+
     describe('GET /google', () => {
         it('should return 200', async () => {
             const res = await fetchAPI('/auth/google', 'GET')

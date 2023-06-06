@@ -2,13 +2,10 @@ const fetchAPI = require('./utils').fetchAPI
 const makeString = require('./utils').makeString
 const makeNumber = require('./utils').makeNumber
 
-// importa generaJWT da GestoreProfilo.js
 const generaJWT = require('../gestori/GestoreProfilo').generaJWT
 const getMenu = require('../gestori/GestoreMenu').getMenu
 const User = require("../db/utente").User
 
-
-const { get } = require('mongoose')
 const piatti = require('../utils/piatti.json')
 const utenti = require('../utils/utenti.json')
 const utenteManager = utenti.find((utente) => utente.userType === 'Manager')
@@ -21,6 +18,7 @@ describe('Menu', () => {
             expect(res.statusCode).toEqual(200)
         })
     })
+
     describe('POST /menu', () => {
         it('should return 401 if user is not logged in', async () => {
             const res = await fetchAPI('/menu', 'POST', {
@@ -164,6 +162,7 @@ describe('Menu', () => {
             expect(res.statusCode).toEqual(201)
         })
     })
+
     describe('PUT /menu/:idPiatto', () => {
         it('should return 401 if user is not logged in', async () => {
             const idPiatto = await getMenu().then((r) => r.piatti[0]._id)
@@ -317,6 +316,7 @@ describe('Menu', () => {
             expect(res.statusCode).toEqual(200)
         })
     })
+
     describe('DELETE /menu/:idPiatto', () => {
         it('should return 401 if user is not logged in', async () => {
             const idPiatto = await getMenu().then((r) => r.piatti[0]._id)

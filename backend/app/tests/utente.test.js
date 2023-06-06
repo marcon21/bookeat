@@ -28,6 +28,7 @@ describe('Utente', () => {
             expect(res.status).toBe(200)
         })
     })
+
     describe('POST /utente/profilo', () => {
         it('should return 401 if user is not logged in', async () => {
             const res = await fetchAPI('/utente/profilo', 'POST', {
@@ -114,6 +115,7 @@ describe('Utente', () => {
             expect(res.status).toBe(200)
         })
     })
+
     describe('PUT /utente/password/:id?', () => {
         it('should return 401 if user is not logged in', async () => {
             const res = await fetchAPI('/utente/password', 'PUT', {
@@ -157,6 +159,7 @@ describe('Utente', () => {
             expect(res.status).toBe(200)
         })
     })
+
     describe('PUT /utente/nome/:id?', () => {
         it('should return 401 if user is not logged in', async () => {
             const res = await fetchAPI('/utente/nome', 'PUT', {
