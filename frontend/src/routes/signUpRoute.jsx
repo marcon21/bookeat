@@ -5,6 +5,7 @@ import * as yup from "yup"
 import { Navigate } from "react-router-dom"
 
 import { signUp } from "../requests"
+import { toast } from "react-toastify"
 
 export default function SignUpRoute() {
     const isLoggedIn = document.cookie.split(';').some((item) => item.trim().startsWith('jwt='))
@@ -50,9 +51,11 @@ export default function SignUpRoute() {
         let isSignedUp = await signUp(data.email, data.password)
         console.log(isSignedUp)
         if (isSignedUp["status"]) {
+            toast.success("Registrazione effettuata con successo")
             setRedirect('/')
         } else {
             reset()
+            toast.error("Registrazione fallita")
         }
     }
 
