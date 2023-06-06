@@ -6,6 +6,8 @@ import { Link, Navigate } from "react-router-dom"
 
 import { login } from '../requests'
 
+import { toast } from 'react-toastify'
+
 export default function LogbuttoninRoute() {
     const isLoggedIn = document.cookie.split(';').some((item) => item.trim().startsWith('jwt='))
 
@@ -34,10 +36,11 @@ export default function LogbuttoninRoute() {
     const onSubmit = async (data) => {
         let response = await login(data.email, data.password)
         if (response && response["status"]) {
+            toast.success("Login effettuato con successo")
             setRedirect('/')
         } else {
-            console.log(response["message"])
             reset()
+            toast.error("Credenziali errate")
         }
     }
 
