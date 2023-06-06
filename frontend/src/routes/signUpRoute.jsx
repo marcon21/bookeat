@@ -23,8 +23,7 @@ export default function SignUpRoute() {
             .matches(/^[a-zA-Z0-9_.]*$/, "L'username può contenere solo lettere, numeri, punti e underscore"),
         password: yup.string()
             .required("La password è richiesta")
-            .min(4, "La password deve contenere almeno 4 caratteri")
-            .max(12, "La password non può contenere più di 12 caratteri")
+            .min(8, "La password deve contenere almeno 8 caratteri")
             .matches(/(?=.*[0-9])/, "La password deve contenere almeno un numero")
             .matches(/(?=.*[a-z])/, "La password deve contenere almeno una lettera minuscola")
             .matches(/(?=.*[A-Z])/, "La password deve contenere almeno una lettera maiuscola")
