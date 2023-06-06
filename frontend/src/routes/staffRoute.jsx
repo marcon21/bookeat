@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from "yup"
 import FormFieldsManager from '../components/FormFieldsManager'
+import { toast } from 'react-toastify'
 
 export async function loader() {
     // let staff = await getStaff()
@@ -100,25 +101,32 @@ export default function StaffRoute() {
     })
 
     const onSubmit = async (data) => {
-        console.log(data)
         if (staffSelected !== null) {
             // let r = await updateStaff(data)
             // if (r["status"]) {
+            //     toast.success("Utente aggiornato")
             //     setStaff(await getStaff())
+            // } else {
+            //     toast.error("Utente non aggiornato")
             // }
             let tmp = structuredClone(staff)
             delete data.cpassword
             tmp[staffSelected] = data
             setStaff(tmp)
+            toast.success("Utente aggiornato")
         } else {
             // let r = await createStaff(data)
             // if (r["status"]) {
+            //     toast.success("Utente creato")
             //     setStaff(await getStaff())
+            // } else {
+            //     toast.error("Utente non creato")
             // }
             let tmp = structuredClone(staff)
             delete data.cpassword
             tmp.push(data)
             setStaff(tmp)
+            toast.success("Utente creato")
         }
         setStaffSelected(null)
         reset(formFields)
@@ -131,11 +139,15 @@ export default function StaffRoute() {
     let handleDelete = async (index) => {
         // let r = await deleteStaff(index)
         // if (r["status"]) {
+        //     toast.success("Utente eliminato")
         //     setStaff(await getStaff())
+        // } else {
+        //     toast.error("Utente non eliminato")
         // }
         let tmp = structuredClone(staff)
         tmp.splice(index, 1)
         setStaff(tmp)
+        toast.success("Utente eliminato")
     }
 
     if (userType === "Manager") {
