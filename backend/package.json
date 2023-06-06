@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./app/bin/www",
-    "dev": "nodemon -L ./app/bin/www"
+    "dev": "nodemon -L ./app/bin/www",
+    "test": "jest --watchAll --verbose"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",

@@ -2,10 +2,8 @@ const mongoose = require('mongoose');
 const Piatto = require('../db/piatto').Piatto;
 const User = require('../db/utente').User;
 
-// Creazione di un oggetto di esempio per il popolamento del database
 const data = require('./piatti.json');
 const utenti = require('./utenti.json');
-
 
 // Funzione per il popolamento del database
 async function populateDatabase() {
