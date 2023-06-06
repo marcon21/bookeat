@@ -45,7 +45,6 @@ router.post("/invioOrdine",
     async function (req, res, next) {
         const user = await User.findOne({ _id: req.user._id });
 
-
         await ClasseUtente.getClasseUtente(user.userType).invioOrdine(req.user._id, req.body.portate).then((idConto) => {
             successRes(res, "OK", { "idConto": idConto });
         }).catch((error) => {
