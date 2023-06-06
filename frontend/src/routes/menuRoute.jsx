@@ -9,6 +9,8 @@ import { getMenu, sendOrder } from "../requests";
 import Modal from "../components/Modal";
 import CheckOut from "../components/CheckOut"
 
+import { toast } from 'react-toastify'
+
 // Loader function called each time route is visited
 export async function loader() {
     const menu = await getMenu()
@@ -42,11 +44,14 @@ export default function MenuRoute() {
         let checkoutCopy = structuredClone(checkout)
         checkoutCopy.push(item)
         setCheckout(checkoutCopy)
+        toast.success(item["nome"] + " nel carrello")
     }
     const removeFromCheckout = (index) => {
+        let plateName = checkout[index]["nome"]
         let checkoutCopy = structuredClone(checkout)
         checkoutCopy.splice(index, 1)
         setCheckout(checkoutCopy)
+        toast.success( plateName + " rimosso dal carrello")
     }
     const increasePriority = (index) => {
         let checkoutCopy = structuredClone(checkout)
@@ -84,12 +89,28 @@ export default function MenuRoute() {
             item["idPiatto"] = item["_id"]
             delete item["_id"]
         })
-        let r = await sendOrder(checkoutCopy)
-        if (r["status"]) {
-            setCheckout([])
-        } else {
-            alert(r["message"])
-        }
+        let rt = await sendOrder(checkoutCopy)
+        let promiseApi = new Promise((resolve, reject) => {
+            if (rt["status"]) {
+                resolve(rt)
+            } else {
+                reject(rt)
+            }
+        })
+        await toast.promise(promiseApi, {
+            pending: {
+                render({ data }) {
+                    return "Invio ordine in corso..."
+                }
+            },
+            success: {
+                render({ data }) {
+                    setCheckout([])
+                    return "Ordine inviato con successo"
+                }
+            },
+            error: "Errore: " + rt["message"]
+        })
     }
 
 
