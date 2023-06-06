@@ -518,7 +518,7 @@ paths:
                 success: false
                 error: "Utente non autenticato"
                 /utente/profilo:
-    put:
+    post:
       summary: Creazione di un nuovo utente, accessibile sola al manager
       security:
         - jwtCookie: []
