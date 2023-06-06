@@ -84,10 +84,9 @@ export default function MenuRoute() {
             item["idPiatto"] = item["_id"]
             delete item["_id"]
         })
-        let r = await sendOrder({ "portate": checkoutCopy })
+        let r = await sendOrder(checkoutCopy)
         if (r["status"]) {
             setCheckout([])
-            // setRedirect("/bill")
         } else {
             alert(r["message"])
         }
