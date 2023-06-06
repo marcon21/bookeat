@@ -36,6 +36,10 @@ export function formatCategoryList(list) {
   list.forEach((item) => {
     if (item["primaria"]) {
       if (!result.some((r) => r["label"] === item["primaria"])) {
+        // if item["primaria"] is not a key in icons, set it to a default icon
+        if (!Object.keys(icons).includes(item["primaria"])) {
+          icons[item["primaria"]] = "bi bi-app"
+        }
         result.push({
           label: item["primaria"],
           icon: icons[item["primaria"]],
