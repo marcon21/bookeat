@@ -519,7 +519,7 @@ paths:
                 error: "Utente non autenticato"
                 /utente/profilo:
     post:
-      summary: Creazione di un nuovo utente, accessibile sola al manager
+      summary: Creazione di un nuovo utente, accessibile solo al manager
       security:
         - jwtCookie: []
       requestBody:
@@ -535,7 +535,7 @@ paths:
                   type: string
                 password:
                   type: string
-                userTyp:
+                userType:
                   type: string
       responses:
         "200":
