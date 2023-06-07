@@ -86,8 +86,19 @@ class GestoreProfilo {
     return user;
   }
 
-  static eliminaAccount(id) {
-    /** TODO */
+  /**
+   * 
+   * @param id - L'id dell'utente da eliminare
+   * @param password - La password dell'utente da eliminare
+   * 
+   */
+  static async eliminaAccount(id) {
+    await User.deleteOne({ _id: id }).then(() => {
+      console.log("Utente eliminato con successo");
+    }).catch((err) => {
+      console.error(err);
+      throw new FailedDependencyException("Eliminazione utente fallita");
+    });
   }
 
   static async modificaNome(id, nome) {
