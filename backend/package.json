@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./app/bin/www",
     "dev": "node ./app/utils/populate.js & nodemon -L ./app/bin/www",
-    "test": "jest --watchAll --verbose"
+    "test": "jest --config=./app/jest.config.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",

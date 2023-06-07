@@ -5,12 +5,14 @@ const User = require('../db/utente').User;
 const data = require('./piatti.json');
 const utenti = require('./utenti.json');
 
+const options = { maxTimeMS: 30000 };
+
 async function deleteMenu() {
-    await Piatto.deleteMany({});
+    await Piatto.deleteMany({}, options);
 }
 
 async function deleteUtenti() {
-    await User.deleteMany({});
+    await User.deleteMany({}, options);
 }
 
 async function deleteDatabase() {
@@ -27,8 +29,12 @@ async function populateUtenti() {
 }
 
 async function populate() {
+    mongoose.connect("mongodb://user:1234@mongo:27017/restaurant");
+
     await populateMenu();
     await populateUtenti();
+
+    mongoose.connection.close();
 }
 
 async function manualPopulate() {
@@ -39,8 +45,8 @@ async function manualPopulate() {
     await populate()
         .then(() => console.log("Database popolato"))
         .catch((err) => console.log(err));
-    mongoose.connection.close();
-}
+        mongoose.connection.close();
+    }
 
 if (require.main === module) {
     manualPopulate();
