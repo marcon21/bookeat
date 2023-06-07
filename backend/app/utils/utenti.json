@@ -1,32 +1,32 @@
 [
     {
-        "email": "mario.rossi@gmail.com",
+        "email": "manager@gmail.com",
         "password": "qwertyQ1!",
-        "nome": "Mario",
+        "nome": "usernameManager",
         "userType": "Manager"
     },
     {
-        "email": "luigi.verdi@gmail.com",
+        "email": "sala@gmail.com",
         "password": "qwertyQ1!",
-        "nome": "Luigi",
+        "nome": "usernameSala",
         "userType": "Sala"
     },
     {
-        "email": "wario.gialli@gmail.com",
+        "email": "cucina@gmail.com",
         "password": "qwertyQ1!",
-        "nome": "Wario",
+        "nome": "usernameCucina",
         "userType": "Cucina"
     },
     {
-        "email": "waluigi.violi@gmail.com",
+        "email": "tavolo@gmail.com",
         "password": "qwertyQ1!",
-        "nome": "Waluigi",
+        "nome": "usernameTavolo",
         "userType": "Tavolo"
     },
     {
-        "email": "toad@gmail.com",
+        "email": "utente@gmail.com",
         "password": "qwertyQ1!",
-        "nome": "Toad",
+        "nome": "username",
         "userType": "UtenteLoggato"
     }
 ]
