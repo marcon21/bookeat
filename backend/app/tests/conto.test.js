@@ -9,7 +9,7 @@ const User = require("../db/utente").User
 const utenti = require('../utils/utenti.json');
 const utenteTavolo = utenti.find((utente) => utente.userType === 'Tavolo');
 const UtenteLoggato = utenti.find((utente) => utente.userType === 'UtenteLoggato');
-const utenteCameriere = utenti.find((utente) => utente.userType === 'Cameriere');
+const utenteCameriere = utenti.find((utente) => utente.userType === 'Sala');
 
 describe('Conto', () => {
 
