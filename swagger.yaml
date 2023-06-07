@@ -486,7 +486,7 @@ paths:
                   success: false
                   error: "Errore, credenziali errate"
   
-  /utente/profilo:
+  /utente/profilo/{?idUtente}:
     get:
       summary: Ricevi informazioni sul profilo dell'utente
       security:
@@ -553,6 +553,46 @@ paths:
                         $ref: "#/components/schemas/UtenteResponse"
         "401":
           description: Bad credentials
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                success: false
+                error: "Utente non autenticato"
+    delete:
+      summary: Eliminazione del proprio account utente, o account idUtente se manager
+      security:
+        - jwtCookie: []
+      requestBody:
+        description: Password dell'utente per verificare la leicià dell'operazione
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Risposta di conferma eliminazione
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                      type: boolean
+                  message:
+                      type: string
+                  data:
+                    type: object
+              example:
+                success: true
+                message: "Accunt utente eliminato correttamente"
+                data: {}
+        "401":
+          description: Unauthorized
           content:
             application/json:
               schema:
