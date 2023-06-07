@@ -453,6 +453,7 @@ paths:
             example:
               email: "example@email.com"
               password: "password"
+              nome: "Glauco"
       responses:
         "200":
           description: OK
@@ -782,9 +783,13 @@ components:
         password:
           type: string
           description: Campo password
+        nome:
+          type: string
+          description: Campo nome
       example:
         email: "example@email.com"
         password: "password"
+        nome: "Glauco"
         
     ErrResponse:
       type: object
