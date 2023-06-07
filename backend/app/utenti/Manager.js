@@ -5,6 +5,8 @@ const Dipendente = require("./Dipendente");
 const GestoreMenu = require("../gestori/GestoreMenu");
 const GestoreProfilo = require("../gestori/GestoreProfilo");
 
+const User = require("../db/utente").User;
+
 class Manager extends Dipendente {
   constructor() {
     if (this.constructor === Manager) {
@@ -103,6 +105,10 @@ class Manager extends Dipendente {
       password,
       googleId
     );
+  }
+
+  static async eliminaAccount(id, password) {
+    await GestoreProfilo.eliminaAccount(id);
   }
 }
 

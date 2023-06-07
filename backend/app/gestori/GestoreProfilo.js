@@ -6,6 +6,7 @@ const { db } = require("../db");
 const User = require("../db/utente").User;
 const jwt = require("jsonwebtoken");
 const NotFoundException = require("../exceptions/NotFoundException");
+const FailedDependencyException = require("../exceptions/FailedDependencyException");
 const Utente = require("../utenti/Utente");
 const utente = require("../db/utente");
 
@@ -86,8 +87,19 @@ class GestoreProfilo {
     return user;
   }
 
-  static eliminaAccount(id) {
-    /** TODO */
+  /**
+   * 
+   * @param id - L'id dell'utente da eliminare
+   * @param password - La password dell'utente da eliminare
+   * 
+   */
+  static async eliminaAccount(id) {
+    await User.deleteOne({ _id: id }).then(() => {
+      console.log("Utente eliminato con successo");
+    }).catch((err) => {
+      console.error(err);
+      throw new FailedDependencyException("Eliminazione utente fallita");
+    });
   }
 
   static async modificaNome(id, nome) {

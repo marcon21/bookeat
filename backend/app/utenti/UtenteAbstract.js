@@ -117,6 +117,12 @@ class UtenteAbstract {
       "Unauthorized - Accedi con un account autorizzato e riprova"
     );
   }
+
+  static async eliminaAccount(id, password) {
+    throw new UnauthorizedException(
+      "Unauthorized - Accedi con un account autorizzato e riprova"
+    );
+  }
 }
 
 module.exports = UtenteAbstract;

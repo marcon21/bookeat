@@ -8,6 +8,8 @@ const User = require("../db/utente").User;
 
 const utenti = require("../utils/utenti.json");
 const utente = utenti.find((utente) => utente.userType === "UtenteLoggato");
+const utenteCucina = utenti.find((utente) => utente.userType === "Cucina");
+const utenteSala = utenti.find((utente) => utente.userType === "Sala");
 const utenteManager = utenti.find((utente) => utente.userType === "Manager");
 
 describe("Utente", () => {
@@ -163,6 +165,57 @@ describe("Utente", () => {
       expect(res.status).toBe(200);
     });
   });
+  
+  describe('DELETE /utente/profilo/:id?', () => {
+        it('should return 401 if user is not logged in', async () => {
+            const res = await fetchAPI('/utente/profilo', 'DELETE', {
+                password: utente.password,
+            })
+            expect(res.status).toBe(401)
+        })
+        it('should return 401 if token is not valid', async () => {
+            const res = await fetchAPI('/utente/profilo', 'DELETE', {
+                password: utente.password,
+            }, makeString(10))
+            expect(res.status).toBe(401)
+        })
+        it('should return 401 if password is not valid', async () => {
+            const utenteId = await User.findOne({ email: utente.email }).then((res) => res._id)
+            const token = generaJWT(utenteId, utente.email)
+            const res = await fetchAPI('/utente/profilo', 'DELETE', {
+                password: makeString(5),
+            }, token)
+            expect(res.status).toBe(401)
+        })
+        it('should return 200 if password is valid and user is valid', async () => {
+            const utenteId = await User.findOne({ email: utente.email }).then((res) => res._id)
+            const token = generaJWT(utenteId, utente.email)
+            const res = await fetchAPI('/utente/profilo', 'DELETE', {
+                password: utente.password,
+            }, token)
+            expect(res.status).toBe(200)
+        })
+        it('should return 401 if user is not a manager', async () => {
+            const utenteCucinaId = await User.findOne({ email: utenteCucina.email }).then((res) => res._id)
+            const token = generaJWT(utenteCucinaId, utenteCucina.email)
+            const utenteSalaId = await User.findOne({ email: utenteSala.email }).then((res) => res._id)
+            const res = await fetchAPI(`/utente/profilo/${utenteSalaId}`, 'DELETE', {}, token)
+            expect(res.status).toBe(401)
+        })
+        it('should return 424 if user is a manager but id is not valid', async () => {
+            const utenteId = await User.findOne({ email: utenteManager.email }).then((res) => res._id)
+            const token = generaJWT(utenteId, utenteManager.email)
+            const res = await fetchAPI('/utente/profilo/ciao', 'DELETE', {}, token)
+            expect(res.status).toBe(424)
+        })
+        it('should return 200 if password is valid and user is a manager and id is valid', async () => {
+            const utenteId = await User.findOne({ email: utenteManager.email }).then((res) => res._id)
+            const token = generaJWT(utenteId, utenteManager.email)
+            const utenteSalaId = await User.findOne({ email: utenteSala.email }).then((res) => res._id)
+            const res = await fetchAPI(`/utente/profilo/${utenteSalaId}`, 'DELETE', {}, token)
+            expect(res.status).toBe(200)
+        })
+    })
 
   describe("PUT /utente/password/:id?", () => {
     it("should return 401 if user is not logged in", async () => {
