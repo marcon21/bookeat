@@ -42,17 +42,18 @@ router.post("/profilo", async (req, res, next) => {
 router.delete("/profilo/:id?", async (req, res, next) => {
   try {
     const user = await User.findOne({ _id: req.user._id });
+    if (user.userType == "Manager" && req.params.id != null && req.params.id != req.user._id) {
+      await ClasseUtente.getClasseUtente(user.userType).eliminaAccount(
+        req.params.id,
+        req.body.password
+      );
+    } else {
+      await ClasseUtente.getClasseUtente(user.userType).eliminaAccount(
+        req.user._id,
+        req.body.password
+      );
+    }
 
-    let id =
-      req.params.id != null && user.userType == "Manager"
-        ? req.params.id
-        : req.user._id;
-    
-    await ClasseUtente.getClasseUtente(user.userType).eliminaAccount(
-      id,
-      req.body.password
-    );
-    
     successRes(res, "Accunt utente eliminato correttamente");
   } catch (error) {
     errorRes(res, error, error.message, error.code);

@@ -6,6 +6,7 @@ const { db } = require("../db");
 const User = require("../db/utente").User;
 const jwt = require("jsonwebtoken");
 const NotFoundException = require("../exceptions/NotFoundException");
+const FailedDependencyException = require("../exceptions/FailedDependencyException");
 const Utente = require("../utenti/Utente");
 const utente = require("../db/utente");
 
