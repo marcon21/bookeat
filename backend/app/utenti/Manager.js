@@ -3,6 +3,7 @@
  */
 const Dipendente = require("./Dipendente");
 const GestoreMenu = require("../gestori/GestoreMenu");
+const GestoreProfilo = require("../gestori/GestoreProfilo");
 
 class Manager extends Dipendente {
   constructor() {
@@ -91,7 +92,7 @@ class Manager extends Dipendente {
   }
 
   static async modificaPassword(id, vecchiaPassword, nuovaPassword) {
-    await GestoreProfilo.modificaPassword(id, vecchiaPassword, nuovaPassword);
+    return await GestoreProfilo.modificaPassword(id, vecchiaPassword, nuovaPassword);
   }
 
   static async creaAccount(nome, tipo, email, password, googleId) {

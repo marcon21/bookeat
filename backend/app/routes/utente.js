@@ -16,26 +16,25 @@ router.get("/profilo", async (req, res, next) => {
 });
 
 // Route for getting user profile, only accessible if logged in
-router.put("/profilo", async (req, res, next) => {
-  const user = await ClasseUtente.getClasseUtente(
-    req.user.userType
-  ).creaAccount(
-    req.body.nome,
-    req.body.tipo,
-    req.body.email,
-    req.body.password,
-    ""
-  );
-  successRes(res, "User profile", { user: user });
+router.post("/profilo", async (req, res, next) => {
+  const user = await User.findOne({ _id: req.user._id });
+  try {
+    const response = await ClasseUtente.getClasseUtente(user.userType).creaAccount(
+      req.body.nome,
+      req.body.userType,
+      req.body.email,
+      req.body.password,
+      ""
+    );
+    successRes(res, "User profile", { user: response });
+  } catch (error) {
+    errorRes(res, error, error.message, error.code);
+  }
+
 });
 
 //Route for changing password
 router.put("/password/:id?", async (req, res, next) => {
-  // Ottieni l'ID dell'utente loggato
-  const userId = req.user._id;
-  // Ottieni vecchia e nuova password dalla richiesta
-  const { oldPassword, newPassword } = req.body;
-
   try {
     const user = await User.findOne({ _id: req.user._id });
 
@@ -44,24 +43,26 @@ router.put("/password/:id?", async (req, res, next) => {
         ? req.params.id
         : req.user._id;
 
+    console.log("AAAAAAAA: " + user.userType);
+
     await ClasseUtente.getClasseUtente(user.userType).modificaPassword(
       id,
-      oldPassword,
-      newPassword
+      req.body.vecchiaPassword,
+      req.body.nuovaPassword
     );
 
-    user = await User.findOne({ _id: id });
+    const response = await User.findOne({ _id: id });
 
-    successRes(res, "Password cambiata con successo", { user: user });
+    successRes(res, "Password cambiata con successo", { user: response });
   } catch (error) {
-    errorRes(res, "Impossibile cambiare la password", error);
+    errorRes(res, error, error.message, error.code);
   }
 });
 
 //Route for changing name
 router.put("/nome/:id?", async (req, res, next) => {
   try {
-    let user = await User.findOne({ _id: req.user._id });
+    const user = await User.findOne({ _id: req.user._id });
 
     let id =
       req.params.id != null && user.userType == "Manager"
@@ -73,9 +74,9 @@ router.put("/nome/:id?", async (req, res, next) => {
       req.body.nome
     );
 
-    user = await User.findOne({ _id: id });
+    const response = await User.findOne({ _id: id });
 
-    successRes(res, "Nome cambiato con successo", { user: user });
+    successRes(res, "Nome cambiato con successo", { user: response });
   } catch (error) {
     errorRes(res, error, "Impossibile cambiare il nome");
   }
