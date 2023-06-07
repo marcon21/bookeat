@@ -4,6 +4,9 @@
 const GestoreProfilo = require("../gestori/GestoreProfilo");
 const Utente = require("./Utente");
 const GestoreConti = require("../gestori/GestoreConti");
+const UnauthorizedException = require("../exceptions/UnauthorizedException");
+
+const User = require("../db/utente").User;
 
 class UtenteLoggato extends Utente {
   constructor() {
@@ -27,8 +30,23 @@ class UtenteLoggato extends Utente {
   static async modificaNome(id, nome) {
     await GestoreProfilo.modificaNome(id, nome);
   }
-  static eliminaAccount() {
-    /** TODO */
+
+  static async eliminaAccount(id, password) {
+    const user = await User.findById(id).catch((err) => {
+      console.error(err);
+      throw new NotFoundException("Errore durante il recupero dell'utente");
+    });
+
+    if (!user) {
+      throw new NotFoundException("Errore durante il recupero dell'utente");
+    }
+
+    // Verifica che la vecchia password fornita corrisponda con password corrente
+    const valid = await user.isValidPassword(password);
+    if (!valid) {
+      throw new UnauthorizedException("Password errata");
+    }
+    await GestoreProfilo.eliminaAccount(id);
   }
 
   /**
