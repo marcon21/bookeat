@@ -116,6 +116,54 @@ describe('Utente', () => {
         })
     })
 
+    describe('DELETE /utente/profilo/:id?', () => {
+        it('should return 401 if user is not logged in', async () => {
+            const res = await fetchAPI('/utente/profilo', 'DELETE', {
+                password: utente.password,
+            })
+            expect(res.status).toBe(401)
+        })
+        it('should return 401 if token is not valid', async () => {
+            const res = await fetchAPI('/utente/profilo', 'DELETE', {
+                password: utente.password,
+            }, makeString(10))
+            expect(res.status).toBe(401)
+        })
+        it('should return 401 if password is not valid', async () => {
+            const utenteId = await User.findOne({ email: utente.email }).then((res) => res._id)
+            const token = generaJWT(utenteId, utente.email)
+            const res = await fetchAPI('/utente/profilo', 'DELETE', {
+                password: makeString(5),
+            }, token)
+            expect(res.status).toBe(401)
+        })
+        it('should return 200 if password is valid and user is not a manager', async () => {
+            const utenteId = await User.findOne({ email: utente.email }).then((res) => res._id)
+            const token = generaJWT(utenteId, utente.email)
+            const res = await fetchAPI('/utente/profilo', 'DELETE', {
+                password: utente.password,
+            }, token)
+            expect(res.status).toBe(200)
+        })
+        it('should return 401 if password is valid and user is a manager but id is not valid', async () => {
+            const utenteId = await User.findOne({ email: utenteManager.email }).then((res) => res._id)
+            const token = generaJWT(utenteId, utenteManager.email)
+            const res = await fetchAPI('/utente/profilo', 'DELETE', {
+                password: utenteManager.password,
+            }, token)
+            expect(res.status).toBe(401)
+        })
+        it('should return 200 if password is valid and user is a manager and id is valid', async () => {
+            const utenteId = await User.findOne({ email: utenteManager.email }).then((res) => res._id)
+            const token = generaJWT(utenteId, utenteManager.email)
+            const res = await fetchAPI('/utente/profilo', 'DELETE', {
+                password: utenteManager.password,
+            }, token)
+            expect(res.status).toBe(200)
+        })
+    })
+
+
     describe('PUT /utente/password/:id?', () => {
         it('should return 401 if user is not logged in', async () => {
             const res = await fetchAPI('/utente/password', 'PUT', {
