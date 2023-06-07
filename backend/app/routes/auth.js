@@ -12,6 +12,7 @@ router.post("/signup", function (req, res, next) {
   passport.authenticate("signup", function (err, user, info) {
     if (err || !user) {
       return errorRes(res, err, "Signup failed", 401);
+      // return errorRes(res, err, JSON.stringify(user), 401);
     }
 
     req.login(user, { session: false }, async (error) => {

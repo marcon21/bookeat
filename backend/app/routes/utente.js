@@ -12,6 +12,9 @@ const Manager = require("../utenti/Manager");
 router.get("/profilo", async (req, res, next) => {
   const user = await User.findOne({ _id: req.user._id });
 
+  if (user == null) {
+    errorRes(res, null, "Utente non trovato", 404);
+  }
   successRes(res, "User profile", { user: user });
 });
 
@@ -19,18 +22,20 @@ router.get("/profilo", async (req, res, next) => {
 router.post("/profilo", async (req, res, next) => {
   const user = await User.findOne({ _id: req.user._id });
   try {
-    const response = await ClasseUtente.getClasseUtente(user.userType).creaAccount(
+    const response = await ClasseUtente.getClasseUtente(
+      user.userType
+    ).creaAccount(
       req.body.nome,
       req.body.userType,
       req.body.email,
       req.body.password,
       ""
     );
+
     successRes(res, "User profile", { user: response });
   } catch (error) {
     errorRes(res, error, error.message, error.code);
   }
-
 });
 
 //Route for changing password
@@ -42,8 +47,6 @@ router.put("/password/:id?", async (req, res, next) => {
       req.params.id != null && user.userType == "Manager"
         ? req.params.id
         : req.user._id;
-
-    console.log("AAAAAAAA: " + user.userType);
 
     await ClasseUtente.getClasseUtente(user.userType).modificaPassword(
       id,
