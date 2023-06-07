@@ -10,7 +10,7 @@ async function fetchAPI(endpoint, method, body = {}) {
     }
     if (document.cookie.split(';').some((item) => item.trim().startsWith('jwt='))) {
         let token = document.cookie.split('; ').find(row => row.startsWith('jwt=')).split('=')[1]
-        requestOptions['credentials']= 'include'
+        requestOptions['credentials'] = 'include'
         requestOptions['headers']['Cookie'] = "jwt=" + token
     }
     if (method != 'GET') {
@@ -144,5 +144,46 @@ export async function logout() {
 }
 
 export async function userInfo() {
-    return(await fetchAPI('/utente/profile', 'GET'))
+    return (await fetchAPI('/utente/profilo', 'GET'))
 }
+
+export async function changePassword(vecchiapassword, nuovapassword) {
+    return (await fetchAPI('/utente/password', 'PUT', {
+        "vecchiaPassword": vecchiapassword,
+        "nuovaPassword": nuovapassword
+    }))
+}
+
+export async function changeUsername(nome) {
+    return (await fetchAPI('/utente/nome', 'PUT', {
+        "nome": nome
+    }
+    ))
+}
+
+export async function deleteAccount(password) {
+    return (await fetchAPI('/utente/profilo', 'DELETE', {
+        "password": password
+    }
+    ))
+}
+
+export async function changeUsernameById(nome, id) {
+    return (await fetchAPI('/utente/nome'.concat(id), 'PUT', {
+        "nome": nome
+    }
+    ))
+}
+
+export async function changePasswordById(vecchiapassword, nuovapassword, id) {
+    return (await fetchAPI('/utente/password'.concat(id), 'PUT', {
+        "vecchiaPassword": vecchiapassword,
+        "nuovaPassword": nuovapassword
+    }))
+}
+
+export async function deleteAccountById(id) {
+    return (await fetchAPI('/utente/profilo/'.concat(id), 'DELETE'))
+}
+
+//altro modo per fare  /utente/profilo/'.concat(id) è `/utente/profilo/${id}`
