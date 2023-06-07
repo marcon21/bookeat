@@ -1,0 +1,357 @@
+<html><head><meta charset="utf-8"/><title>Bookeat Test Report</title><style type="text/css">html,
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+body {
+  padding: 2rem 1rem;
+  font-size: 0.85rem;
+}
+.jesthtml-content {
+  margin: 0 auto;
+  max-width: 70rem;
+}
+header {
+  display: flex;
+  align-items: center;
+}
+#title {
+  margin: 0;
+  flex-grow: 1;
+}
+#logo {
+  height: 4rem;
+}
+#timestamp {
+  color: #777;
+  margin-top: 0.5rem;
+}
+
+/** SUMMARY */
+#summary {
+  color: #333;
+  margin: 2rem 0;
+  display: flex;
+  font-family: monospace;
+  font-size: 1rem;
+}
+#summary > div {
+  margin-right: 2rem;
+  background: #eee;
+  padding: 1rem;
+  min-width: 15rem;
+}
+#summary > div:last-child {
+  margin-right: 0;
+}
+@media only screen and (max-width: 720px) {
+  #summary {
+    flex-direction: column;
+  }
+  #summary > div {
+    margin-right: 0;
+    margin-top: 2rem;
+  }
+  #summary > div:first-child {
+    margin-top: 0;
+  }
+}
+
+.summary-total {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.summary-passed {
+  color: #4f8a10;
+  border-left: 0.4rem solid #4f8a10;
+  padding-left: 0.5rem;
+}
+.summary-failed,
+.summary-obsolete-snapshots {
+  color: #d8000c;
+  border-left: 0.4rem solid #d8000c;
+  padding-left: 0.5rem;
+}
+.summary-pending {
+  color: #9f6000;
+  border-left: 0.4rem solid #9f6000;
+  padding-left: 0.5rem;
+}
+.summary-empty {
+  color: #999;
+  border-left: 0.4rem solid #999;
+}
+
+.test-result {
+  padding: 1rem;
+  margin-bottom: 0.25rem;
+}
+.test-result:last-child {
+  border: 0;
+}
+.test-result.passed {
+  background-color: #dff2bf;
+  color: #4f8a10;
+}
+.test-result.failed {
+  background-color: #ffbaba;
+  color: #d8000c;
+}
+.test-result.pending {
+  background-color: #ffdf61;
+  color: #9f6000;
+}
+
+.test-info {
+  display: flex;
+  justify-content: space-between;
+}
+.test-suitename {
+  width: 20%;
+  text-align: left;
+  font-weight: bold;
+  word-break: break-word;
+}
+.test-title {
+  width: 40%;
+  text-align: left;
+  font-style: italic;
+}
+.test-status {
+  width: 20%;
+  text-align: right;
+}
+.test-duration {
+  width: 10%;
+  text-align: right;
+  font-size: 0.75rem;
+}
+
+.failureMessages {
+  padding: 0 1rem;
+  margin-top: 1rem;
+  border-top: 1px dashed #d8000c;
+}
+.failureMessages.suiteFailure {
+  border-top: none;
+}
+.failureMsg {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+
+.suite-container {
+  margin-bottom: 2rem;
+}
+.suite-container > input[type="checkbox"] {
+  position: absolute;
+  left: -100vw;
+}
+.suite-container label {
+  display: block;
+}
+.suite-container .suite-tests {
+  overflow-y: hidden;
+  height: 0;
+}
+.suite-container > input[type="checkbox"]:checked ~ .suite-tests {
+  height: auto;
+  overflow: visible;
+}
+.suite-info {
+  padding: 1rem;
+  background-color: #eee;
+  color: #777;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+.suite-info:hover {
+  background-color: #ddd;
+  cursor: pointer;
+}
+.suite-info .suite-path {
+  word-break: break-all;
+  flex-grow: 1;
+  font-family: monospace;
+  font-size: 1rem;
+}
+.suite-info .suite-time {
+  margin-left: 0.5rem;
+  padding: 0.2rem 0.3rem;
+  font-size: 0.75rem;
+}
+.suite-info .suite-time.warn {
+  background-color: #d8000c;
+  color: #fff;
+}
+.suite-info:before {
+  content: "\2303";
+  display: inline-block;
+  margin-right: 0.5rem;
+  transform: rotate(0deg);
+}
+.suite-container > input[type="checkbox"]:checked ~ label .suite-info:before {
+  transform: rotate(180deg);
+}
+
+/* CONSOLE LOGS */
+.suite-consolelog {
+  margin-bottom: 0.25rem;
+  padding: 1rem;
+  background-color: #efefef;
+}
+.suite-consolelog-header {
+  font-weight: bold;
+}
+.suite-consolelog-item {
+  padding: 0.5rem;
+}
+.suite-consolelog-item pre {
+  margin: 0.5rem 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.suite-consolelog-item-origin {
+  color: #777;
+  font-weight: bold;
+}
+.suite-consolelog-item-message {
+  color: #000;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+/* OBSOLETE SNAPSHOTS */
+.suite-obsolete-snapshots {
+  margin-bottom: 0.25rem;
+  padding: 1rem;
+  background-color: #ffbaba;
+  color: #d8000c;
+}
+.suite-obsolete-snapshots-header {
+  font-weight: bold;
+}
+.suite-obsolete-snapshots-item {
+  padding: 0.5rem;
+}
+.suite-obsolete-snapshots-item pre {
+  margin: 0.5rem 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.suite-obsolete-snapshots-item-message {
+  color: #000;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+</style></head><body><div class="jesthtml-content"><header><h1 id="title">Bookeat Test Report</h1></header><div id="metadata-container"><div id="timestamp">Started: 2023-06-07 09:45:05</div><div id="summary"><div id="suite-summary"><div class="summary-total">Suites (5)</div><div class="summary-passed  summary-empty">0 passed</div><div class="summary-failed ">5 failed</div><div class="summary-pending  summary-empty">0 pending</div></div><div id="test-summary"><div class="summary-total">Tests (69)</div><div class="summary-passed  summary-empty">0 passed</div><div class="summary-failed ">69 failed</div><div class="summary-pending  summary-empty">0 pending</div></div></div></div><div id="suite-1" class="suite-container"><input id="collapsible-0" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-0"><div class="suite-info"><div class="suite-path">/opt/backend/app/tests/menu.test.js</div><div class="suite-time">2.971s</div></div></label><div class="suite-tests"><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; GET /menu</div><div class="test-title">should return 200</div><div class="test-status">failed</div><div class="test-duration">0.037s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; POST /menu</div><div class="test-title">should return 401 if user is not logged in</div><div class="test-status">failed</div><div class="test-duration">0.014s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; POST /menu</div><div class="test-title">should return 401 if user is not a manager</div><div class="test-status">failed</div><div class="test-duration">0.166s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; POST /menu</div><div class="test-title">should return 424 if name is not valid</div><div class="test-status">failed</div><div class="test-duration">0.044s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; POST /menu</div><div class="test-title">should return 424 if price is not valid</div><div class="test-status">failed</div><div class="test-duration">0.01s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; POST /menu</div><div class="test-title">should return 424 if category is not valid</div><div class="test-status">failed</div><div class="test-duration">0.013s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; POST /menu</div><div class="test-title">should return 424 if available is not valid</div><div class="test-status">failed</div><div class="test-duration">0.011s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; POST /menu</div><div class="test-title">should return 424 if description is not valid</div><div class="test-status">failed</div><div class="test-duration">0.009s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; POST /menu</div><div class="test-title">should return 424 if allergens is not valid</div><div class="test-status">failed</div><div class="test-duration">0.01s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; POST /menu</div><div class="test-title">should return 424 if modifiable ingredients is not valid</div><div class="test-status">failed</div><div class="test-duration">0.009s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; POST /menu</div><div class="test-title">should return 201 if all fields are valid</div><div class="test-status">failed</div><div class="test-duration">0.011s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; PUT /menu/:idPiatto</div><div class="test-title">should return 401 if user is not logged in</div><div class="test-status">failed</div><div class="test-duration">0.048s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; PUT /menu/:idPiatto</div><div class="test-title">should return 401 if user is not a manager</div><div class="test-status">failed</div><div class="test-duration">0.037s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; PUT /menu/:idPiatto</div><div class="test-title">should return 424 if name is not valid</div><div class="test-status">failed</div><div class="test-duration">0.045s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; PUT /menu/:idPiatto</div><div class="test-title">should return 424 if price is not valid</div><div class="test-status">failed</div><div class="test-duration">0.041s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; PUT /menu/:idPiatto</div><div class="test-title">should return 424 if category is not valid</div><div class="test-status">failed</div><div class="test-duration">0.028s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; PUT /menu/:idPiatto</div><div class="test-title">should return 424 if available is not valid</div><div class="test-status">failed</div><div class="test-duration">0.045s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; PUT /menu/:idPiatto</div><div class="test-title">should return 424 if description is not valid</div><div class="test-status">failed</div><div class="test-duration">0.045s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; PUT /menu/:idPiatto</div><div class="test-title">should return 424 if allergens is not valid</div><div class="test-status">failed</div><div class="test-duration">0.034s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; PUT /menu/:idPiatto</div><div class="test-title">should return 424 if modifiable ingredients is not valid</div><div class="test-status">failed</div><div class="test-duration">0.033s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; PUT /menu/:idPiatto</div><div class="test-title">should return 200 if all fields are valid</div><div class="test-status">failed</div><div class="test-duration">0.03s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; DELETE /menu/:idPiatto</div><div class="test-title">should return 401 if user is not logged in</div><div class="test-status">failed</div><div class="test-duration">0.025s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; DELETE /menu/:idPiatto</div><div class="test-title">should return 401 if user is not a manager</div><div class="test-status">failed</div><div class="test-duration">0.037s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Menu &gt; DELETE /menu/:idPiatto</div><div class="test-title">should return 200 if id is valid</div><div class="test-status">failed</div><div class="test-duration">0.058s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div></div></div><div id="suite-2" class="suite-container"><input id="collapsible-1" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-1"><div class="suite-info"><div class="suite-path">/opt/backend/app/tests/utente.test.js</div><div class="suite-time">1.73s</div></div></label><div class="suite-tests"><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; GET /utente/profilo</div><div class="test-title">should return 401 if user is not logged in</div><div class="test-status">failed</div><div class="test-duration">0.041s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; GET /utente/profilo</div><div class="test-title">should return 401 if token is not valid</div><div class="test-status">failed</div><div class="test-duration">0.014s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; GET /utente/profilo</div><div class="test-title">should return 200</div><div class="test-status">failed</div><div class="test-duration">0.102s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; POST /utente/profilo</div><div class="test-title">should return 401 if user is not logged in</div><div class="test-status">failed</div><div class="test-duration">0.008s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; POST /utente/profilo</div><div class="test-title">should return 401 if token is not valid</div><div class="test-status">failed</div><div class="test-duration">0.005s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; POST /utente/profilo</div><div class="test-title">should return 401 if user is not a manager</div><div class="test-status">failed</div><div class="test-duration">0.008s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; POST /utente/profilo</div><div class="test-title">should return 424 if user is a manager but nome is not valid</div><div class="test-status">failed</div><div class="test-duration">0.009s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; POST /utente/profilo</div><div class="test-title">should return 424 if user is a manager but email is not valid</div><div class="test-status">failed</div><div class="test-duration">0.014s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; POST /utente/profilo</div><div class="test-title">should return 424 if user is a manager but password is not valid</div><div class="test-status">failed</div><div class="test-duration">0.016s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; POST /utente/profilo</div><div class="test-title">should return 424 if user is a manager but userType is not valid</div><div class="test-status">failed</div><div class="test-duration">0.011s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; POST /utente/profilo</div><div class="test-title">should return 200</div><div class="test-status">failed</div><div class="test-duration">0.012s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; PUT /utente/password/:id?</div><div class="test-title">should return 401 if user is not logged in</div><div class="test-status">failed</div><div class="test-duration">0.004s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; PUT /utente/password/:id?</div><div class="test-title">should return 401 if token is not valid</div><div class="test-status">failed</div><div class="test-duration">0.003s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; PUT /utente/password/:id?</div><div class="test-title">should return 400 if oldPassword does not correspond to user password</div><div class="test-status">failed</div><div class="test-duration">0.011s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; PUT /utente/password/:id?</div><div class="test-title">should return 400 if newPassword is not valid</div><div class="test-status">failed</div><div class="test-duration">0.01s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; PUT /utente/password/:id?</div><div class="test-title">should return 200</div><div class="test-status">failed</div><div class="test-duration">0.01s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; PUT /utente/nome/:id?</div><div class="test-title">should return 401 if user is not logged in</div><div class="test-status">failed</div><div class="test-duration">0.004s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; PUT /utente/nome/:id?</div><div class="test-title">should return 401 if token is not valid</div><div class="test-status">failed</div><div class="test-duration">0.004s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; PUT /utente/nome/:id?</div><div class="test-title">should return 400 if nome is not valid</div><div class="test-status">failed</div><div class="test-duration">0.015s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Utente &gt; PUT /utente/nome/:id?</div><div class="test-title">should return 200</div><div class="test-status">failed</div><div class="test-duration">0.019s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div></div></div><div id="suite-3" class="suite-container"><input id="collapsible-2" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-2"><div class="suite-info"><div class="suite-path">/opt/backend/app/tests/conto.test.js</div><div class="suite-time">2.235s</div></div></label><div class="suite-tests"><div class="test-result failed"><div class="test-info"><div class="test-suitename">Conto &gt; POST /apriConto</div><div class="test-title">should return 401 if user is not logged in</div><div class="test-status">failed</div><div class="test-duration">0.057s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Conto &gt; POST /apriConto</div><div class="test-title">should return 401 if user is not a Tavolo</div><div class="test-status">failed</div><div class="test-duration">0.001s</div></div><div class="failureMessages"> <pre class="failureMsg">TypeError: Cannot read properties of undefined (reading 'email')
+    at Object.email (/opt/backend/app/tests/conto.test.js:24:83)
+    at Promise.then.completed (/opt/backend/node_modules/jest-circus/build/utils.js:293:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/opt/backend/node_modules/jest-circus/build/utils.js:226:10)
+    at _callCircusTest (/opt/backend/node_modules/jest-circus/build/run.js:297:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (/opt/backend/node_modules/jest-circus/build/run.js:233:3)
+    at _runTestsForDescribeBlock (/opt/backend/node_modules/jest-circus/build/run.js:135:9)
+    at _runTestsForDescribeBlock (/opt/backend/node_modules/jest-circus/build/run.js:130:9)
+    at _runTestsForDescribeBlock (/opt/backend/node_modules/jest-circus/build/run.js:130:9)
+    at run (/opt/backend/node_modules/jest-circus/build/run.js:68:3)
+    at runAndTransformResultsToJestFormat (/opt/backend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/opt/backend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/opt/backend/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/opt/backend/node_modules/jest-runner/build/runTest.js:444:34)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Conto &gt; POST /apriConto</div><div class="test-title">should return 424 if nCoperti is not valid</div><div class="test-status">failed</div><div class="test-duration">0.124s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Conto &gt; POST /apriConto</div><div class="test-title">should return 201 if nCoperti is valid</div><div class="test-status">failed</div><div class="test-duration">0.052s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Conto &gt; POST /invioOrdine</div><div class="test-title">should return 401 if user is not logged in</div><div class="test-status">failed</div><div class="test-duration">0.083s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Conto &gt; POST /invioOrdine</div><div class="test-title">should return 401 if user is not a Tavolo or UtenteLoggato</div><div class="test-status">failed</div><div class="test-duration">0.001s</div></div><div class="failureMessages"> <pre class="failureMsg">TypeError: Cannot read properties of undefined (reading 'email')
+    at Object.email (/opt/backend/app/tests/conto.test.js:76:83)
+    at Promise.then.completed (/opt/backend/node_modules/jest-circus/build/utils.js:293:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/opt/backend/node_modules/jest-circus/build/utils.js:226:10)
+    at _callCircusTest (/opt/backend/node_modules/jest-circus/build/run.js:297:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (/opt/backend/node_modules/jest-circus/build/run.js:233:3)
+    at _runTestsForDescribeBlock (/opt/backend/node_modules/jest-circus/build/run.js:135:9)
+    at _runTestsForDescribeBlock (/opt/backend/node_modules/jest-circus/build/run.js:130:9)
+    at _runTestsForDescribeBlock (/opt/backend/node_modules/jest-circus/build/run.js:130:9)
+    at run (/opt/backend/node_modules/jest-circus/build/run.js:68:3)
+    at runAndTransformResultsToJestFormat (/opt/backend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at jestAdapter (/opt/backend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at runTestInternal (/opt/backend/node_modules/jest-runner/build/runTest.js:367:16)
+    at runTest (/opt/backend/node_modules/jest-runner/build/runTest.js:444:34)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Conto &gt; POST /invioOrdine</div><div class="test-title">should return 424 if portate is not valid</div><div class="test-status">failed</div><div class="test-duration">0.016s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Conto &gt; POST /invioOrdine</div><div class="test-title">should return 424 if portate is empty</div><div class="test-status">failed</div><div class="test-duration">0.017s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Conto &gt; POST /invioOrdine</div><div class="test-title">should return 424 if portate elements are not valid</div><div class="test-status">failed</div><div class="test-duration">0.02s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Conto &gt; POST /invioOrdine</div><div class="test-title">should return 424 if portate elements are empty</div><div class="test-status">failed</div><div class="test-duration">0.052s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Conto &gt; POST /invioOrdine</div><div class="test-title">should return 424 if portate elements idPiatto is not valid</div><div class="test-status">failed</div><div class="test-duration">0.012s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Conto &gt; POST /invioOrdine</div><div class="test-title">should return 424 if portate elements ingredientiScelti is not valid</div><div class="test-status">failed</div><div class="test-duration">0.043s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Conto &gt; POST /invioOrdine</div><div class="test-title">should return 424 if portate elements note is not valid</div><div class="test-status">failed</div><div class="test-duration">0.037s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Conto &gt; POST /invioOrdine</div><div class="test-title">should return 424 if portate elements priorita is not valid</div><div class="test-status">failed</div><div class="test-duration">0.056s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Conto &gt; POST /invioOrdine</div><div class="test-title">should return 201 if portate is valid</div><div class="test-status">failed</div><div class="test-duration">0.042s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div></div></div><div id="suite-4" class="suite-container"><input id="collapsible-3" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-3"><div class="suite-info"><div class="suite-path">/opt/backend/app/tests/auth.test.js</div><div class="suite-time">0.461s</div></div></label><div class="suite-tests"><div class="test-result failed"><div class="test-info"><div class="test-suitename">Auth &gt; POST /signup</div><div class="test-title">should return 401 if email is not valid</div><div class="test-status">failed</div><div class="test-duration">0.011s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Auth &gt; POST /signup</div><div class="test-title">should return 401 if password is not valid</div><div class="test-status">failed</div><div class="test-duration">0.005s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Auth &gt; POST /signup</div><div class="test-title">should return 401 if email is already in use</div><div class="test-status">failed</div><div class="test-duration">0.004s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Auth &gt; POST /signup</div><div class="test-title">should return 200 if email and password are valid</div><div class="test-status">failed</div><div class="test-duration">0.003s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Auth &gt; POST /login</div><div class="test-title">should return 401 if email is not valid</div><div class="test-status">failed</div><div class="test-duration">0.005s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Auth &gt; POST /login</div><div class="test-title">should return 401 if password is not valid</div><div class="test-status">failed</div><div class="test-duration">0.005s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Auth &gt; POST /login</div><div class="test-title">should return 401 if email is not in use</div><div class="test-status">failed</div><div class="test-duration">0.003s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Auth &gt; POST /login</div><div class="test-title">should return 200 if email and password are valid</div><div class="test-status">failed</div><div class="test-duration">0.003s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div><div class="test-result failed"><div class="test-info"><div class="test-suitename">Auth &gt; GET /google</div><div class="test-title">should return 200</div><div class="test-status">failed</div><div class="test-duration">0.004s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div></div></div><div id="suite-5" class="suite-container"><input id="collapsible-4" type="checkbox" class="toggle" checked="checked"/><label for="collapsible-4"><div class="suite-info"><div class="suite-path">/opt/backend/app/tests/home.test.js</div><div class="suite-time">0.458s</div></div></label><div class="suite-tests"><div class="test-result failed"><div class="test-info"><div class="test-suitename">Home &gt; GET /</div><div class="test-title">should return 200</div><div class="test-status">failed</div><div class="test-duration">0.012s</div></div><div class="failureMessages"> <pre class="failureMsg">Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1571:16)</pre></div></div></div></div></div></body></html>

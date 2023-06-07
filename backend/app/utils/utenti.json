@@ -1,0 +1,32 @@
+[
+    {
+        "email": "mario.rossi@gmail.com",
+        "password": "qwertyQ1!",
+        "nome": "Mario",
+        "userType": "Manager"
+    },
+    {
+        "email": "luigi.verdi@gmail.com",
+        "password": "qwertyQ1!",
+        "nome": "Luigi",
+        "userType": "Sala"
+    },
+    {
+        "email": "wario.gialli@gmail.com",
+        "password": "qwertyQ1!",
+        "nome": "Wario",
+        "userType": "Cucina"
+    },
+    {
+        "email": "waluigi.violi@gmail.com",
+        "password": "qwertyQ1!",
+        "nome": "Waluigi",
+        "userType": "Tavolo"
+    },
+    {
+        "email": "toad@gmail.com",
+        "password": "qwertyQ1!",
+        "nome": "Toad",
+        "userType": "UtenteLoggato"
+    }
+]
