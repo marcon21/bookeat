@@ -5,7 +5,10 @@
   "scripts": {
     "start": "node ./app/bin/www",
     "dev": "node ./app/utils/populate.js & nodemon -L ./app/bin/www",
-    "test": "jest --config=./app/jest.config.js"
+    "test": "jest --config=./app/jest.config.js",
+    "test-continuos": "jest --config=./app/jest.config.js --watchAll",
+    "connect-backend": "docker exec -it bookeat-backend-1 bash",
+    "connect-frontend": "docker exec -it bookeat-frontend-1 /bin/sh"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
