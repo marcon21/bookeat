@@ -104,6 +104,10 @@ class Manager extends Dipendente {
       googleId
     );
   }
+
+  static async eliminaAccount(id, password) {
+    await GestoreProfilo.eliminaAccount(id);
+  }
 }
 
 module.exports = Manager;
