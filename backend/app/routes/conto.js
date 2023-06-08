@@ -9,6 +9,7 @@ const User = require("../db/utente").User;
 const ClasseUtente = require("../utils/ClasseUtente");
 const { errorRes, successRes } = require("../response");
 const NotFoundException = require("../exceptions/NotFoundException");
+const BadRequestException = require("../exceptions/BadRequestException");
 
 const { checkSchema, validationResult, check } = require("express-validator");
 const userSchemaSignUP = require("../validation").userSchemaSignUP;
@@ -23,9 +24,8 @@ const contoSchema = require("../validation").contoSchema;
 
 /**
  * Apre un conto
- *
- * @returns idConto - L'id del conto aperto
- */
+ * Disponibile solo per il tavolo
+*/
 router.post(
   "/apriConto",
   checkSchema(contoSchema),
@@ -52,6 +52,47 @@ router.post(
   }
 );
 
+/** 
+ * Chiude un conto
+ */
+router.put(
+  "/chiudiConto/:idConto?",
+  passport.authenticate("jwt", {
+    session: false,
+  }),
+  async function (req, res, next) {
+    const user = await User.findOne({ _id: req.user._id });
+
+    try {
+      await ClasseUtente.getClasseUtente(user.userType).chiudiConto(req.params.idConto);
+      successRes(res, "OK", {});
+    } catch (error) {
+      errorRes(res, error, error.message, error.code);
+    }
+  }
+);
+
+/** 
+ * Invia un conto
+ * Disponibile solo per il tavolo
+ */
+router.put(
+  "/inviaConto",
+  passport.authenticate("jwt", {
+    session: false,
+  }),
+  async function (req, res, next) {
+    const user = await User.findOne({ _id: req.user._id });
+
+    try {
+      await ClasseUtente.getClasseUtente(user.userType).inviaConto(req.user._id);
+      successRes(res, "OK", {});
+    } catch (error) {
+      errorRes(res, error, error.message, error.code);
+    }
+  }
+);
+
 /**
  * Invia un ordine
  *
@@ -70,9 +111,7 @@ router.post(
 
     const user = await User.findOne({ _id: req.user._id });
 
-    console.log(req.body.portate, user.userType);
     try {
-      console.log("1");
       await ClasseUtente.getClasseUtente(user.userType).invioOrdine(
         req.user._id,
         req.body.portate
