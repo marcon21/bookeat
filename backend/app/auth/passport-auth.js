@@ -11,6 +11,7 @@ const localStrategy = require("passport-local").Strategy;
 const JWTstrategy = require("passport-jwt").Strategy;
 const ExtractJWT = require("passport-jwt").ExtractJwt;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const { checkSchema, validationResult } = require("express-validator");
 
 const jwt = require("jsonwebtoken");
 
@@ -25,14 +26,6 @@ passport.use(
     },
     async (req, email, password, done) => {
       try {
-        // const user = await GestoreProfilo.creaAccount(
-        //   "Daniel",
-        //   "Manager",
-        //   email,
-        //   password,
-        //   ""
-        // );
-
         const user = await UtenteAnonimo.creaAccount(
           req.body.nome,
           "UtenteLoggato",
@@ -43,6 +36,7 @@ passport.use(
 
         return done(null, user);
       } catch (error) {
+        // console.log(error);
         return done(null, false);
       }
     }

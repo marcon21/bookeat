@@ -9,12 +9,16 @@ const NotFoundException = require("../exceptions/NotFoundException");
 const FailedDependencyException = require("../exceptions/FailedDependencyException");
 const Utente = require("../utenti/Utente");
 const utente = require("../db/utente");
+const UnauthorizedException = require("../exceptions/UnauthorizedException");
+const WrongPasswordException = require("../exceptions/WrongPasswordException");
 
 class GestoreProfilo {
-
-
   static async creaAccount(nome, tipoUtente, email, password, googleId) {
-    const user = await User.create({
+    // check if email already exists
+    let user = await User.findOne({ email: email });
+    if (user) throw new FailedDependencyException("Email già in uso");
+
+    user = await User.create({
       email: email,
       password: password,
       nome: nome,
@@ -58,14 +62,13 @@ class GestoreProfilo {
 
   /**
    * Metodo che modifica la password di un utente
-   * 
+   *
    * @param id - L'id dell'utente di cui modificare la password
-   * @param vecchiaPassword - La vecchia password dell'utente 
-   * @param nuovaPassword - La nuova password dell'utente 
+   * @param vecchiaPassword - La vecchia password dell'utente
+   * @param nuovaPassword - La nuova password dell'utente
    * @returns user - L'utente modificato
    */
   static async modificaPassword(id, vecchiaPassword, nuovaPassword) {
-
     const user = await User.findById(id).catch((err) => {
       console.error(err);
       throw new NotFoundException("Errore durante il recupero dell'utente");
@@ -74,12 +77,15 @@ class GestoreProfilo {
     // Verifica che la vecchia password fornita corrisponda con password corrente
     const valid = await user.isValidPassword(vecchiaPassword);
     if (!valid) {
-      throw new Error(
+      throw new WrongPasswordException(
         "Vecchia password inserita non corrisponde con quella corrente"
       );
     }
 
-    await User.findOneAndUpdate({ _id: id }, { password: await user.hashPassword(nuovaPassword) }).catch((err) => {
+    await User.findOneAndUpdate(
+      { _id: id },
+      { password: await user.hashPassword(nuovaPassword) }
+    ).catch((err) => {
       console.error(err);
       throw new NotFoundException("Errore durante la modifica della password");
     });
@@ -88,18 +94,20 @@ class GestoreProfilo {
   }
 
   /**
-   * 
+   *
    * @param id - L'id dell'utente da eliminare
    * @param password - La password dell'utente da eliminare
-   * 
+   *
    */
   static async eliminaAccount(id) {
-    await User.deleteOne({ _id: id }).then(() => {
-      console.log("Utente eliminato con successo");
-    }).catch((err) => {
-      console.error(err);
-      throw new FailedDependencyException("Eliminazione utente fallita");
-    });
+    await User.deleteOne({ _id: id })
+      .then(() => {
+        console.log("Utente eliminato con successo");
+      })
+      .catch((err) => {
+        console.error(err);
+        throw new FailedDependencyException("Eliminazione utente fallita");
+      });
   }
 
   static async modificaNome(id, nome) {
