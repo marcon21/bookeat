@@ -11,10 +11,12 @@ const Utente = require("../utenti/Utente");
 const utente = require("../db/utente");
 
 class GestoreProfilo {
-
-
   static async creaAccount(nome, tipoUtente, email, password, googleId) {
-    const user = await User.create({
+    // check if email already exists
+    let user = await User.findOne({ email: email });
+    if (user) throw new FailedDependencyException("Email già in uso");
+
+    user = await User.create({
       email: email,
       password: password,
       nome: nome,
@@ -58,14 +60,13 @@ class GestoreProfilo {
 
   /**
    * Metodo che modifica la password di un utente
-   * 
+   *
    * @param id - L'id dell'utente di cui modificare la password
-   * @param vecchiaPassword - La vecchia password dell'utente 
-   * @param nuovaPassword - La nuova password dell'utente 
+   * @param vecchiaPassword - La vecchia password dell'utente
+   * @param nuovaPassword - La nuova password dell'utente
    * @returns user - L'utente modificato
    */
   static async modificaPassword(id, vecchiaPassword, nuovaPassword) {
-
     const user = await User.findById(id).catch((err) => {
       console.error(err);
       throw new NotFoundException("Errore durante il recupero dell'utente");
@@ -79,7 +80,10 @@ class GestoreProfilo {
       );
     }
 
-    await User.findOneAndUpdate({ _id: id }, { password: await user.hashPassword(nuovaPassword) }).catch((err) => {
+    await User.findOneAndUpdate(
+      { _id: id },
+      { password: await user.hashPassword(nuovaPassword) }
+    ).catch((err) => {
       console.error(err);
       throw new NotFoundException("Errore durante la modifica della password");
     });
@@ -88,18 +92,20 @@ class GestoreProfilo {
   }
 
   /**
-   * 
+   *
    * @param id - L'id dell'utente da eliminare
    * @param password - La password dell'utente da eliminare
-   * 
+   *
    */
   static async eliminaAccount(id) {
-    await User.deleteOne({ _id: id }).then(() => {
-      console.log("Utente eliminato con successo");
-    }).catch((err) => {
-      console.error(err);
-      throw new FailedDependencyException("Eliminazione utente fallita");
-    });
+    await User.deleteOne({ _id: id })
+      .then(() => {
+        console.log("Utente eliminato con successo");
+      })
+      .catch((err) => {
+        console.error(err);
+        throw new FailedDependencyException("Eliminazione utente fallita");
+      });
   }
 
   static async modificaNome(id, nome) {

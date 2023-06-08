@@ -10,8 +10,10 @@ describe("Auth", () => {
   describe("POST /signup", () => {
     it("should return 401 if email is not valid", async () => {
       const res = await fetchAPI("/auth/signup", "POST", {
-        email: makeString(10),
+        // email: makeString(10),
+        email: "suca",
         password: utente.password,
+        nome: makeString(5),
       });
       expect(res.statusCode).toEqual(401);
     });
@@ -19,13 +21,15 @@ describe("Auth", () => {
       const res = await fetchAPI("/auth/signup", "POST", {
         email: makeEmail(),
         password: makeString(10),
+        nome: makeString(5),
       });
       expect(res.statusCode).toEqual(401);
     });
     it("should return 401 if email is already in use", async () => {
       const res = await fetchAPI("/auth/signup", "POST", {
-        email: utente.email,
+        email: "utente2@gmail.com",
         password: makePassword(),
+        nome: makeString(5),
       });
       expect(res.statusCode).toEqual(401);
     });
@@ -35,7 +39,6 @@ describe("Auth", () => {
         password: makePassword(),
         nome: makeString(5),
       });
-      console.log(res.body);
       expect(res.statusCode).toEqual(200);
     });
   });
@@ -64,8 +67,8 @@ describe("Auth", () => {
     });
     it("should return 200 if email and password are valid", async () => {
       const res = await fetchAPI("/auth/login", "POST", {
-        email: utente.email,
-        password: utente.password,
+        email: "cucina@gmail.com",
+        password: "qwertyQ1!",
       });
       expect(res.statusCode).toEqual(200);
     });

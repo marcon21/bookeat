@@ -28,5 +28,11 @@
         "password": "qwertyQ1!",
         "nome": "username",
         "userType": "UtenteLoggato"
+    },
+    {
+        "email": "utente2@gmail.com",
+        "password": "qwertyQ1!",
+        "nome": "username2",
+        "userType": "UtenteLoggato"
     }
 ]

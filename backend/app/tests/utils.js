@@ -46,6 +46,7 @@ function makePassword() {
     );
     counter += 1;
   }
+  return password;
 }
 
 async function fetchAPI(endpoint, method, body = {}, token = null) {

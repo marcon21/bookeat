@@ -4,37 +4,63 @@ const { errorRes, successRes } = require("../response");
 
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const { checkSchema, validationResult } = require("express-validator");
+
+const userSchemaSignUP = require("../validation").userSchemaSignUP;
+const userSchemaLogin = require("../validation").userSchemaLogin;
 
 const { ServerResponse } = require("http");
 const UtenteAnonimo = require("../utenti/UtenteAnonimo");
 
-router.post("/signup", function (req, res, next) {
-  passport.authenticate("signup", function (err, user, info) {
-    if (err || !user) {
-      return errorRes(res, err, "Signup failed", 401);
-      // return errorRes(res, err, JSON.stringify(user), 401);
+router.post(
+  "/signup",
+  checkSchema(userSchemaSignUP),
+  function (req, res, next) {
+    let val = validationResult(req);
+    if (!val.isEmpty()) {
+      return errorRes(res, val, "Signup failed, incomplete values", 401);
     }
+    try {
+      passport.authenticate("signup", function (err, user, info) {
+        if (err || !user) {
+          return errorRes(res, err, "Signup failed ERORR", 401);
+          // return errorRes(res, err, JSON.stringify(user), 401);
+        }
 
-    req.login(user, { session: false }, async (error) => {
-      if (error) return errorRes(res, error, "Signup failed", 401);
+        req.login(user, { session: false }, async (error) => {
+          if (error) return errorRes(res, error, "Signup failed", 401);
 
-      const token = await UtenteAnonimo.generaJWT(user._id, user.email);
+          const token = await UtenteAnonimo.generaJWT(user._id, user.email);
 
-      return successRes(res, "Signup successful", {
-        token: token,
-        userType: user.userType,
-      });
-    });
-  })(req, res, next);
-});
+          return successRes(
+            res,
+            "Signup successful",
+            {
+              token: token,
+              userType: user.userType,
+            },
+            200
+          );
+        });
+      })(req, res, next);
+    } catch (err) {
+      return errorRes(res, err, "Signup failed", 401);
+    }
+  }
+);
 
 // Setting up route for logging in a user
-router.post("/login", async (req, res, next) => {
+router.post("/login", checkSchema(userSchemaLogin), async (req, res, next) => {
+  let val = validationResult(req);
+  if (!val.isEmpty()) {
+    console.log(val);
+    return errorRes(res, val, "Login failed", 401);
+  }
   passport.authenticate("login", async (err, user, info) => {
     try {
       if (err || !user) {
-        const error = new Error("An error occurred.");
-        return errorRes(res, error, "Login failed", 401);
+        // const error = new Error("An error occurred.");
+        return errorRes(res, err, "Login failed", 401);
       }
 
       req.login(user, { session: false }, async (error) => {
