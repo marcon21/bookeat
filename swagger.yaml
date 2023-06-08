@@ -349,7 +349,16 @@ paths:
               example:
                   success: false
                   error: "Unauthorized - Accedi con un account autorizzato e riprova"   
-                  
+        
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  error: "Bad request"            
         "424":
           description: Chiusura conto fallita
           content:
@@ -359,7 +368,60 @@ paths:
               example:
                   success: false
                   error: "Chiusura conto fallita"
-      
+  
+  /conto/inviaConto:
+    put:
+      summary: Invia un conto
+      security:
+        - jwtCookie: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  succes: 
+                    type: boolean
+                  message: 
+                    type: string
+                  data: 
+                    type: array
+              example:
+                succes: true
+                message: "OK"
+                data: []
+          
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  error: "Unauthorized - Accedi con un account autorizzato e riprova"   
+        
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  error: "Bad request"      
+        "424":
+          description: Invio conto fallito
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrResponse"
+              example:
+                  success: false
+                  error: "Creazione piatto fallita"
+    
   /conto/invioOrdine:
     post:
       summary: Invia un ordine
