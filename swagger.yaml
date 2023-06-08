@@ -316,7 +316,7 @@ paths:
                   success: false
                   error: "Apertura conto fallita"
   
-  /conto/chiudiConto/{idConto}:
+  /conto/chiudiConto/{?idConto}:
     post:
       summary: Chiude un conto
       security:
