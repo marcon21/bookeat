@@ -20,10 +20,11 @@ router.post(
     if (!val.isEmpty()) {
       return errorRes(res, val, "Signup failed, incomplete values", 401);
     }
+
     try {
       passport.authenticate("signup", function (err, user, info) {
         if (err || !user) {
-          return errorRes(res, err, "Signup failed ERORR", 401);
+          return errorRes(res, err, "Signup failed", 401);
           // return errorRes(res, err, JSON.stringify(user), 401);
         }
 

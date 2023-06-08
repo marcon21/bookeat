@@ -9,6 +9,8 @@ const NotFoundException = require("../exceptions/NotFoundException");
 const FailedDependencyException = require("../exceptions/FailedDependencyException");
 const Utente = require("../utenti/Utente");
 const utente = require("../db/utente");
+const UnauthorizedException = require("../exceptions/UnauthorizedException");
+const WrongPasswordException = require("../exceptions/WrongPasswordException");
 
 class GestoreProfilo {
   static async creaAccount(nome, tipoUtente, email, password, googleId) {
@@ -75,7 +77,7 @@ class GestoreProfilo {
     // Verifica che la vecchia password fornita corrisponda con password corrente
     const valid = await user.isValidPassword(vecchiaPassword);
     if (!valid) {
-      throw new Error(
+      throw new WrongPasswordException(
         "Vecchia password inserita non corrisponde con quella corrente"
       );
     }
