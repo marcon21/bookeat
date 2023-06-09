@@ -100,6 +100,20 @@ class UtenteAbstract {
   */
   static async invioOrdine(idUtente, portate) { throw new UnauthorizedException("Unauthorized - Accedi con un account autorizzato e riprova"); }
 
+  /**
+   * Metodo per chiudere un conto
+   *
+   * @param idConto - L'id conto da chiudere
+   *
+   * @throws FailedDependencyException - Se la chiusura del conto fallisce
+  */
+  static async chiudiConto(idConto) { throw new UnauthorizedException("Unauthorized - Accedi con un account autorizzato e riprova"); }
+
+  /**
+   * Metodo che invia il conto
+  */
+  static async inviaConto(idUtente) { throw new UnauthorizedException("Unauthorized - Accedi con un account autorizzato e riprova"); }
+
   static async modificaNome(id, nome) {
     throw new UnauthorizedException(
       "Unauthorized - Accedi con un account autorizzato e riprova"

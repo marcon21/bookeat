@@ -8,7 +8,7 @@ const User = require("../db/utente").User;
 const ClasseUtente = require("../utils/ClasseUtente");
 const Manager = require("../utenti/Manager");
 
-const { checkSchema, validationResult } = require("express-validator");
+const { checkSchema, validationResult, check } = require("express-validator");
 const userSchemaSignUP = require("../validation").userSchemaSignUP;
 const userSchemaLogin = require("../validation").userSchemaLogin;
 const passwordSchema = require("../validation").passwordSchema;
@@ -16,6 +16,7 @@ const emailSchema = require("../validation").emailSchema;
 const nomeSchema = require("../validation").nomeSchema;
 const userTypeSchema = require("../validation").userTypeSchema;
 const changePasswordSchema = require("../validation").changePasswordSchema;
+const deleteProfileSchema = require("../validation").deleteProfileSchema;
 
 // Route for getting user profile, only accessible if logged in
 router.get("/profilo", async (req, res, next) => {
@@ -57,30 +58,39 @@ router.post(
 );
 
 // Route for deleting user profile, only accessible if logged in
-router.delete("/profilo/:id?", async (req, res, next) => {
-  try {
-    const user = await User.findOne({ _id: req.user._id });
-    if (
-      user.userType == "Manager" &&
-      req.params.id != null &&
-      req.params.id != req.user._id
-    ) {
-      await ClasseUtente.getClasseUtente(user.userType).eliminaAccount(
-        req.params.id,
-        req.body.password
-      );
-    } else {
-      await ClasseUtente.getClasseUtente(user.userType).eliminaAccount(
-        req.user._id,
-        req.body.password
-      );
+router.delete(
+  "/profilo/:id?",
+  checkSchema(deleteProfileSchema),
+  async (req, res, next) => {
+    const val = validationResult(req);
+    if (!val.isEmpty()) {
+      return errorRes(res, null, "Fields required", 424);
     }
 
-    successRes(res, "Accunt utente eliminato correttamente");
-  } catch (error) {
-    errorRes(res, error, error.message, error.code);
+    try {
+      const user = await User.findOne({ _id: req.user._id });
+      if (
+        user.userType == "Manager" &&
+        req.params.id != null &&
+        req.params.id != req.user._id
+      ) {
+        await ClasseUtente.getClasseUtente(user.userType).eliminaAccount(
+          req.params.id,
+          req.body.password
+        );
+      } else {
+        await ClasseUtente.getClasseUtente(user.userType).eliminaAccount(
+          req.user._id,
+          req.body.password
+        );
+      }
+
+      successRes(res, "Accunt utente eliminato correttamente");
+    } catch (error) {
+      errorRes(res, error, error.message, error.code);
+    }
   }
-});
+);
 
 //Route for changing password
 router.put(

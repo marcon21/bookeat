@@ -4,8 +4,7 @@
 const Dipendente = require("./Dipendente");
 const GestoreMenu = require("../gestori/GestoreMenu");
 const GestoreProfilo = require("../gestori/GestoreProfilo");
-
-const User = require("../db/utente").User;
+const GestoreConti = require("../gestori/GestoreConti");
 
 class Manager extends Dipendente {
   constructor() {
@@ -110,6 +109,15 @@ class Manager extends Dipendente {
   static async eliminaAccount(id, password) {
     await GestoreProfilo.eliminaAccount(id);
   }
+
+  /**
+   * Metodo per chiudere un conto
+   *
+   * @param idConto - L'id conto da chiudere
+   *
+   * @throws FailedDependencyException - Se la chiusura del conto fallisce
+  */
+  static async chiudiConto(idConto) { await GestoreConti.chiudiConto(idConto); }
 }
 
 module.exports = Manager;

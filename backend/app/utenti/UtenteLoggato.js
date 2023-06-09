@@ -59,6 +59,7 @@ class UtenteLoggato extends Utente {
 
     let idConto = await GestoreConti.apriConto(idUtente, 0);
     await GestoreConti.aggiungiPortata(idConto, portate);
+    await GestoreConti.inviaConto(idConto);
   };
 
   static async chiudiConto() {
