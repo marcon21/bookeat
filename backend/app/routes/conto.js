@@ -25,7 +25,7 @@ const contoSchema = require("../validation").contoSchema;
 /**
  * Apre un conto
  * Disponibile solo per il tavolo
-*/
+ */
 router.post(
   "/apriConto",
   checkSchema(contoSchema),
@@ -52,7 +52,7 @@ router.post(
   }
 );
 
-/** 
+/**
  * Chiude un conto
  */
 router.put(
@@ -64,7 +64,9 @@ router.put(
     const user = await User.findOne({ _id: req.user._id });
 
     try {
-      await ClasseUtente.getClasseUtente(user.userType).chiudiConto(req.params.idConto);
+      await ClasseUtente.getClasseUtente(user.userType).chiudiConto(
+        req.params.idConto
+      );
       successRes(res, "OK", {});
     } catch (error) {
       errorRes(res, error, error.message, error.code);
@@ -72,7 +74,7 @@ router.put(
   }
 );
 
-/** 
+/**
  * Invia un conto
  * Disponibile solo per il tavolo
  */
@@ -85,7 +87,9 @@ router.put(
     const user = await User.findOne({ _id: req.user._id });
 
     try {
-      await ClasseUtente.getClasseUtente(user.userType).inviaConto(req.user._id);
+      await ClasseUtente.getClasseUtente(user.userType).inviaConto(
+        req.user._id
+      );
       successRes(res, "OK", {});
     } catch (error) {
       errorRes(res, error, error.message, error.code);

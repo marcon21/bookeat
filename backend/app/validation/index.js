@@ -116,6 +116,18 @@ const contoSchema = {
   },
 };
 
+const deleteProfileSchema = {
+  password: {
+    isString: true,
+    optional: true,
+  },
+  id: {
+    in: ["params"],
+    optional: true,
+    isMongoId: true,
+  },
+};
+
 module.exports = {
   userSchemaSignUP,
   userSchemaLogin,
@@ -126,4 +138,5 @@ module.exports = {
   changePasswordSchema,
   ordineSchema,
   contoSchema,
+  deleteProfileSchema,
 };

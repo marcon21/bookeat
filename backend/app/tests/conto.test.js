@@ -1,3 +1,5 @@
+const { db } = require("../db");
+
 const makeString = require("./utils").makeString;
 const fetchAPI = require("./utils").fetchAPI;
 
@@ -8,8 +10,14 @@ const User = require("../db/utente").User;
 const utenti = require("../utils/utenti.json");
 const utenteTavolo = utenti.find((utente) => utente.userType === "Tavolo");
 const UtenteLoggato = utenti.find(
-  (utente) => utente.userType === "UtenteLoggato"
+  (utente) =>
+    utente.userType === "UtenteLoggato" && utente.email === "utente@gmail.com"
 );
+const utente2 = utenti.find(
+  (utente) =>
+    utente.userType === "UtenteLoggato" && utente.email === "utente2@gmail.com"
+);
+
 const utenteCameriere = utenti.find((utente) => utente.userType === "Sala");
 
 describe("Conto", () => {
@@ -18,12 +26,14 @@ describe("Conto", () => {
       const res = await fetchAPI("/conto/apriConto", "POST", {
         nCoperti: 1,
       });
-      expect(res.statusCode).toEqual(401);
+      return expect(res.statusCode).toEqual(401);
     });
     it("should return 401 if user is not a Tavolo", async () => {
-      const utenteCameriereId = await User.findOne({
+      let utenteCameriereId = await User.findOne({
         email: utenteCameriere.email,
-      }).then((res) => res._id);
+      }).exec();
+      utenteCameriereId = utenteCameriereId._id;
+
       const token = generaJWT(utenteCameriereId, utenteCameriere.email);
       const res = await fetchAPI(
         "/conto/apriConto",
@@ -33,12 +43,14 @@ describe("Conto", () => {
         },
         token
       );
-      expect(res.statusCode).toEqual(401);
+      return expect(res.statusCode).toEqual(401);
     });
     it("should return 424 if nCoperti is not valid", async () => {
-      const utenteTavoloId = await User.findOne({
+      let utenteTavoloId = await User.findOne({
         email: utenteTavolo.email,
-      }).then((res) => res._id);
+      }).exec();
+      utenteTavoloId = utenteTavoloId._id;
+
       const token = generaJWT(utenteTavoloId, utenteTavolo.email);
       const res = await fetchAPI(
         "/conto/apriConto",
@@ -48,12 +60,14 @@ describe("Conto", () => {
         },
         token
       );
-      expect(res.statusCode).toEqual(424);
+      return expect(res.statusCode).toEqual(424);
     });
     it("should return 201 if nCoperti is valid", async () => {
-      const utenteTavoloId = await User.findOne({
+      let utenteTavoloId = await User.findOne({
         email: utenteTavolo.email,
-      }).then((res) => res._id);
+      }).exec();
+      utenteTavoloId = utenteTavoloId._id;
+
       const token = generaJWT(utenteTavoloId, utenteTavolo.email);
       const res = await fetchAPI(
         "/conto/apriConto",
@@ -63,7 +77,7 @@ describe("Conto", () => {
         },
         token
       );
-      expect(res.statusCode).toEqual(201);
+      return expect(res.statusCode).toEqual(201);
     });
   });
   describe("POST /invioOrdine", () => {
@@ -85,12 +99,14 @@ describe("Conto", () => {
           },
         ],
       });
-      expect(res.statusCode).toEqual(401);
+      return expect(res.statusCode).toEqual(401);
     });
     it("should return 401 if user is not a Tavolo or UtenteLoggato", async () => {
-      const utenteCameriereId = await User.findOne({
+      let utenteCameriereId = await User.findOne({
         email: utenteCameriere.email,
-      }).then((res) => res._id);
+      });
+      utenteCameriereId = utenteCameriereId._id;
+
       const token = generaJWT(utenteCameriereId, utenteCameriere.email);
       const idPiatto = await getMenu().then((r) => r.piatti[0]._id);
       const res = await fetchAPI(
@@ -114,12 +130,14 @@ describe("Conto", () => {
         },
         token
       );
-      expect(res.statusCode).toEqual(401);
+      return expect(res.statusCode).toEqual(401);
     });
     it("should return 424 if portate is not valid", async () => {
-      const utenteTavoloId = await User.findOne({
+      let utenteTavoloId = await User.findOne({
         email: utenteTavolo.email,
-      }).then((res) => res._id);
+      }).exec();
+      utenteTavoloId = utenteTavoloId._id;
+
       const token = generaJWT(utenteTavoloId, utenteTavolo.email);
       const res = await fetchAPI(
         "/conto/invioOrdine",
@@ -129,12 +147,13 @@ describe("Conto", () => {
         },
         token
       );
-      expect(res.statusCode).toEqual(424);
+      return expect(res.statusCode).toEqual(424);
     });
     it("should return 424 if portate is empty", async () => {
-      const utenteTavoloId = await User.findOne({
+      let utenteTavoloId = await User.findOne({
         email: utenteTavolo.email,
-      }).then((res) => res._id);
+      }).exec();
+      utenteTavoloId = utenteTavoloId._id;
       const token = generaJWT(utenteTavoloId, utenteTavolo.email);
       const res = await fetchAPI(
         "/conto/invioOrdine",
@@ -144,12 +163,13 @@ describe("Conto", () => {
         },
         token
       );
-      expect(res.statusCode).toEqual(424);
+      return expect(res.statusCode).toEqual(424);
     });
     it("should return 424 if portate elements are not valid", async () => {
-      const utenteTavoloId = await User.findOne({
+      let utenteTavoloId = await User.findOne({
         email: utenteTavolo.email,
-      }).then((res) => res._id);
+      }).exec();
+      utenteTavoloId = utenteTavoloId._id;
       const token = generaJWT(utenteTavoloId, utenteTavolo.email);
       const res = await fetchAPI(
         "/conto/invioOrdine",
@@ -159,12 +179,13 @@ describe("Conto", () => {
         },
         token
       );
-      expect(res.statusCode).toEqual(424);
+      return expect(res.statusCode).toEqual(424);
     });
     it("should return 424 if portate elements are empty", async () => {
-      const utenteTavoloId = await User.findOne({
+      let utenteTavoloId = await User.findOne({
         email: utenteTavolo.email,
-      }).then((res) => res._id);
+      }).exec();
+      utenteTavoloId = utenteTavoloId._id;
       const token = generaJWT(utenteTavoloId, utenteTavolo.email);
       const res = await fetchAPI(
         "/conto/invioOrdine",
@@ -174,12 +195,13 @@ describe("Conto", () => {
         },
         token
       );
-      expect(res.statusCode).toEqual(424);
+      return expect(res.statusCode).toEqual(424);
     });
     it("should return 424 if portate elements idPiatto is not valid", async () => {
-      const utenteTavoloId = await User.findOne({
+      let utenteTavoloId = await User.findOne({
         email: utenteTavolo.email,
-      }).then((res) => res._id);
+      }).exec();
+      utenteTavoloId = utenteTavoloId._id;
       const token = generaJWT(utenteTavoloId, utenteTavolo.email);
       const res = await fetchAPI(
         "/conto/invioOrdine",
@@ -202,12 +224,13 @@ describe("Conto", () => {
         },
         token
       );
-      expect(res.statusCode).toEqual(424);
+      return expect(res.statusCode).toEqual(424);
     });
     it("should return 424 if portate elements ingredientiScelti is not valid", async () => {
-      const utenteTavoloId = await User.findOne({
+      let utenteTavoloId = await User.findOne({
         email: utenteTavolo.email,
-      }).then((res) => res._id);
+      }).exec();
+      utenteTavoloId = utenteTavoloId._id;
       const token = generaJWT(utenteTavoloId, utenteTavolo.email);
       const idPiatto = await getMenu().then((r) => r.piatti[0]._id);
       const res = await fetchAPI(
@@ -231,12 +254,13 @@ describe("Conto", () => {
         },
         token
       );
-      expect(res.statusCode).toEqual(424);
+      return expect(res.statusCode).toEqual(424);
     });
     it("should return 424 if portate elements note is not valid", async () => {
-      const utenteTavoloId = await User.findOne({
+      let utenteTavoloId = await User.findOne({
         email: utenteTavolo.email,
-      }).then((res) => res._id);
+      }).exec();
+      utenteTavoloId = utenteTavoloId._id;
       const idPiatto = await getMenu().then((r) => r.piatti[0]._id);
       const token = generaJWT(utenteTavoloId, utenteTavolo.email);
       const res = await fetchAPI(
@@ -260,12 +284,14 @@ describe("Conto", () => {
         },
         token
       );
-      expect(res.statusCode).toEqual(424);
+      return expect(res.statusCode).toEqual(424);
     });
     it("should return 424 if portate elements priorita is not valid", async () => {
-      const utenteTavoloId = await User.findOne({
+      let utenteTavoloId = await User.findOne({
         email: utenteTavolo.email,
-      }).then((res) => res._id);
+      }).exec();
+      utenteTavoloId = utenteTavoloId._id;
+
       const idPiatto = await getMenu().then((r) => r.piatti[0]._id);
       const token = generaJWT(utenteTavoloId, utenteTavolo.email);
       const res = await fetchAPI(
@@ -289,12 +315,13 @@ describe("Conto", () => {
         },
         token
       );
-      expect(res.statusCode).toEqual(424);
+      return expect(res.statusCode).toEqual(424);
     });
     it("should return 201 if portate is valid", async () => {
-      const utenteTavoloId = await User.findOne({
+      let utenteTavoloId = await User.findOne({
         email: utenteTavolo.email,
-      }).then((res) => res._id);
+      }).exec();
+      utenteTavoloId = utenteTavoloId._id;
       const idPiatto = await getMenu().then((r) => r.piatti[0]._id);
       const token = generaJWT(utenteTavoloId, utenteTavolo.email);
       const res = await fetchAPI(
@@ -318,7 +345,7 @@ describe("Conto", () => {
         },
         token
       );
-      expect(res.statusCode).toEqual(201);
+      return expect(res.statusCode).toEqual(201);
     });
   });
 });
