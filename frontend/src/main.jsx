@@ -25,6 +25,7 @@ import OrdersRoute from './routes/ordersRoute'
 import ReservationsRoute from './routes/reservationsRoute'
 import ProblemsRoute from './routes/problemsRoute'
 import SettingsRoute, { loader as settingsRouteLoader } from './routes/settingsRoute'
+import CheckOutRoute from './routes/checkoutRoute'
 
 // Router of the app
 const router = createBrowserRouter([
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
     path: '/',
     element: <MenuRoute />,
     loader: menuLoader
+  },
+  {
+    path: '/checkout',
+    element: <CheckOutRoute />
   },
   {
     path: '/dashboard',
