@@ -84,7 +84,6 @@ const ordineSchema = {
   },
   "portate.*.idPiatto": {
     notEmpty: true,
-    required: true,
     errorMessage: "idPiatto is not valid",
     isMongoId: true,
   },
@@ -97,7 +96,6 @@ const ordineSchema = {
   "portate.*.priorita": {
     notEmpty: true,
     isInt: true,
-    required: true,
     errorMessage: "Priorita is not valid",
   },
   "portate.*.ingredientiScelti": {
@@ -111,7 +109,6 @@ const contoSchema = {
   nCoperti: {
     notEmpty: true,
     isInt: true,
-    required: true,
     errorMessage: "nCoperti is not valid",
   },
 };
@@ -128,6 +125,101 @@ const deleteProfileSchema = {
   },
 };
 
+const piattoSchema = {
+  nome: {
+    notEmpty: true,
+    isString: true,
+    required: true,
+    errorMessage: "Nome is not valid",
+  },
+  prezzo: {
+    notEmpty: true,
+    isInt: true,
+    required: true,
+    errorMessage: "Prezzo is not valid",
+  },
+  categoria: {
+    required: true,
+    notEmpty: true,
+    isMap: true,
+  },
+  disponibile: {
+    notEmpty: true,
+    isBoolean: true,
+    required: true,
+    errorMessage: "Disponibile is not valid",
+  },
+  descrizione: {
+    isString: true,
+    required: true,
+    notEmpty: true,
+  },
+  allergeni: {
+    isArray: true,
+    optional: true,
+  },
+  "allergeni.*": {
+    isString: true,
+  },
+  ingredientiModificabili: {
+    isArray: true,
+    optional: true,
+  },
+  "ingredientiModificabili.*": {
+    isString: true,
+  },
+};
+
+const modificaPiattoSchema = {
+  nome: {
+    notEmpty: true,
+    isString: true,
+    optional: true,
+    errorMessage: "Nome is not valid",
+  },
+  prezzo: {
+    notEmpty: true,
+    isInt: true,
+    optional: true,
+    errorMessage: "Prezzo is not valid",
+  },
+  categoria: {
+    optional: true,
+    notEmpty: true,
+    isMap: true,
+  },
+  disponibile: {
+    notEmpty: true,
+    isBoolean: true,
+    optional: true,
+    errorMessage: "Disponibile is not valid",
+  },
+  descrizione: {
+    isString: true,
+    optional: true,
+    notEmpty: true,
+  },
+  allergeni: {
+    isArray: true,
+    optional: true,
+  },
+  "allergeni.*": {
+    isString: true,
+  },
+  ingredientiModificabili: {
+    isArray: true,
+    optional: true,
+  },
+  "ingredientiModificabili.*": {
+    isString: true,
+  },
+  idPiatto: {
+    in: ["params"],
+    required: true,
+    isMongoId: true,
+  },
+};
+
 module.exports = {
   userSchemaSignUP,
   userSchemaLogin,
@@ -139,4 +231,6 @@ module.exports = {
   ordineSchema,
   contoSchema,
   deleteProfileSchema,
+  piattoSchema,
+  modificaPiattoSchema,
 };

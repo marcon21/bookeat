@@ -10,6 +10,18 @@ const ClasseUtente = require("../utils/ClasseUtente");
 const UtenteAnonimo = require("../utenti/UtenteAnonimo");
 const { errorRes, successRes } = require("../response");
 
+const { checkSchema, validationResult, check } = require("express-validator");
+const userSchemaSignUP = require("../validation").userSchemaSignUP;
+const userSchemaLogin = require("../validation").userSchemaLogin;
+const passwordSchema = require("../validation").passwordSchema;
+const emailSchema = require("../validation").emailSchema;
+const nomeSchema = require("../validation").nomeSchema;
+const userTypeSchema = require("../validation").userTypeSchema;
+const changePasswordSchema = require("../validation").changePasswordSchema;
+const deleteProfileSchema = require("../validation").deleteProfileSchema;
+const piattoSchema = require("../validation").piattoSchema;
+const modificaPiattoSchema = require("../validation").modificaPiattoSchema;
+
 /**
  * Ritorna tutti i piatti del menu
  *
@@ -37,10 +49,16 @@ router.get("/", async function (req, res, next) {
  */
 router.post(
   "/",
+  checkSchema(piattoSchema),
   passport.authenticate("jwt", {
     session: false,
   }),
   async function (req, res, next) {
+    const val = validationResult(req);
+    if (!val.isEmpty()) {
+      return errorRes(res, val, "Fields required", 424);
+    }
+
     const user = await User.findOne({ _id: req.user._id });
 
     try {
@@ -66,10 +84,15 @@ router.post(
  */
 router.put(
   "/:idPiatto",
+  checkSchema(modificaPiattoSchema),
   passport.authenticate("jwt", {
     session: false,
   }),
   async function (req, res, next) {
+    const val = validationResult(req);
+    if (!val.isEmpty()) {
+      return errorRes(res, val, "Fields required", 424);
+    }
     const user = await User.findOne({ _id: req.user._id });
 
     try {
@@ -96,10 +119,22 @@ router.put(
  */
 router.delete(
   "/:idPiatto",
+  checkSchema({
+    idPiatto: {
+      in: ["params"],
+      isMongoId: true,
+      errorMessage: "idPiatto non valido",
+    },
+  }),
   passport.authenticate("jwt", {
     session: false,
   }),
   async function (req, res, next) {
+    const val = validationResult(req);
+    if (!val.isEmpty()) {
+      return errorRes(res, val, "Fields required", 424);
+    }
+
     const user = await User.findOne({ _id: req.user._id });
 
     try {
