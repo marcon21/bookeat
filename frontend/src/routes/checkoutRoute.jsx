@@ -127,7 +127,7 @@ export default function CheckOutRoute() {
                                                 // item["prioritá"] = item["priorita"]
                                                 // delete item["priorita"]
                                             })
-                                            let rt = await sendOrder(checkoutCopy)
+                                            let rt = await sendOrder({"portate": checkoutCopy})
                                             let promiseApi = new Promise((resolve, reject) => {
                                                 if (rt["status"]) {
                                                     resolve(rt)
