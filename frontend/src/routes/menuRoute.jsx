@@ -31,6 +31,11 @@ export async function loader() {
 
 export default function MenuRoute() {
     const [redirect, setRedirect] = useState(false)
+
+    const userType = document.cookie.split(';').some((item) => item.trim().startsWith('userType=')) ? document.cookie.split('; ').find(row => row.startsWith('userType=')).split('=')[1] : null
+    let isUser = userType === "UtenteLoggato"
+    let isTable = userType === "Tavolo"
+
     const [filter, setFilter] = useState([0, 0]) // [sectiom, subsection] - 0 if no filter, string matching to filter
     if (!useLoaderData()["status"]) {
         return (
@@ -51,7 +56,7 @@ export default function MenuRoute() {
         let checkoutCopy = structuredClone(checkout)
         checkoutCopy.splice(index, 1)
         setCheckout(checkoutCopy)
-        toast.success( plateName + " rimosso dal carrello")
+        toast.success(plateName + " rimosso dal carrello")
     }
     const increasePriority = (index) => {
         let checkoutCopy = structuredClone(checkout)
@@ -83,34 +88,44 @@ export default function MenuRoute() {
 
     const checkoutHandler = async () => {
         let checkoutCopy = structuredClone(checkout)
-        checkoutCopy.forEach((item) => {
-            delete item["nome"]
-            delete item["prezzo"]
-            item["idPiatto"] = item["_id"]
-            delete item["_id"]
-        })
-        let rt = await sendOrder(checkoutCopy)
-        let promiseApi = new Promise((resolve, reject) => {
-            if (rt["status"]) {
-                resolve(rt)
-            } else {
-                reject(rt)
-            }
-        })
-        await toast.promise(promiseApi, {
-            pending: {
-                render({ data }) {
-                    return "Invio ordine in corso..."
+        if (isUser) {
+            // save checkout copy and pass it to the next route and redirect
+            localStorage.setItem("checkout", JSON.stringify(checkoutCopy))
+            setRedirect("/checkout")
+        } else if (isTable) {
+            // send order to backend
+            checkoutCopy.forEach((item) => {
+                delete item["nome"]
+                delete item["prezzo"]
+                item["idPiatto"] = item["_id"]
+                delete item["_id"]
+                // rename key priorita to prioritá
+                // item["prioritá"] = item["priorita"]
+                // delete item["priorita"]
+            })
+            let rt = await sendOrder(checkoutCopy)
+            let promiseApi = new Promise((resolve, reject) => {
+                if (rt["status"]) {
+                    resolve(rt)
+                } else {
+                    reject(rt)
                 }
-            },
-            success: {
-                render({ data }) {
-                    setCheckout([])
-                    return "Ordine inviato con successo"
-                }
-            },
-            error: "Errore: " + rt["message"]
-        })
+            })
+            await toast.promise(promiseApi, {
+                pending: {
+                    render({ data }) {
+                        return "Invio ordine in corso..."
+                    }
+                },
+                success: {
+                    render({ data }) {
+                        setCheckout([])
+                        return "Ordine inviato con successo"
+                    }
+                },
+                error: "Errore: " + rt["message"]
+            }).catch((err) => {})
+        }
     }
 
 
@@ -149,7 +164,7 @@ export default function MenuRoute() {
                 modalId={"checkoutModal"}
                 title={"Carrello"}
                 closeButtonText="Chiudi"
-                confirmButtonText="Invia Ordine"
+                confirmButtonText="Conferma selezione"
                 closeFunction={() => { console.log("close") }}
                 confirmFunction={checkoutHandler}
                 showButtons={checkout.length > 0}
