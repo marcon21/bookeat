@@ -44,11 +44,12 @@ export default function MenuRoute() {
             </div>
         )
     }
-    const [checkout, setCheckout] = useState([])
+    const [checkout, setCheckout] = useState(localStorage.getItem("checkout") === null ? [] : JSON.parse(localStorage.getItem("checkout")))
     const addToCheckout = (item) => {
         let checkoutCopy = structuredClone(checkout)
         checkoutCopy.push(item)
         setCheckout(checkoutCopy)
+        localStorage.setItem("checkout", JSON.stringify(checkoutCopy))
         toast.success(item["nome"] + " nel carrello")
     }
     const removeFromCheckout = (index) => {
@@ -56,6 +57,7 @@ export default function MenuRoute() {
         let checkoutCopy = structuredClone(checkout)
         checkoutCopy.splice(index, 1)
         setCheckout(checkoutCopy)
+        localStorage.setItem("checkout", JSON.stringify(checkoutCopy))
         toast.success(plateName + " rimosso dal carrello")
     }
     const increasePriority = (index) => {
@@ -66,6 +68,7 @@ export default function MenuRoute() {
         }
         checkoutCopy[index]["priorita"] += 1
         setCheckout(checkoutCopy)
+        localStorage.setItem("checkout", JSON.stringify(checkoutCopy))
     }
     const decreasePriority = (index) => {
         let checkoutCopy = structuredClone(checkout)
@@ -83,6 +86,7 @@ export default function MenuRoute() {
         if (checkoutCopy[index]["priorita"] > 0) {
             checkoutCopy[index]["priorita"] -= 1
             setCheckout(checkoutCopy)
+            localStorage.setItem("checkout", JSON.stringify(checkoutCopy))
         }
     }
 
@@ -120,6 +124,7 @@ export default function MenuRoute() {
                 success: {
                     render({ data }) {
                         setCheckout([])
+                        localStorage.removeItem("checkout")
                         return "Ordine inviato con successo"
                     }
                 },

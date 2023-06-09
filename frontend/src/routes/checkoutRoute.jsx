@@ -8,8 +8,9 @@ export default function CheckOutRoute() {
     const userType = document.cookie.split(';').some((item) => item.trim().startsWith('userType=')) ? document.cookie.split('; ').find(row => row.startsWith('userType=')).split('=')[1] : null
     let isUser = userType === "UtenteLoggato"
     let checkout = localStorage.getItem("checkout")
+    let isCheckoutEmpty = checkout === null || JSON.parse(checkout).length === 0
 
-    const [redirect, setRedirect] = useState(isUser && checkout !== null ? false : "/")
+    const [redirect, setRedirect] = useState(isUser && !isCheckoutEmpty ? false : "/")
     const minHour = 12
     const maxHour = 14.75
     const [selectedHour, setSelectedHour] = useState(minHour)
@@ -52,7 +53,7 @@ export default function CheckOutRoute() {
     };
 
 
-    if (isUser && checkout !== null) {
+    if (isUser && !isCheckoutEmpty) {
         return (
             <>
                 {redirect && <Navigate to={redirect} />}
@@ -142,7 +143,7 @@ export default function CheckOutRoute() {
                                                 },
                                                 success: {
                                                     render({ data }) {
-                                                        setCheckout([])
+                                                        localStorage.removeItem("checkout")
                                                         return "Ordine Confermato per le ore " + formatHour(selectedHour)
                                                     }
                                                 },
