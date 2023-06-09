@@ -13,7 +13,7 @@ var SchemaPiatto = new mongoose.Schema({
     type: Number,
     required: true,
     min: 0,
-    validate: { validator: Number.isInteger, }
+    validate: { validator: Number.isInteger },
   },
   categoria: {
     type: Map,
@@ -24,13 +24,16 @@ var SchemaPiatto = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
-  descrizione: String,
+  descrizione: {
+    type: String,
+    required: true,
+  },
   allergeni: [String],
   ingredientiModificabili: [String],
 });
 
-var Piatto = mongoose.model('Plate', SchemaPiatto);
+var Piatto = mongoose.model("Plate", SchemaPiatto);
 
 module.exports = {
-  Piatto: Piatto
+  Piatto: Piatto,
 };
