@@ -432,34 +432,39 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: object
-                properties:
-                  idPiatto:
-                    type: string
-                  ingredientiScelti:
+              type: object
+              properties:
+                portate:
                     type: array
-                  note:
-                    type: string
-                  priorita:
-                    type: integer
+                    items:
+                      type: object
+                      properties:
+                        idPiatto:
+                          type: string
+                        ingredientiScelti:
+                          type: array
+                        note:
+                          type: string
+                        priorita:
+                          type: integer
+                  
               
             example: 
-              - idPiatto: "6467b502aa1394c96fe45299"
-                ingredientiScelti: []
-                note: ""
-                prioritá: 0
-              
-              - idPiatto: "6467b502aa1394c96fe45299"
-                ingredientiScelti: []
-                note: ""
-                prioritá: 0
-              
-              - idPiatto: "6467bhb1231394c96fe45299"
-                ingredientiScelti: []
-                note: ""
-                prioritá: 2
+              portate:
+                - idPiatto: "6467b502aa1394c96fe45299"
+                  ingredientiScelti: []
+                  note: ""
+                  prioritá: 0
+                
+                - idPiatto: "6467b502aa1394c96fe45299"
+                  ingredientiScelti: []
+                  note: ""
+                  prioritá: 0
+                
+                - idPiatto: "6467bhb1231394c96fe45299"
+                  ingredientiScelti: []
+                  note: ""
+                  prioritá: 2
       
       responses:
         "201":
