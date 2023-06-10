@@ -14,6 +14,8 @@ export default function NavBar({ label, onFilterClickHandler, setRedirect, check
     // users ENUM: UtenteLoggato, Tavolo, Sala, Cucina, Manager
     const canOrder = userType === "UtenteLoggato" || userType === "Tavolo"
     const isStaff = userType === "Sala" || userType === "Cucina" || userType === "Manager"
+    const isTable = userType === "Tavolo"
+    const canCloseOrder = isTable && localStorage.getItem("billID") !== null
 
     return (
         <>
@@ -37,7 +39,29 @@ export default function NavBar({ label, onFilterClickHandler, setRedirect, check
                 placeholder="Search"
                 aria-label="Search"
             />
-            {(isLoggedIn && canOrder) && (
+            {(canCloseOrder) && (
+                <div className="navbar-nav">
+                    <div className="nav-item text-nowrap">
+                        <a className="nav-link px-3" role="button" onClick={() => {
+                            launchModal("closeBillModal")
+                        }}>
+                            <i className="bi bi-receipt fs-4"></i>
+                        </a>
+                    </div>
+                </div>
+            )}
+            {(isTable && canCloseOrder && isLoggedIn && canOrder) && (
+                <div className="navbar-nav">
+                    <div className="nav-item text-nowrap">
+                        <a className="nav-link px-3" role="button" onClick={() => {
+                            launchModal("checkoutModal")
+                        }}>
+                            <i className="bi bi-cart4 fs-4"></i>
+                        </a>
+                    </div>
+                </div>
+            )}
+            {(!isTable && isLoggedIn && canOrder) && (
                 <div className="navbar-nav">
                     <div className="nav-item text-nowrap">
                         <a className="nav-link px-3" role="button" onClick={() => {
@@ -59,7 +83,7 @@ export default function NavBar({ label, onFilterClickHandler, setRedirect, check
                     </div>
                 </div>
             )}
-            {isLoggedIn && (
+            {isLoggedIn && !isTable && (
                 <div className="navbar-nav">
                     <div className="nav-item text-nowrap">
                         <a className="nav-link px-3" role="button" onClick={() =>{ 
@@ -70,7 +94,7 @@ export default function NavBar({ label, onFilterClickHandler, setRedirect, check
                     </div>
                 </div>
             )}
-            {(isLoggedIn && userType !== "Tavolo") && (
+            {(isLoggedIn && !isTable) && (
                 <div className="navbar-nav">
                     <div className="nav-item text-nowrap">
                         <a className="nav-link px-3" onClick={async () => {

@@ -5,11 +5,12 @@ import LateralBar from "../components/LateralBar";
 import MenuSections from "../components/MenuSections";
 import NavBar from "../components/Navbar";
 
-import { getMenu, sendOrder } from "../requests";
+import { getMenu, sendOrder, openBill, getBill } from "../requests";
 import Modal from "../components/Modal";
 import CheckOut from "../components/CheckOut"
 
 import { toast } from 'react-toastify'
+import TableOrders from "../components/TableOrders";
 
 // Loader function called each time route is visited
 export async function loader() {
@@ -35,6 +36,12 @@ export default function MenuRoute() {
     const userType = document.cookie.split(';').some((item) => item.trim().startsWith('userType=')) ? document.cookie.split('; ').find(row => row.startsWith('userType=')).split('=')[1] : null
     let isUser = userType === "UtenteLoggato"
     let isTable = userType === "Tavolo"
+
+    const [hasOpenBill, setHasOpenBill] = useState(localStorage.getItem("billID") !== null)
+    const handleCloseBill = () => {
+        localStorage.removeItem("billID")
+        setHasOpenBill(false)
+    }
 
     const [filter, setFilter] = useState([0, 0]) // [sectiom, subsection] - 0 if no filter, string matching to filter
     if (!useLoaderData()["status"]) {
@@ -107,7 +114,7 @@ export default function MenuRoute() {
                 // item["prioritá"] = item["priorita"]
                 // delete item["priorita"]
             })
-            let rt = await sendOrder(checkoutCopy)
+            let rt = await sendOrder({ "portate": checkoutCopy })
             let promiseApi = new Promise((resolve, reject) => {
                 if (rt["status"]) {
                     resolve(rt)
@@ -129,7 +136,7 @@ export default function MenuRoute() {
                     }
                 },
                 error: "Errore: " + rt["message"]
-            }).catch((err) => {})
+            }).catch((err) => { })
         }
     }
 
@@ -156,11 +163,54 @@ export default function MenuRoute() {
 
                     {/* /Lateralbar */}
                     <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar sidebar-sticky collapse">
-                        <LateralBar list={menuCategories} onFilterClickHandler={onFilterClickHandler} />
+                        {!isTable &&
+                            <LateralBar list={menuCategories} onFilterClickHandler={onFilterClickHandler} />
+                        }
+                        {isTable && hasOpenBill &&
+                            <LateralBar list={menuCategories} onFilterClickHandler={onFilterClickHandler} />
+                        }
                     </nav>
 
                     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                        <MenuSections menu={menu} filter={filter} addToCheckout={addToCheckout} />
+                        {!isTable &&
+                            <MenuSections menu={menu} filter={filter} addToCheckout={addToCheckout} />
+                        }
+                        {isTable && hasOpenBill &&
+                            <MenuSections menu={menu} filter={filter} addToCheckout={addToCheckout} />
+                        }
+                        {isTable && !hasOpenBill &&
+                            <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+                                <div className="row">
+                                    <div className="col-12 d-flex justify-content-center">
+                                        <h1>Benvenuti</h1>
+                                    </div>
+                                </div>
+                                <div className="row mt-3">
+                                    <div className="col-12 d-flex justify-content-center">
+                                        {/* inserire il numero di persone al tavolo */}
+                                        <input type="number" id="nCoperti" className="form-control" placeholder="In quanti siete?" />
+                                    </div>
+                                </div>
+                                <div className="row mt-4">
+                                    <div className="col-12 d-flex justify-content-center">
+                                        <button className="btn btn-dark" onClick={async () => {
+                                            let nCoperti = document.getElementById("nCoperti").value
+                                            if (nCoperti !== "" && nCoperti > 0 && nCoperti < 50) {
+                                                let rt = await openBill({ "nCoperti": nCoperti })
+                                                if (rt["status"]) {
+                                                    setHasOpenBill(true)
+                                                    localStorage.setItem("billID", rt["data"])
+                                                    localStorage.removeItem("checkout")
+                                                    setCheckout([])
+                                                } else {
+                                                    toast.error(rt["message"])
+                                                }
+                                            }
+                                        }}>Inizia</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </main>
                 </div>
             </div>
@@ -175,6 +225,20 @@ export default function MenuRoute() {
                 showButtons={checkout.length > 0}
             >
                 <CheckOut checkoutList={checkout} removeFromCheckout={removeFromCheckout} increasePriority={increasePriority} decreasePriority={decreasePriority} />
+            </Modal>
+
+            <Modal
+                modalId={"closeBillModal"}
+                title={"Chiudi conto"}
+                closeButtonText="Annulla"
+                confirmButtonText="Conferma"
+                closeFunction={ () => { console.log("close") } }
+                confirmFunction={ handleCloseBill }
+                showButtons={true}
+            >
+                <div className="alert alert-danger" role="alert">Avete terminato la vostra cena e siete pronti ad andare in cassa a pagare?</div>
+                <h1>Riepilogo piatti ordinati</h1>
+                <TableOrders />
             </Modal>
         </>
     )

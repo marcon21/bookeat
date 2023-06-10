@@ -77,8 +77,8 @@ export async function deletePlate(plateID) {
 // API: POST /conto/apriConto, open a new bill,
 // returns an array, first element is a boolean that indicate the success of the request,
 // second element is the data or the error message
-export async function openBill() {
-    return (await fetchAPI('/conto/apriConto', 'POST'))
+export async function openBill(body) {
+    return (await fetchAPI('/conto/apriConto', 'POST', body))
 }
 
 // API: POST /conto/invioOrdine, send an order,
@@ -87,6 +87,21 @@ export async function openBill() {
 export async function sendOrder(order) {
     return (await fetchAPI('/conto/invioOrdine', 'POST', order))
 }
+
+// API: POST /conto/chiudiConto, close a bill,
+// returns an array, first element is a boolean that indicate the success of the request,
+// second element is the data or the error message
+export async function closeBill() {
+    return (await fetchAPI('/conto/chiudiConto', 'POST'))
+}
+
+// API: PUT /conto/inviaConto, send a bill,
+// returns an array, first element is a boolean that indicate the success of the request,
+// second element is the data or the error message
+export async function getBill() {
+    return (await fetchAPI('/conto/inviaConto', 'PUT'))
+}
+
 
 // API POST /auth/signUp, sign up a new user,
 // returns an array, first element is a boolean that indicate the success of the request, 
