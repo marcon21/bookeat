@@ -17,6 +17,7 @@ export default function SettingsRoute() {
 
     const [redirect, setRedirect] = useState(!isLoggedIn ? '/login' : false)
     const [defaultFormValues, setDefaultFormValues] = useState(structuredClone(useLoaderData()))
+    console.log(defaultFormValues)
 
     let schema = yup.object().shape({
         nome: yup.string()
