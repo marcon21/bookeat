@@ -137,6 +137,8 @@ export async function logout() {
         // if it exists, delete it
         document.cookie = "jwt=; path=/; max-age=0; samesite=lax"
         document.cookie = "userType=; path=/; max-age=0; samesite=lax"
+        // delete all from local storage
+        localStorage.clear()
         return { "status": true, "message": "User logged out" }
     } else {
         return { "status": false, "message": "User not logged in" }

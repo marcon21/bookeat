@@ -11,28 +11,22 @@ export async function loader() {
     // let staff = await getStaff()
     let staff = [
         {
-            "name": "Mario",
-            "surname": "Rossi",
-            "role": "Sala",
+            "nome": "Mario",
             "email": "mario.rossi@gmail.com",
-            "username": "mario.rossi",
-            "password": "password"
+            "userType": "Sala",
+            "password": "qwertyQ1!"
         },
         {
-            "name": "Luigi",
-            "surname": "Verdi",
-            "role": "Cucina",
+            "nome": "Luigi",
             "email": "luigi.verdi@gmail.com",
-            "username": "luigi.verdi",
-            "password": "password"
+            "userType": "Cucina",
+            "password": "qwertyQ1"
         },
         {
-            "name": "Giovanni",
-            "surname": "Bianchi",
-            "role": "Manager",
+            "nome": "Giovanni",
             "email": "giovanni.bianchi@gmail.com",
-            "username": "giovanni.bianchi",
-            "password": "password"
+            "userType": "Manager",
+            "password": "qwertyQ1"
         }
     ]
     return staff
@@ -52,27 +46,17 @@ export default function StaffRoute() {
     }
 
     const formSchema = yup.object().shape({
-        name: yup.string()
-            .required("Il nome è richiesto")
-            .min(2, "Il nome deve contenere almeno 2 caratteri")
-            .max(12, "Il nome non può contenere più di 12 caratteri")
-            .matches(/^[a-zA-Z]*$/, "Il nome può contenere solo lettere"),
-        surname: yup.string()
-            .required("Il cognome è richiesto")
-            .min(2, "Il cognome deve contenere almeno 2 caratteri")
-            .max(12, "Il cognome non può contenere più di 12 caratteri")
-            .matches(/^[a-zA-Z]*$/, "Il cognome può contenere solo lettere"),
-        role: yup.string()
-            .required("Il ruolo è richiesto")
-            .oneOf(["Sala", "Cucina", "Manager"], "Il ruolo deve essere Sala, Cucina o Manager"),
-        email: yup.string()
-            .required("L'email è richiesta")
-            .email("L'email deve essere valida"),
-        username: yup.string()
+        nome: yup.string()
             .required("L'username è richiesto")
             .min(4, "L'username deve contenere almeno 4 caratteri")
             .max(12, "L'username non può contenere più di 12 caratteri")
             .matches(/^[a-zA-Z0-9_.]*$/, "L'username può contenere solo lettere, numeri, punti e underscore"),
+        email: yup.string()
+            .required("L'email è richiesta")
+            .email("L'email deve essere valida"),
+        userType: yup.string()
+            .required("Il ruolo è richiesto")
+            .oneOf(["Sala", "Cucina", "Manager"], "Il ruolo deve essere Sala, Cucina o Manager"),
         password: yup.string()
             .required("La password è richiesta")
             .min(4, "La password deve contenere almeno 4 caratteri")
@@ -157,11 +141,9 @@ export default function StaffRoute() {
                 <FormFieldsManager
                     onFormFieldChange={onFormFieldChange}
                     formFieldsEmpty={{
-                        name: "",
-                        surname: "",
-                        role: "",
+                        nome: "",
                         email: "",
-                        username: "",
+                        userType: "",
                         password: "",
                         cpassword: ""
                     }}
@@ -177,38 +159,26 @@ export default function StaffRoute() {
                             </div>
                             <div className="row">
                                 <div className="col-md-6 mb-3">
-                                    <label htmlFor="name" className="form-label">Nome</label>
-                                    <input type="text" className="form-control" id="name" {...register("name")} />
-                                    <div className="form-text text-danger">{errors.name?.message}</div>
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <label htmlFor="surname" className="form-label">Cognome</label>
-                                    <input type="text" className="form-control" id="surname" {...register("surname")} />
-                                    <div className="form-text text-danger">{errors.surname?.message}</div>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-6 mb-3">
-                                    <label htmlFor="role" className="form-label">Ruolo</label>
-                                    <select className="form-select" id="role" {...register("role")}>
-                                        <option value="Sala">Sala</option>
-                                        <option value="Cucina">Cucina</option>
-                                        <option value="Manager">Manager</option>
-                                    </select>
-                                    <div className="form-text text-danger">{errors.role?.message}</div>
-
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-6 mb-3">
-                                    <label htmlFor="username" className="form-label">Username</label>
-                                    <input type="text" className="form-control" id="username" {...register("username")} />
-                                    <div className="form-text text-danger">{errors.username?.message}</div>
+                                    <label htmlFor="nome" className="form-label">Username</label>
+                                    <input type="text" className="form-control" id="nome" {...register("nome")} />
+                                    <div className="form-text text-danger">{errors.nome?.message}</div>
                                 </div>
                                 <div className="col-md-6 mb-3">
                                     <label htmlFor="email" className="form-label">Email</label>
                                     <input type="email" className="form-control" id="email" {...register("email")} />
                                     <div className="form-text text-danger">{errors.email?.message}</div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-6 mb-3">
+                                    <label htmlFor="role" className="form-label">Ruolo</label>
+                                    <select className="form-select" id="role" {...register("userType")}>
+                                        <option value="Sala">Sala</option>
+                                        <option value="Cucina">Cucina</option>
+                                        <option value="Manager">Manager</option>
+                                    </select>
+                                    <div className="form-text text-danger">{errors.userType?.message}</div>
+
                                 </div>
                             </div>
                             <div className="row">
@@ -240,8 +210,8 @@ export default function StaffRoute() {
                                                 </div>
                                             </div>
                                             <div className="col">
-                                                <h5 className="card-title">{user['name']} {user['surname']}</h5>
-                                                <h6 className="card-subtitle mb-2 text-body-secondary">{user['role']}</h6>
+                                                <h5 className="card-title">{user['nome']}</h5>
+                                                <h6 className="card-subtitle mb-2 text-body-secondary">{user['userType']}</h6>
                                             </div>
                                         </div>
                                     </div>
