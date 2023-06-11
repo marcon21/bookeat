@@ -33,6 +33,7 @@ services:
 
   # EXPRESSJS instance
   backend:
+    container_name: backend
     build: "./backend/"
     volumes:
       - "./backend/app:/opt/backend/app"
@@ -48,6 +49,7 @@ services:
 
   # REACTJS instance
   frontend:
+    container_name: frontend
     build: "./frontend/"
     volumes:
       - "./frontend:/opt/frontend"
