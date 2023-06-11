@@ -19,14 +19,36 @@ const changePasswordSchema = require("../validation").changePasswordSchema;
 const deleteProfileSchema = require("../validation").deleteProfileSchema;
 
 // Route for getting user profile, only accessible if logged in
-router.get("/profilo", async (req, res, next) => {
-  const user = await User.findOne({ _id: req.user._id });
+router.get(
+  "/profilo/:id?",
+  checkSchema({
+    id: {
+      in: ["params"],
+      optional: true,
+      isMongoId: true,
+    },
+  }),
+  async (req, res, next) => {
+    const val = validationResult(req);
+    if (!val.isEmpty()) {
+      return errorRes(res, null, "Fields required", 424);
+    }
 
-  if (user == null) {
-    errorRes(res, null, "Utente non trovato", 404);
+    let user = await User.findOne({ _id: req.user._id });
+
+    let id =
+      req.params.id != null && user.userType == "Manager"
+        ? req.params.id
+        : req.user._id;
+
+    user = await User.findOne({ _id: id });
+
+    if (user == null) {
+      return errorRes(res, null, "Utente non trovato", 404);
+    }
+    return successRes(res, "User profile", { user: user });
   }
-  successRes(res, "User profile", { user: user });
-});
+);
 
 // Route for getting user profile, only accessible if logged in
 router.post(

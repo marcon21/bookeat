@@ -45,6 +45,22 @@ describe("Utente", () => {
       const res = await fetchAPI("/utente/profilo", "GET", {}, token);
       return expect(res.status).toBe(200);
     });
+    it("should return 200 if user is a manager", async () => {
+      const utenteId = await User.findOne({ email: utente.email }).then(
+        (res) => res._id
+      );
+      const managerId = await User.findOne({ email: utenteManager.email }).then(
+        (res) => res._id
+      );
+      const token = generaJWT(managerId, utenteManager.email);
+      const res = await fetchAPI(
+        "/utente/profilo/" + utenteId,
+        "GET",
+        {},
+        token
+      );
+      return expect(res.status).toBe(200);
+    });
   });
 
   describe("POST /utente/profilo", () => {
@@ -293,12 +309,10 @@ describe("Utente", () => {
       return expect(res.status).toBe(401);
     });
     it("should return 400 if oldPassword does not correspond to user password", async () => {
-      let mail = utente.email;
-
-      const user = await User.findOne({ email: mail });
+      const user = await User.findOne({ email: utente.email });
       const utenteId = user._id;
 
-      const token = generaJWT(utenteId, mail);
+      const token = generaJWT(utenteId, utente.email);
       const res = await fetchAPI(
         "/utente/password",
         "PUT",
@@ -366,9 +380,6 @@ describe("Utente", () => {
       return expect(res.status).toBe(401);
     });
     it("should return 400 if nome is not valid", async () => {
-      // const utenteId = await User.findOne({ email: utente.email }).then(
-      //   (res) => res._id
-      // );
       let mail = utente.email;
       const user2 = await User.findOne({ email: mail });
       const utenteId = user2._id;
