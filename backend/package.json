@@ -7,6 +7,7 @@
     "dev": "node ./app/utils/populate.js & nodemon -L ./app/bin/www",
     "test": "jest --config=./app/jest.config.js",
     "test-continuos": "jest --config=./app/jest.config.js --watchAll",
+    "test-continuos-ext": "docker exec -it bookeat-backend-1 npm run test-continuos",
     "connect-backend": "docker exec -it bookeat-backend-1 bash",
     "connect-frontend": "docker exec -it bookeat-frontend-1 /bin/sh"
   },

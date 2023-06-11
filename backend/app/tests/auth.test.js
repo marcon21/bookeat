@@ -18,8 +18,7 @@ describe("Auth", () => {
   describe("POST /signup", () => {
     it("should return 401 if email is not valid", async () => {
       const res = await fetchAPI("/auth/signup", "POST", {
-        // email: makeString(10),
-        email: "suca",
+        email: makeString(10),
         password: utente.password,
         nome: makeString(5),
       });
