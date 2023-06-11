@@ -22,7 +22,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(session(sess));
 app.use(
   cors({
-    origin: "http://frontend",
+    origin: function (origin, callback) {
+      return callback(null, true);
+    },
     credentials: true,
   })
 );
