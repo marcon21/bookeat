@@ -6,7 +6,7 @@ COPY ./package.json ./
 RUN npm install
 
 # During Development
-CMD npm run dev
+# CMD npm run dev
 
 # For production
-# CMD npm start
+CMD npm run start

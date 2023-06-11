@@ -52,8 +52,10 @@ services:
     volumes:
       - "./frontend:/opt/frontend"
       - "/opt/frontend/node_modules"
+    depends_on:
+      - backend
     ports:
-      - "4000:4000"
+      - "80:80"
     #environment:
     #  - CHOKIDAR_USEPOLLING=true
     stdin_open: true
