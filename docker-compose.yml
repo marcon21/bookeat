@@ -51,7 +51,7 @@ services:
     build: "./frontend/"
     volumes:
       - "./frontend:/opt/frontend"
-      - "/opt/frontend/node_modules"
+      # - "/opt/frontend/node_modules"
     depends_on:
       - backend
     ports:
