@@ -1,14 +1,19 @@
 # FROM node
-FROM node:alpine
+FROM node:alpine as frontend-build
 RUN mkdir /opt/frontend
 WORKDIR /opt/frontend
 COPY ./package.json ./
 RUN npm install
-
-# RUN npm rebuild bcrypt --build-from-source
-
 # During Development
 CMD npm run dev
-
 # For production
-# CMD npm start
+# CMD npm run build && npm run preview
+# CMD npm run build
+
+
+# FROM nginx:alpine
+
+# COPY --from=frontend-build /opt/frontend/dist /usr/share/nginx/html
+
+# EXPOSE 80
+# CMD ["nginx", "-g", "daemon off;"]
