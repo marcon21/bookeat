@@ -5,9 +5,9 @@ WORKDIR /opt/frontend
 COPY ./package.json ./
 RUN npm install
 # During Development
-# CMD npm run dev
+CMD npm run dev
 # For production
-CMD npm run build && npm run preview
+# CMD npm run build && npm run preview
 # CMD npm run build
 
 

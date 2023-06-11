@@ -70,19 +70,23 @@ services:
     ports:
         - 80:80
         - 443:443
+        - 4200:4200
     volumes:
         - ./nginx/nginx.conf:/etc/nginx/nginx.conf
         - ./certbot/conf:/etc/letsencrypt
         - ./certbot/www:/var/www/certbot
     networks:
       - internal
+    depends_on:
+      - backend
+      - frontend
 
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    volumes: 
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    command: certonly --webroot -w /var/www/certbot --force-renewal --email marcon859@gmail.com -d 129.152.28.176 --agree-tos
-    networks:
-      - internal
+  #certbot:
+  #image: certbot/certbot
+  # container_name: certbot
+  # volumes: 
+  #     - ./certbot/conf:/etc/letsencrypt
+  #     - ./certbot/www:/var/www/certbot
+  # command: certonly --webroot -w /var/www/certbot --force-renewal --email marcon859@gmail.com -d bookeat.mooo.com --agree-tos
+  # networks:
+  #   - internal
