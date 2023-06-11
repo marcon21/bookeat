@@ -8,6 +8,7 @@ RUN npm install
 # CMD npm run dev
 # For production
 CMD npm run build && npm run preview
+# CMD npm run build
 
 
 # FROM nginx:alpine
