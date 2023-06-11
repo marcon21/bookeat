@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useLoaderData } from "react-router-dom"
 import { makeKey } from "../utils"
-import { getMenu, insertPlate, editPlate, deletePlate } from '../requests'
+import { getMenu, insertPlate, editPlate, deletePlate, editPlateAvailability } from '../requests'
 import AddPlateModal from '../components/AddPlateModal'
 import EditPlateModal from '../components/EditPlateModal'
 
@@ -13,7 +13,8 @@ export default function MenuEditTable(props) {
     const userType = document.cookie.split(';').some((item) => item.trim().startsWith('userType=')) ? document.cookie.split('; ').find(row => row.startsWith('userType=')).split('=')[1] : null
 
     let handleToggle = async (index) => {
-        let r = await editPlate(menu[index]["_id"], menu[index]["nome"], menu[index]["prezzo"], menu[index]["categoria"], !menu[index]["disponibile"], menu[index]["descrizione"], menu[index]["allergeni"], menu[index]["ingredientiModificabili"])
+        // let r = await editPlate(menu[index]["_id"], menu[index]["nome"], menu[index]["prezzo"], menu[index]["categoria"], !menu[index]["disponibile"], menu[index]["descrizione"], menu[index]["allergeni"], menu[index]["ingredientiModificabili"])
+        let r = await editPlateAvailability(menu[index]["_id"], !menu[index]["disponibile"])
         if (r["status"]) {
             toast.success(menu[index]["nome"] + " aggiornato")
             setMenu((await getMenu())["data"]["piatti"])

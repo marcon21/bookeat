@@ -17,7 +17,6 @@ export default function SettingsRoute() {
 
     const [redirect, setRedirect] = useState(!isLoggedIn ? '/login' : false)
     const [defaultFormValues, setDefaultFormValues] = useState(structuredClone(useLoaderData()))
-    console.log(defaultFormValues)
 
     let schema = yup.object().shape({
         nome: yup.string()
@@ -50,7 +49,6 @@ export default function SettingsRoute() {
     const [isEditing, setIsEditing] = useState(false)
 
     const onSubmit = async (data) => {
-        console.log(data)
         if (data.nome !== defaultFormValues.nome) {
             let r2 = await changeUsername(data.nome)
             if (r2["status"]) {

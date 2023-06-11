@@ -5,7 +5,7 @@ import LateralBar from "../components/LateralBar";
 import MenuSections from "../components/MenuSections";
 import NavBar from "../components/Navbar";
 
-import { getMenu, sendOrder, openBill, getBill } from "../requests";
+import { getMenu, sendOrder, openBill, setAsToPay } from "../requests";
 import Modal from "../components/Modal";
 import CheckOut from "../components/CheckOut"
 
@@ -38,9 +38,15 @@ export default function MenuRoute() {
     let isTable = userType === "Tavolo"
 
     const [hasOpenBill, setHasOpenBill] = useState(localStorage.getItem("billID") !== null)
-    const handleCloseBill = () => {
-        localStorage.removeItem("billID")
-        setHasOpenBill(false)
+    const handleCloseBill = async () => {
+        let r = await setAsToPay()
+        if (r["status"]) {
+            localStorage.removeItem("billID")
+            setHasOpenBill(false)
+            toast.success("Potete recarvi in cassa a pagare, arrivederci!")
+        } else {
+            toast.error("Errore: " + r["message"])
+        }
     }
 
     const [filter, setFilter] = useState([0, 0]) // [sectiom, subsection] - 0 if no filter, string matching to filter
@@ -215,31 +221,35 @@ export default function MenuRoute() {
                 </div>
             </div>
 
-            <Modal
-                modalId={"checkoutModal"}
-                title={"Carrello"}
-                closeButtonText="Chiudi"
-                confirmButtonText="Conferma selezione"
-                closeFunction={() => { console.log("close") }}
-                confirmFunction={checkoutHandler}
-                showButtons={checkout.length > 0}
-            >
-                <CheckOut checkoutList={checkout} removeFromCheckout={removeFromCheckout} increasePriority={increasePriority} decreasePriority={decreasePriority} />
-            </Modal>
+            {(isTable || isUser) &&
+                <Modal
+                    modalId={"checkoutModal"}
+                    title={"Carrello"}
+                    closeButtonText="Chiudi"
+                    confirmButtonText="Conferma selezione"
+                    closeFunction={() => { console.log("close") }}
+                    confirmFunction={checkoutHandler}
+                    showButtons={checkout.length > 0}
+                >
+                    <CheckOut checkoutList={checkout} removeFromCheckout={removeFromCheckout} increasePriority={increasePriority} decreasePriority={decreasePriority} />
+                </Modal>
+            }
 
-            <Modal
-                modalId={"closeBillModal"}
-                title={"Chiudi conto"}
-                closeButtonText="Annulla"
-                confirmButtonText="Conferma"
-                closeFunction={ () => { console.log("close") } }
-                confirmFunction={ handleCloseBill }
-                showButtons={true}
-            >
-                <div className="alert alert-danger" role="alert">Avete terminato la vostra cena e siete pronti ad andare in cassa a pagare?</div>
-                <h1>Riepilogo piatti ordinati</h1>
-                <TableOrders />
-            </Modal>
+            {isTable && hasOpenBill &&
+                <Modal
+                    modalId={"closeBillModal"}
+                    title={"Chiudi conto"}
+                    closeButtonText="Annulla"
+                    confirmButtonText="Conferma"
+                    closeFunction={() => { console.log("close") }}
+                    confirmFunction={handleCloseBill}
+                    showButtons={true}
+                >
+                    <div className="alert alert-danger" role="alert">Avete terminato la vostra cena e siete pronti ad andare in cassa a pagare?</div>
+                    <h1>Riepilogo piatti ordinati</h1>
+                    {/* <TableOrders /> */}
+                </Modal>
+            }
         </>
     )
 }

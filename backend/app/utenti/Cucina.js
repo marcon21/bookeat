@@ -2,6 +2,7 @@
  * Classe che rappresenta la cucina del ristorante
  */
 const Dipendente = require("./Dipendente");
+const GestoreMenu = require("../gestori/GestoreMenu");
 
 class Cucina extends Dipendente {
 
@@ -12,7 +13,27 @@ class Cucina extends Dipendente {
         }
     }
 
-    static modificaDisponibilitaMenu(id, disponibilita) { /** TODO */ }
+    static async modificaPiatto(
+        idPiatto,
+        nome,
+        prezzo,
+        categoria,
+        disponibile,
+        descrizione,
+        allergeni,
+        ingredientiModificabili
+      ) {
+        await GestoreMenu.modificaPiatto(
+          idPiatto,
+          nome,
+          prezzo,
+          categoria,
+          disponibile,
+          descrizione,
+          allergeni,
+          ingredientiModificabili
+        );
+      }
 }
 
 module.exports = Cucina;

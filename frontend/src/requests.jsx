@@ -67,6 +67,15 @@ export async function editPlate(plateID, name, price, category, available, descr
     }))
 }
 
+// API: PUT /menu, edit a plate availability,
+// returns an array, first element is a boolean that indicate the success of the request,
+// second element is the data or the error message
+export async function editPlateAvailability(plateID, available) {
+    return (await fetchAPI('/menu/'.concat(plateID), 'PUT', {
+        "disponibile": available, // int to represent boolean (e.g. 1 = true, 0 = false)
+    }))
+}
+
 // API: DELETE /menu, delete a plate,
 // returns an array, first element is a boolean that indicate the success of the request, 
 // second element is the data or the error message
@@ -98,7 +107,7 @@ export async function closeBill() {
 // API: PUT /conto/inviaConto, send a bill,
 // returns an array, first element is a boolean that indicate the success of the request,
 // second element is the data or the error message
-export async function getBill() {
+export async function setAsToPay() {
     return (await fetchAPI('/conto/inviaConto', 'PUT'))
 }
 
@@ -135,8 +144,8 @@ export async function login(email, pw) {
         let token = data['data']['token']
         let userType = data['data']['userType']
         // let userType = "Manager"
-        document.cookie = "jwt=" + token + "; path=/; max-age=86400; samesite=lax"
-        document.cookie = "userType=" + userType + "; path=/; max-age=86400; samesite=lax"
+        document.cookie = "jwt=" + token + "; path=/; max-age=28800; samesite=lax"
+        document.cookie = "userType=" + userType + "; path=/; max-age=28800; samesite=lax"
         return { "status": data['status'], "data": data['data'] }
     } else {
         return { "status": data['status'], "message": data['message'] }
