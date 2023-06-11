@@ -51,12 +51,14 @@ services:
     build: "./frontend/"
     volumes:
       - "./frontend:/opt/frontend"
-      # - "/opt/frontend/node_modules"
+      - "/opt/frontend/node_modules"
     depends_on:
       - backend
     ports:
-      - "80:80"
+      - "80:4173"
     #environment:
     #  - CHOKIDAR_USEPOLLING=true
+    networks:
+      - internal
     stdin_open: true
     tty: true

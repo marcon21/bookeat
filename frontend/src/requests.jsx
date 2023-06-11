@@ -1,4 +1,4 @@
-const backendUrl = 'http://localhost:3001/api/v1'
+const backendUrl = 'http://backend:3001/api/v1'
 
 async function fetchAPI(endpoint, method, body = {}) {
     const requestOptions = {

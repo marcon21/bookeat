@@ -7,12 +7,12 @@ RUN npm install
 # During Development
 # CMD npm run dev
 # For production
-CMD npm run build
+CMD npm run build && npm run preview
 
 
-FROM nginx:alpine
+# FROM nginx:alpine
 
-COPY --from=frontend-build /opt/frontend/dist /usr/share/nginx/html
+# COPY --from=frontend-build /opt/frontend/dist /usr/share/nginx/html
 
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# EXPOSE 80
+# CMD ["nginx", "-g", "daemon off;"]
