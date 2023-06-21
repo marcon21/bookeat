@@ -47,7 +47,7 @@ export default function SignUpRoute() {
 
     const onSubmit = async (data) => {
         console.log(data)
-        let isSignedUp = await signUp(data.email, data.password)
+        let isSignedUp = await signUp(data.email, data.password, data.username)
         console.log(isSignedUp)
         if (isSignedUp["status"]) {
             toast.success("Registrazione effettuata con successo")

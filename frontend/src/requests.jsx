@@ -109,10 +109,11 @@ export async function getBill() {
 // API POST /auth/signUp, sign up a new user,
 // returns an array, first element is a boolean that indicate the success of the request, 
 // second element is the data or the error message
-export async function signUp(email, pw) {
+export async function signUp(email, pw, username) {
     let data = await fetchAPI('/auth/signup', 'POST', {
         "email": email,
-        "password": pw
+        "password": pw,
+        "nome": username
     })
 
     if (data['status']) {
